@@ -1,0 +1,375 @@
+{
+  "source_pages": [
+    "https://www.apple.com/apps/",
+    "https://support.apple.com/guide/iphone/iph6a38eb783/26/ios/26",
+    "https://support.apple.com/guide/iphone/iph3d110f84/26/ios/26",
+    "https://support.apple.com/guide/iphone/iph3e0ca2db/26/ios/26",
+    "https://support.apple.com/guide/iphone/iph1ac0b4af/26/ios/26"
+  ],
+  "icons": [
+    {
+      "name": "FaceTime",
+      "file": "facetime.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/facetime_chiclet__dkfd0tacahua_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "207d12516f1ce5e1ef521a2631bf610f9e4d34ec8d702452d5320ba6e4b73617"
+    },
+    {
+      "name": "사진",
+      "file": "photos.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/photos_chiclet__cs6rufbxntqq_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "f931e9ebadff2227abb5cb898b662df35b5f3f2cf6c2d678f0b864015463f016"
+    },
+    {
+      "name": "카메라",
+      "file": "camera.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/camera_chiclet__durqmihra2s2_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "e3e95b8fd77e7a51185ad732d7fb87df748a12d7b45d6784e2f2f75421d9cd25"
+    },
+    {
+      "name": "메일",
+      "file": "mail.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/mail_chiclet__s40xvfy4twyu_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "ecebeb5f682be4e9358e89b37c55f51c2606600c72369041cb229c57944555c5"
+    },
+    {
+      "name": "메모",
+      "file": "notes.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/notes_chiclet__clow1nl1x7bm_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "5172f9dc320f8826d95166de501f44250cc9fd7ca9da5c915d8fc6ac4e36db25"
+    },
+    {
+      "name": "미리 알림",
+      "file": "reminders.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/reminders_chiclet__egnksg9gd4ya_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "8f7d4f0e16f530ba86e39c9904e018e74ef7e0396df549f9571b2fd6bbeaa782"
+    },
+    {
+      "name": "뉴스",
+      "file": "news.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/news_chiclet__bx5zoyygyck2_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "2e90b025af46b538a6371a3b6e75a1dd5440a7ef4a4e066a51b7624bc3572ae7"
+    },
+    {
+      "name": "TV",
+      "file": "tv.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/tv_chiclet__ferr96ys58qe_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        23,
+        23,
+        98,
+        98
+      ],
+      "sha256": "85ad6fb961521293f23291201d5fbf095656f02cd53c9876ebe5bcdab8480bd4"
+    },
+    {
+      "name": "팟캐스트",
+      "file": "podcasts.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/podcasts_chiclet__faovcb48n5ua_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "d39fd5b40ff98a7fd9206d48ea1981665898eaf9567c807f8abc144cdfc5fee7"
+    },
+    {
+      "name": "App Store",
+      "file": "app_store.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/routers/app_store_chiclet__c0wahrvlmfue_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        3,
+        3,
+        138,
+        138
+      ],
+      "sha256": "b471cddd0fec80a4c13eef52d602c93f9c8b1d4020fbaff65ea7aba725fbd50d"
+    },
+    {
+      "name": "지도",
+      "file": "maps.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/maps_chiclet__b825c0yhl64i_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "336a524e714b3ef5e41b50a129ee57763e978247d197569ece4c0ef1c7447a54"
+    },
+    {
+      "name": "건강",
+      "file": "health.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/health_chiclet__ff5zpcq1nze6_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "b6a673041ed3d30308744bd9440969d0d94483993139d925447380a98f16bbf7"
+    },
+    {
+      "name": "지갑",
+      "file": "wallet.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/wallet_chiclet__el32h31wrdm6_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "e63eff4670b412eb37b3ab08807ea55721a4fc44fc091ca344485208d505795a"
+    },
+    {
+      "name": "설정",
+      "file": "settings.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier2/settings_chiclet__dr80i4otdb6u_large_2x.png",
+      "width": 128,
+      "height": 128,
+      "view_box": [
+        14,
+        13,
+        100,
+        100
+      ],
+      "sha256": "13998ffe889d7c4da3c5e102423efb2c2b805fde8a80d88ffc9a88ce03fbdf2e"
+    },
+    {
+      "name": "계산기",
+      "file": "calculator.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier2/calculator_chiclet__f35da2cpbm6a_large_2x.png",
+      "width": 128,
+      "height": 128,
+      "view_box": [
+        14,
+        13,
+        100,
+        100
+      ],
+      "sha256": "134ddbda66009bddad95c8c508d0f8bbb1921c774fa50ced65e3f9ca5cf6b863"
+    },
+    {
+      "name": "파일",
+      "file": "files.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/files_chiclet__csi48qoljj8m_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "d6c459b7368d9f79d48eb887145938b931941d0bced177c2642f3672244c86ea"
+    },
+    {
+      "name": "단축어",
+      "file": "shortcuts.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/shortcuts_chiclet__dexircp9ahm6_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "c589bb9064cc3f8a6bd3cf18f644589c143e9a53ad6ffa4ed33fa389ec37ab53"
+    },
+    {
+      "name": "연락처",
+      "file": "contacts.png",
+      "url": "https://help.apple.com/assets/69F8EBBDF3B89A4F6E0C704C/69F8EBC43862495245036393/en_US/16b966e440ec5fb9278ce6235caabc74.png",
+      "width": 60,
+      "height": 60,
+      "view_box": [
+        2,
+        2,
+        56,
+        55
+      ],
+      "sha256": "86680b62351857dc20066be0b96421c62a022f93e17eb08f208f08f26360038f"
+    },
+    {
+      "name": "음악",
+      "file": "music.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/music_chiclet__exy1t5wu2zki_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "12d8dafdadbe52f6d3aab2baa0993db3fce20b2831f4c8ccafc279652cb5e6ac"
+    },
+    {
+      "name": "도서",
+      "file": "books.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/books_chiclet__f93jz5f4tmmy_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "6c209e2820eb70440fe0fa910b265cc07afabaf292abe05ab1bb2f2755211133"
+    },
+    {
+      "name": "날씨",
+      "file": "weather.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/weather_chiclet__85gxx6e7lnmm_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "1d57eae55a07865fb4d6629016c7ccc12f32cf54522947d9cb98030fbe77fb1c"
+    },
+    {
+      "name": "전화",
+      "file": "phone.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/phone_chiclet__f1brppw3aqy6_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "195147973503cafa88f80277df4e7c684383eec004e7dcfb61436599680d6954"
+    },
+    {
+      "name": "Safari",
+      "file": "safari.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/safari_chiclet__ervigamv5qye_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "714b7c3d15706ca8cbc705c9ffba02d7f2ea177ff4bca5bea69ed5bca4b4857b"
+    },
+    {
+      "name": "메시지",
+      "file": "messages.png",
+      "url": "https://www.apple.com/v/apps/f/images/overview/apps/tier1/chiclets/messages_chiclet__f8bzind6fdqy_xlarge_2x.png",
+      "width": 144,
+      "height": 144,
+      "view_box": [
+        22,
+        22,
+        100,
+        100
+      ],
+      "sha256": "95dd0fb3c0940f5e2f923e89c08d89d33ab63f6fdbc977ec664fce2f5279886b"
+    },
+    {
+      "name": "캘린더",
+      "file": "calendar.png",
+      "url": "https://help.apple.com/assets/69F8EBBDF3B89A4F6E0C704C/69F8EBC43862495245036393/en_US/1b944caed2601c11a4cfa936cfd46342.png",
+      "width": 72,
+      "height": 70,
+      "view_box": [
+        2,
+        1,
+        68,
+        68
+      ],
+      "sha256": "0ce7e832404068f20a77f8c40a24240cc758d4dc3f7e6cc126416dbb4bdc1c1f"
+    },
+    {
+      "name": "시계",
+      "file": "clock.png",
+      "url": "https://help.apple.com/assets/69F8EBBDF3B89A4F6E0C704C/69F8EBC43862495245036393/en_US/38d6e8b6bb0cf0e0575d007c6d53fb29.png",
+      "width": 60,
+      "height": 59,
+      "view_box": [
+        1,
+        0,
+        58,
+        58
+      ],
+      "sha256": "0dac90242406338f3f977432087aeb40cc408aacdae1e40ee199e08a272ca3e7"
+    }
+  ]
+}

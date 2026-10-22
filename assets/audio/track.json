@@ -1,0 +1,13 @@
+{
+  "title": "어떻게 지내",
+  "artist": "오반",
+  "album": "어떻게 지내",
+  "file": "ovan-how-are-you.mp3",
+  "mime": "audio/mpeg",
+  "duration": 230.791837,
+  "sha256": "c1e00edc796faef771bba12f5e3beabd82a83132ac8d7e3567be6ad7e32ef917",
+  "cover": "ovan-how-are-you.jpg",
+  "coverMime": "image/jpeg",
+  "coverSha256": "d5cc25f7d1ee3eadc7c470f1e066fa272f3dddd800660242d3b0b8286a31f8f1",
+  "source": "User-uploaded MP3; cover extracted from its embedded artwork without re-encoding."
+}

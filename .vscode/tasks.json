@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [{
+    "label": "My Phone: 실시간 미리보기",
+    "type": "shell",
+    "command": "python3",
+    "args": ["serve.py"],
+    "windows": {"command": "py"},
+    "options": {"cwd": "${workspaceFolder}"},
+    "problemMatcher": [],
+    "presentation": {"reveal": "always", "panel": "dedicated"}
+  }]
+}
