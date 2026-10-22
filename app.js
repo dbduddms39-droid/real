@@ -68,6 +68,84 @@ armNativeBackGuard();
 function tick(){const now=new Date();const time=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;$('#status-time').textContent=time;$('#lock-time').textContent=time;$('#lock-date').textContent=now.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'long'});$('#widget-date').textContent=now.getDate();$('#widget-day').textContent=now.toLocaleDateString('ko-KR',{weekday:'long'});const transforms={hour:(now.getHours()%12)*30+now.getMinutes()/2,minute:now.getMinutes()*6,second:now.getSeconds()*6};for(const [hand,angle]of Object.entries(transforms))document.querySelectorAll(`[data-clock-hand="${hand}"]`).forEach(el=>el.setAttribute('transform',`rotate(${angle} 50 50)`));document.querySelectorAll('[data-calendar-date]').forEach(el=>el.textContent=now.getDate());document.querySelectorAll('[data-calendar-weekday]').forEach(el=>el.textContent=now.toLocaleDateString('ko-KR',{weekday:'long'}))}
 
 function placeholder(name){const content=document.createElement('div');content.className='app-placeholder';content.innerHTML=`<span class="icon">${symbols.app(name)}</span><h2></h2><p class="muted"></p>`;content.querySelector('h2').textContent=name;const descriptions={'카메라':'카메라 화면은 준비 중입니다. 이 데모는 카메라 권한을 요청하지 않습니다.','Safari':'브라우저 화면 미리보기입니다. 실제 웹 탐색 기능은 아직 연결되지 않았습니다.','메일':'메일 계정이 연결되지 않았습니다.','메시지':'아직 대화가 없습니다. 실제 문자 발송 기능은 연결되지 않았습니다.','FaceTime':'FaceTime 스타일 미리보기입니다. 실제 영상 통화는 지원하지 않습니다.','음악':'라이브러리가 비어 있습니다. 재생할 음악이 연결되지 않았습니다.','App Store':'App Store 화면 미리보기입니다. 앱 설치는 지원하지 않습니다.'};content.querySelector('p').textContent=descriptions[name]||'기본 앱 화면입니다. 실제 서비스와 연결되는 기능은 아직 준비 중입니다.';return content}
+
+// The first visit plays a tiny story in Reminders. Saved items survive reopening.
+const reminderStorageKey='stillSeptemberRemindersV1';
+let reminderIntroPlayed=false;
+function renderReminders(container){
+ const defaults=[{text:'마음이 밥 주기',checked:false},{text:'불면약 먹기',checked:false}];
+ let reminders=null;
+ try{
+  const stored=JSON.parse(localStorage.getItem(reminderStorageKey)||'null');
+  if(Array.isArray(stored)&&stored.length&&stored.length<=100&&stored.every(item=>item&&typeof item.text==='string'&&typeof item.checked==='boolean')){
+   reminders=stored.map(item=>({text:item.text.slice(0,120),checked:item.checked}));
+  }
+ }catch{}
+ if(!reminders)reminders=defaults.map(item=>({...item}));
+ const save=()=>{try{localStorage.setItem(reminderStorageKey,JSON.stringify(reminders))}catch{}};
+ save();
+ container.innerHTML='<h1 style="color:#007aff">미리 알림</h1><div class="card reminders-list" id="reminder-list" aria-label="저장된 미리 알림"></div><form id="reminder-form"><label class="muted" for="reminder-input">새로운 미리 알림</label><div class="row"><input class="app-search" id="reminder-input" placeholder="할 일 입력" autocomplete="off" required maxlength="120"><button type="submit">추가</button></div></form><p class="muted">이 브라우저에 자동 저장됩니다.</p>';
+ const list=container.querySelector('#reminder-list');
+ const form=container.querySelector('#reminder-form');
+ const input=container.querySelector('#reminder-input');
+ const add=form.querySelector('button');
+ const appendReminder=(item,animate=false)=>{
+  const row=document.createElement('label');row.className='row reminder-item';
+  if(animate)row.classList.add('reminder-appear');
+  const check=document.createElement('input');check.type='checkbox';check.checked=item.checked;
+  const title=document.createElement('span');title.textContent=item.text;
+  row.classList.toggle('checked',item.checked);
+  check.onchange=()=>{item.checked=check.checked;row.classList.toggle('checked',check.checked);save()};
+  row.append(check,title);list.append(row);
+ };
+ form.onsubmit=event=>{
+  event.preventDefault();
+  if(input.readOnly)return;
+  const value=input.value.trim();if(!value)return;
+  const item={text:value,checked:false};reminders.push(item);appendReminder(item,true);save();input.value='';
+ };
+ const isFirstStory=!reminderIntroPlayed&&reminders.length===2&&reminders.every((item,index)=>item.text===defaults[index].text);
+ if(!isFirstStory){reminders.forEach(item=>appendReminder(item));return}
+ reminderIntroPlayed=true;
+ input.readOnly=true;add.disabled=true;form.classList.add('reminder-script-active');
+ list.setAttribute('aria-busy','true');
+ const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ const active=()=>document.querySelector('#reminder-form')===form;
+ const type=async(text,speed)=>{
+  for(const letter of text){
+   if(!active())return false;
+   input.value+=letter;
+   await delay(speed);
+  }
+  return active();
+ };
+ async function playStory(){
+  await delay(350);
+  for(let index=0;index<2;index++){
+   if(!active())return;
+   if(!await type(reminders[index].text,135))return;
+   await delay(390);
+   if(!active())return;
+   appendReminder(reminders[index],true);
+   input.value='';
+   await delay(420);
+  }
+  if(!await type('지우',240))return;
+  await delay(900);
+  while(input.value){
+   if(!active())return;
+   input.value=input.value.slice(0,-1);
+   await delay(280);
+  }
+  if(!active())return;
+  input.readOnly=false;add.disabled=false;
+  form.classList.remove('reminder-script-active');
+  list.removeAttribute('aria-busy');
+  save();
+ }
+ playStory();
+}
+
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
 if(name==='메모'){$('#app').classList.add('notes-app');c.innerHTML='<p class="notes-date"></p><textarea aria-label="메모" placeholder="메모를 입력하세요"></textarea><p class="muted">이 브라우저에 자동 저장됩니다.</p>';c.querySelector('.notes-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric'});const t=c.querySelector('textarea');t.value=note;t.oninput=()=>{note=t.value;try{localStorage.setItem('my-phone-note',note)}catch{toast('저장 공간을 사용할 수 없어 현재 화면에서만 유지됩니다.')}}}
 else if(name==='설정'){c.innerHTML=`<h1>설정</h1><div class="card profile"><span class="avatar">${story.initials}</span><div><strong>${story.owner}</strong><p class="muted">${story.owner}의 iPhone</p></div></div><div class="card"><div class="row"><span class="row-label"><span class="settings-icon" style="background:#ff9500" data-symbol="airplane"></span>비행기 모드</span><input id="settings-airplane" class="setting-switch" type="checkbox" aria-label="비행기 모드 시뮬레이션"></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="wifi"></span>Wi-Fi</span><span id="settings-wifi"></span></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="bluetooth"></span>Bluetooth</span><span id="settings-bluetooth"></span></div></div><div class="card"><label class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="moon"></span>다크 배경</span><input class="setting-switch" type="checkbox" id="dark"></label><div class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="sun"></span>홈 화면 사용자화</span><button id="settings-customize">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="mirror"></span>제어 센터</span><button id="settings-control">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="lock"></span>화면 잠금</span><button id="settings-lock">잠그기</button></div></div><p class="muted">이 화면의 설정은 웹 데모에만 적용됩니다.</p>`;paintSymbols(c);$('#dark').checked=document.body.classList.contains('dark');$('#dark').onchange=e=>document.body.classList.toggle('dark',e.target.checked);$('#settings-control').onclick=openControl;$('#settings-customize').onclick=openCustomize;$('#settings-lock').onclick=lock;syncSettings();$('#settings-airplane').onchange=()=>toggleControl($('.airplane'))}
@@ -77,7 +155,7 @@ else if(name==='사진'){renderPhotos(c)}
 else if(name==='날씨'){c.innerHTML='<div style="text-align:center;padding-top:22px"><h1 style="font-size:30px;font-weight:400;margin-bottom:0">서울</h1><div style="font-size:88px;font-weight:200;letter-spacing:-6px">21°</div><p style="font-size:19px;margin:0">맑음</p><p>최고:24° · 최저:16°</p><div class="card padded muted" style="margin-top:35px">디자인을 위한 예시 날씨입니다.<br>실시간 기상 정보와 연결되지 않았습니다.</div></div>'}
 else if(name==='전화'){c.innerHTML='<div class="dial-display" aria-live="polite"></div><div class="dial"></div><p class="muted" style="text-align:center">번호 입력 데모 · 실제 통화는 연결되지 않습니다.</p>';const letters=['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ','','+',''];['1','2','3','4','5','6','7','8','9','*','0','#','⌫','통화'].forEach((key,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',key);b.textContent=key;if(letters[i]){const s=document.createElement('small');s.textContent=letters[i];b.append(s)}if(key==='통화'){b.className='call';b.innerHTML=symbols.app('전화')}b.onclick=()=>{const d=c.querySelector('.dial-display');if(key==='⌫')d.textContent=d.textContent.slice(0,-1);else if(key==='통화')toast('전화 연결 없이 번호 입력만 지원하는 데모입니다.');else if(d.textContent.length<18)d.textContent+=key};c.querySelector('.dial').append(b)})}
 else if(name==='계산기'){calculator(c)}
-else if(name==='미리 알림'){c.innerHTML='<h1 style="color:#007aff">미리 알림</h1><div class="card" id="reminder-list"></div><form id="reminder-form"><label class="muted" for="reminder-input">새로운 미리 알림</label><div class="row"><input class="app-search" id="reminder-input" placeholder="할 일 입력" required maxlength="120"><button type="submit">추가</button></div></form><p class="muted">현재 화면에서만 유지됩니다.</p>';$('#reminder-form').onsubmit=e=>{e.preventDefault();const input=$('#reminder-input'),text=input.value.trim();if(!text)return;const row=document.createElement('label');row.className='row';const check=document.createElement('input');check.type='checkbox';const span=document.createElement('span');span.textContent=text;span.style.cssText='flex:1;overflow-wrap:anywhere';check.onchange=()=>span.style.textDecoration=check.checked?'line-through':'none';row.append(check,span);$('#reminder-list').append(row);input.value=''}}
+else if(name==='미리 알림'){renderReminders(c)}
 else if(name==='음악'){renderMusic(c);startInitialMusicIfOpen()}
 else if(name==='검색'){renderSearch(c)}
 else if(name==='지도'){renderMap(c)}
