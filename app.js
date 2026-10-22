@@ -334,11 +334,9 @@ function renderPhone(container){
    const b=document.createElement('button');
    b.type='button';
    b.textContent=key;
-   b.setAttribute('aria-label',key==='1'?'1번, 지우 단축 다이얼. 길게 누르면 전화':key);
+   b.setAttribute('aria-label',key==='1'?'1번, 길게 누르면 단축 다이얼':key);
    if(key==='1')b.classList.add('phone-speed-key');
-   if(key==='1'){
-    const tag=document.createElement('small');tag.textContent='지우';b.append(tag);
-   }else if(letters[i]){
+   if(letters[i]){
     const tag=document.createElement('small');tag.textContent=letters[i];b.append(tag);
    }
    if(key==='통화'){b.className='call';b.innerHTML=symbols.app('전화')}
