@@ -1040,7 +1040,6 @@ function renderBookStore(container,kind){
  const apps=[
   {id:'everytime',appId:'642416310',name:'에브리타임',category:'교육',about:'강의 시간표와 학교생활을 확인하는 앱',glyph:'E',logo:'everytime',installed:true,screen:'schedule',highlights:['시간표','학교생활','강의 정보']},
   {id:'notion',appId:'1232780281',name:'Notion',category:'생산성',about:'과제와 수업 노트를 한곳에서 정리',glyph:'N',logo:'notion',installed:true,screen:'tasks',highlights:['과제 정리','수업 노트','계획']},
-  {id:'naver',appId:'311867728',name:'네이버 지도',category:'내비게이션',about:'학교 가는 길부터 약속 장소까지',glyph:'N',logo:'naver',installed:true,screen:'map',highlights:['길찾기','대중교통','저장한 장소']},
   {id:'spotify',appId:'324684580',name:'Spotify',category:'음악',about:'등굣길에 듣는 음악과 플레이리스트',glyph:'♫',logo:'spotify',installed:true,screen:'music',highlights:['플레이리스트','음악','추천']},
   {id:'millie',appId:'1213788923',name:'밀리의 서재',category:'도서',about:'틈날 때 읽는 전자책',glyph:'밀',logo:'millie',installed:false,screen:'reading',highlights:['전자책','읽기','독서']},
   {id:'between',appId:'458035189',name:'비트윈',category:'소셜 네트워킹',about:'둘만의 사진과 기념일을 모아두는 공간',glyph:'B',logo:'between',installed:true,screen:'between',highlights:['사진','기념일','둘만의 공간']},
