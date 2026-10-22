@@ -777,7 +777,7 @@ function renderSafari(container){
    const n=memoRecords.find(x=>x.id===id);if(!n){list();return}
    let body='<div class="story-note-modified">'+E(n.date?n.date+' 수정됨':'자동 저장')+'</div><h1>'+E(n.title)+'</h1>';
    if(id==='birthday'){
-    body+='<div class="story-note-checks">'+n.lines.map((t,i)=>'<label><input type="checkbox" data-check="'+i+'" '+(completed[i]?'checked':'')+'><span>'+E(t)+'</span></label>').join('')+'</div><p class="story-note-after">'+E(n.footer)+'</p>';
+    body+='<div class="story-birthday-checklist">'+n.lines.map((t,i)=>'<label><input type="checkbox" data-check="'+i+'" '+(completed[i]?'checked':'')+'><span>'+E(t)+'</span></label>').join('')+'</div><p class="story-note-after">'+E(n.footer)+'</p>';
    }else if(id==='mine'){
     body+='<textarea class="story-editable-note" aria-label="내 메모 입력" placeholder="메모를 입력하세요"></textarea>';
    }else body+='<div class="story-note-lines">'+n.lines.map(t=>'<p>'+E(t)+'</p>').join('')+'</div>';
