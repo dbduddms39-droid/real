@@ -386,7 +386,7 @@ function toggleMusic(){
 function seekMusic(offset){if(!audio.src||!Number.isFinite(audio.duration))return;audio.currentTime=Math.max(0,Math.min(audio.duration,audio.currentTime+offset));syncMusic()}
 function syncMusic(){
  const playing=!audio.paused&&!audio.ended,ready=Boolean(audio.src),duration=Number.isFinite(audio.duration)?audio.duration:0;
- for(const id of ['music-play','media-play','lock-music-play']){const button=$('#'+id);if(!button)continue;button.innerHTML=symbols.symbol(playing?'pause':'play');button.setAttribute('aria-label',!ready?'음원 파일 연결 후 재생':playing?'일시 정지':'재생')}
+ for(const id of ['music-play','media-play']){const button=$('#'+id);if(!button)continue;button.innerHTML=symbols.symbol(playing?'pause':'play');button.setAttribute('aria-label',!ready?'음원 파일 연결 후 재생':playing?'일시 정지':'재생')}
  $('#sound-start').hidden=!musicNeedsTap||playing;
  if($('#music-status'))$('#music-status').textContent=audio.error||musicPlaybackError?'파일을 재생할 수 없습니다. 다른 음원을 연결해 주세요.':musicRestoring?'저장한 음원을 확인하고 있어요…':!ready?'아래에서 MP3 · M4A 파일을 연결해 주세요.':playing?'재생 중':musicNeedsTap?'화면을 한 번 누르면 음악이 시작돼요.':musicStarting?'재생을 준비하고 있어요…':audio.ended?'재생 완료':'일시 정지됨';
  if($('#music-source-note')){$('#music-source-note').hidden=musicBundled;$('#music-source-note').textContent=!ready?'한 번 연결한 음원은 이 브라우저에 저장합니다.':musicStored?'이 브라우저에 저장되었습니다. 서버로 전송하지 않습니다.':'브라우저에 저장되지 않아 현재 화면에서만 재생됩니다.'}
@@ -395,17 +395,33 @@ function syncMusic(){
  if($('#music-play'))$('#music-play').classList.toggle('needs-tap',musicNeedsTap);
 
  if($('#music-seek')){$('#music-seek').disabled=!duration;$('#music-seek').max=String(duration);$('#music-seek').value=String(audio.currentTime||0);$('#music-elapsed').textContent=formatMusicTime(audio.currentTime);$('#music-duration').textContent=duration?formatMusicTime(duration):'—:—';$('#music-repeat').setAttribute('aria-pressed',String(audio.loop))}
- for(const id of ['music-rewind','music-forward','lock-music-back','lock-music-next'])if($('#'+id))$('#'+id).disabled=!duration;
- $('#lock-music').hidden=!ready;
+ for(const id of ['music-rewind','music-forward'])if($('#'+id))$('#'+id).disabled=!duration;
  $('#control-song-title').textContent=story.song.title;
  if('mediaSession' in navigator&&ready&&typeof MediaMetadata!=='undefined'){if(!navigator.mediaSession.metadata)navigator.mediaSession.metadata=new MediaMetadata({title:story.song.title,artist:story.song.artist,album:bundledTrack?.album||'',artwork:bundledTrack?.cover?[{src:bundledTrack.cover,sizes:'500x500',type:'image/jpeg'}]:[]});navigator.mediaSession.playbackState=playing?'playing':'paused'}
 }
 ['play','pause','timeupdate','loadedmetadata','durationchange','ended','error','emptied'].forEach(event=>audio.addEventListener(event,syncMusic));
-$('#media-open').onclick=()=>openApp('음악');$('#lock-music-open').onclick=()=>openApp('음악');$('#lock-music-play').onclick=toggleMusic;$('#lock-music-back').onclick=()=>seekMusic(-10);$('#lock-music-next').onclick=()=>seekMusic(10);
+$('#media-open').onclick=()=>openApp('음악');
 
 document.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>toggleControl(b));$('#flashlight').onclick=flashlight;$('#control-torch').onclick=flashlight;$('#mirror').onclick=()=>toast('실제 화면 미러링은 연결되지 않은 데모입니다.');$('#media-play').onclick=toggleMusic;
 $('#brightness').oninput=e=>{const value=Number(e.target.value);$('.phone').style.setProperty('--dim',String(1-value/100));e.target.parentElement.style.background=`linear-gradient(to top,#fffffff0 ${value}%,#ffffff15 ${value}%)`};$('#volume').oninput=e=>{e.target.parentElement.style.background=`linear-gradient(to top,#fffffff0 ${e.target.value}%,#ffffff15 ${e.target.value}%)`;audio.volume=Number(e.target.value)/100};
 $('#search').onclick=()=>openApp('검색');$('#fullscreen').onclick=async()=>{try{if(!document.documentElement.requestFullscreen)throw Error();await document.documentElement.requestFullscreen();closeControl()}catch{toast('Safari에서는 공유 → 홈 화면에 추가 후 실행해 주세요.')}};
+
+/* Desktop mouse drag and trackpad-enabled pointer swipe to unlock. The button
+   remains clickable and keyboard-accessible for all non-touch devices. */
+let lockPointerStart=null;
+$('#lock').addEventListener('pointerdown',event=>{
+ if($('#lock').hidden||event.pointerType!=='mouse'||event.button!==0)return;
+ lockPointerStart={id:event.pointerId,x:event.clientX,y:event.clientY};
+ if(!event.target.closest('button'))$('#lock').setPointerCapture(event.pointerId);
+});
+$('#lock').addEventListener('pointerup',event=>{
+ if(!lockPointerStart||lockPointerStart.id!==event.pointerId)return;
+ const dx=event.clientX-lockPointerStart.x,dy=event.clientY-lockPointerStart.y;
+ lockPointerStart=null;
+ if(!$('#lock').hidden&&dy< -60&&Math.abs(dy)>Math.abs(dx)*1.25)unlockPhone();
+});
+$('#lock').addEventListener('pointercancel',()=>{lockPointerStart=null});
+
 let touchStart=null;$('.phone').addEventListener('touchstart',e=>{const t=e.changedTouches[0],rect=$('.phone').getBoundingClientRect();touchStart={x:t.clientX,y:t.clientY,localY:t.clientY-rect.top,right:rect.right-t.clientX,height:rect.height}},{passive:true});$('.phone').addEventListener('touchend',e=>{if(!touchStart)return;const t=e.changedTouches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;if(touchStart.localY<90&&touchStart.right<100&&dy>55)openControl();else if(!$('#lock').hidden&&dy< -50)unlockPhone();else if(touchStart.localY>touchStart.height-50&&dy< -50)home();else if(!$('#home').hidden&&$('#control').hidden&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)showPage(dx<0?1:0);touchStart=null},{passive:true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')goBack();if(!$('#home').hidden&&$('#control').hidden&&$('#customize').hidden&&['ArrowLeft','ArrowRight'].includes(e.key))showPage(e.key==='ArrowRight'?1:0)});
 
@@ -427,7 +443,7 @@ applyAppearance();
 function startMusicOnInteraction(event){
  if(!musicNeedsTap||musicStarting||!audio.src||!event.isTrusted)return;
  if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;
- if(event.target.closest('a,#sound-start,#music-play,#media-play,#lock-music-play,#music-file,label[for=music-file],#music-disconnect'))return;
+ if(event.target.closest('a,#sound-start,#music-play,#media-play,#music-file,label[for=music-file],#music-disconnect'))return;
  requestMusicPlayback();
 }
 for(const type of ['touchend','click','keydown'])document.addEventListener(type,startMusicOnInteraction,{capture:true,passive:true});
