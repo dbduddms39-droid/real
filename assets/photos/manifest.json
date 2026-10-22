@@ -1,0 +1,125 @@
+{
+  "memoryPhotoId": "photo-06",
+  "photos": [
+    {
+      "id": "photo-01",
+      "file": "HVKb35WawAEvKCh.jpeg",
+      "alt": "강아지와 함께 찍은 사진",
+      "sha256": "29b1a811027302e2ef6825d5ade3aceb87db3f56fdf61ce9de39c419b60e9935"
+    },
+    {
+      "id": "photo-02",
+      "file": "HVKd6Y3boAEvjct.jpeg",
+      "alt": "밝은 후드티를 입고 찍은 사진",
+      "sha256": "de2fec675fcf09c904c9608d2128bed63c7396f2b1518b4e1a260743f3768aae"
+    },
+    {
+      "id": "photo-03",
+      "file": "HVKe6k5awAAMB1f.png",
+      "alt": "창가에 앉아 찍은 사진",
+      "sha256": "ffc6185ac99817599a84e6b0d0ea4e82ea032eace1aa75285a61b0953cdbd474"
+    },
+    {
+      "id": "photo-04",
+      "file": "HVKebnnbMAAmQ_K.png",
+      "alt": "초록 풍경을 배경으로 찍은 사진",
+      "sha256": "3ad63e9df99bbd0441078a9eb2c6c3b6bce23e5bc582a0097d12cd8a5757ae62"
+    },
+    {
+      "id": "photo-05",
+      "file": "HVKeJU6bgAAKeNJ.jpeg",
+      "alt": "후드를 쓰고 정면을 바라보는 사진",
+      "sha256": "7b32f1fbdd66b43057cb0c5fac0d438ae2ece1fb9603aba74f7251d053be2ec3"
+    },
+    {
+      "id": "photo-06",
+      "file": "HVKeo9qaAAA5tPF.png",
+      "alt": "이불을 덮고 자는 사진",
+      "sha256": "e27cf60b2f61cf1e7dc24991c63ab8d6500ec6b93e65572b0b02d2fa85ddd0a7"
+    },
+    {
+      "id": "photo-07",
+      "file": "HVKeV2tbcAAJjBZ.jpeg",
+      "alt": "벽에 기대어 찍은 사진",
+      "sha256": "d09a810081c24b78d00950e52314c2d91a0a76261078b19007714d2c59ebcb64"
+    },
+    {
+      "id": "photo-08",
+      "file": "HVKeyeAbQAA2ppd.jpeg",
+      "alt": "의자에 기대어 쉬는 사진",
+      "sha256": "dcac817cf53b55ca85ac30c87a8548681ed852d9ad15f40c96db30dbfdd86120"
+    },
+    {
+      "id": "photo-09",
+      "file": "HVKez5Wa4AA3jka.jpeg",
+      "alt": "소파에 기대어 찍은 사진",
+      "sha256": "1e079cdc4ec2f2e602d2d97398c14b979c0c135f2cc36795efa9904abdb105ff"
+    },
+    {
+      "id": "photo-10",
+      "file": "HVKfP_CaQAAgRwj.jpeg",
+      "alt": "크리스마스 장식 앞에서 찍은 옆모습",
+      "sha256": "d7e22e3231e90e222e98c69c7b0d1b23e4b8286bec3eb92961771fff6e5ce6cb"
+    },
+    {
+      "id": "photo-11",
+      "file": "HVKfSWobEAAhGix.jpeg",
+      "alt": "크리스마스 장식을 둘러보는 사진",
+      "sha256": "b9816d331dbe6ec05daae36484560d7e08fded0090d04a259c4ca4e9f1cb1ffa"
+    },
+    {
+      "id": "photo-12",
+      "file": "HVKfVwBaEAA5pa_.jpeg",
+      "alt": "가게에서 장식을 들고 찍은 사진",
+      "sha256": "4439ffd544efcf135ef9116c57a9dfa3b92637f2a297922a5fcb425cd7650289"
+    },
+    {
+      "id": "photo-13",
+      "file": "HVKgt-ebcAAAMai.jpeg",
+      "alt": "해변에서 찍은 사진",
+      "sha256": "7bf7767cf49c30f8f0ffd28113c49ed21abb7cb12b323fbc1194ae5dab13555a"
+    },
+    {
+      "id": "photo-14",
+      "file": "HVKgyCxaMAAofVR.jpeg",
+      "alt": "노을을 배경으로 찍은 사진",
+      "sha256": "2ba6ce59f53d9ea7df3dc24d77475791d20fba4d6c42847d847a537c2c59bdd1"
+    },
+    {
+      "id": "photo-15",
+      "file": "HVKh1nhaYAEMo3S.png",
+      "alt": "손으로 턱을 괴고 찍은 사진",
+      "sha256": "edaaffac66be142914571018ed7e0d9e767d6970329d8f573c9dfad916257bd3"
+    },
+    {
+      "id": "photo-16",
+      "file": "HVKheCCbMAAcA2G.jpeg",
+      "alt": "검은 티셔츠를 입고 찍은 거울 사진",
+      "sha256": "0285d154147d9411fa3da06fc3ae8d01bd9ee0363ead3a7aa32e721b17190099"
+    },
+    {
+      "id": "photo-17",
+      "file": "HVKhIZjakAAkyhy.jpeg",
+      "alt": "해 질 무렵 거리에서 찍은 사진",
+      "sha256": "4989bb21c1534756cf5b8f2328bc3149a0dc79d757660a707bedb4017f443a09"
+    },
+    {
+      "id": "photo-18",
+      "file": "HVKhmuBbkAEqnLO.jpeg",
+      "alt": "밤거리에서 찍은 사진",
+      "sha256": "a991eabb2b2f76551939b32ea02768f4f7b021fdef3e85afd8691e030135c4dc"
+    },
+    {
+      "id": "photo-19",
+      "file": "HVKhtabaUAA8XQI.jpeg",
+      "alt": "밝은 옷을 입고 찍은 거울 사진",
+      "sha256": "1afb2fb4e272db36d92e30059d56000e2fe03edc13db3d77d30cb5b7f5d8cce7"
+    },
+    {
+      "id": "photo-20",
+      "file": "HVKiAkWbgAEIUKU.jpeg",
+      "alt": "라면을 먹으며 찍은 사진",
+      "sha256": "53c4af5f9b95ebd2a52ca11fa3347ca5387b8274e5b225b78013f787e0c45bd9"
+    }
+  ]
+}

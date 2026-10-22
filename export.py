@@ -5,8 +5,8 @@ from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
 ROOT = Path(__file__).resolve().parent
-ASSETS = ['index.html', 'style.css', 'icon-assets.js', 'icons.js', 'music-assets.js', 'app.js', 'manifest.webmanifest']
-PROJECT = ASSETS + ['build-icons.py', 'build-music.py', 'publish.py', '.github/workflows/publish.yml', 'serve.py', 'export.py', 'README.md', 'PREVIEW.md', 'DESIGN.md', 'assets/icons/sources.json', '.gitignore', '.vscode/tasks.json']
+ASSETS = ['index.html', 'style.css', 'icon-assets.js', 'icons.js', 'music-assets.js', 'photo-assets.js', 'photos.js', 'app.js', 'manifest.webmanifest']
+PROJECT = ASSETS + ['build-icons.py', 'build-music.py', 'build-photos.py', 'publish.py', '.github/workflows/publish.yml', 'serve.py', 'export.py', 'README.md', 'PREVIEW.md', 'DESIGN.md', 'assets/icons/sources.json', 'assets/photos/manifest.json', '.gitignore', '.vscode/tasks.json']
 
 
 def export(destination):
@@ -19,13 +19,18 @@ def export(destination):
     music_module = module_from_spec(music_spec)
     music_spec.loader.exec_module(music_module)
     music_module.build()
+    photo_spec = spec_from_file_location('build_photos', ROOT / 'build-photos.py')
+    photo_module = module_from_spec(photo_spec)
+    photo_spec.loader.exec_module(photo_module)
+    photo_module.build()
     project_files = PROJECT + [str(p.relative_to(ROOT)) for p in sorted((ROOT / 'assets/icons').glob('*.png'))]
     project_files += [str(p.relative_to(ROOT)) for p in sorted((ROOT / 'assets/audio').iterdir()) if p.is_file()]
+    project_files += [str(p.relative_to(ROOT)) for p in sorted((ROOT / 'assets/photos').iterdir()) if p.is_file() and p.name != 'manifest.json']
     destination.mkdir(parents=True, exist_ok=True)
     html = (ROOT / 'index.html').read_text()
     html = html.replace('<link rel="manifest" href="manifest.webmanifest">', '')
     html = html.replace('<link rel="stylesheet" href="style.css">', '<style>\n' + (ROOT / 'style.css').read_text() + '\n</style>')
-    for filename in ['icon-assets.js', 'icons.js', 'music-assets.js', 'app.js']:
+    for filename in ['icon-assets.js', 'icons.js', 'music-assets.js', 'photo-assets.js', 'photos.js', 'app.js']:
         source = (ROOT / filename).read_text().replace('</script', r'<\/script')
         html = html.replace(f'<script src="{filename}"></script>', '<script>\n' + source + '\n</script>')
     (destination / 'my-phone.html').write_text(html)

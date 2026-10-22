@@ -9,11 +9,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SITE_PATH = 'still-september'
-ASSETS = ['index.html', 'style.css', 'icon-assets.js', 'icons.js', 'music-assets.js', 'app.js', 'manifest.webmanifest']
+ASSETS = ['index.html', 'style.css', 'icon-assets.js', 'icons.js', 'music-assets.js', 'photo-assets.js', 'photos.js', 'app.js', 'manifest.webmanifest']
 
 
 def prepare(destination):
-    for filename in ['build-icons.py', 'build-music.py']:
+    for filename in ['build-icons.py', 'build-music.py', 'build-photos.py']:
         spec = importlib.util.spec_from_file_location(filename.removesuffix('.py').replace('-', '_'), ROOT / filename)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
@@ -35,6 +35,19 @@ def prepare(destination):
         track[key] = f'assets/audio/{filename}?v={digest}'
     (app_directory / 'music-assets.js').write_text(
         'window.PhoneBundledTrack=' + json.dumps(track, ensure_ascii=False) + ';\n',
+        encoding='utf-8',
+    )
+    gallery = json.loads((ROOT / 'assets/photos/manifest.json').read_text())
+    gallery_directory = app_directory / 'assets/photos'
+    gallery_directory.mkdir(parents=True, exist_ok=True)
+    photos = []
+    for photo in gallery['photos']:
+        source = ROOT / 'assets/photos' / photo['file']
+        shutil.copyfile(source, gallery_directory / photo['file'])
+        digest = hashlib.sha256(source.read_bytes()).hexdigest()[:12]
+        photos.append({'id': photo['id'], 'alt': photo['alt'], 'src': f'assets/photos/{photo["file"]}?v={digest}'})
+    (app_directory / 'photo-assets.js').write_text(
+        'window.PhonePhotoAssets=' + json.dumps({'memoryPhotoId': gallery['memoryPhotoId'], 'photos': photos}, ensure_ascii=False) + ';\n',
         encoding='utf-8',
     )
     versions = {name: hashlib.sha256((app_directory / name).read_bytes()).hexdigest()[:12] for name in ASSETS}
