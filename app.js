@@ -74,9 +74,36 @@ const reminderStorageKey='stillSeptemberRemindersV1';
 let reminderIntroPlayed=false;
 
 // Fictional text history kept inside the phone; no SMS is sent or received.
+
+// Korean 2-set keyboard style: expose each consonant, vowel and final-consonant
+// transition instead of revealing precomposed Hangul one syllable at a time.
+function buildKoreanTypingFrames(text){
+ const leads=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+ const vowels=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+ const tails=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+ const compositeV={9:[8,0],10:[8,1],11:[8,20],14:[13,4],15:[13,5],16:[13,20],19:[18,20]};
+ const compositeT={3:1,5:4,6:4,9:8,10:8,11:8,12:8,13:8,14:8,15:8,18:17};
+ const frames=[],parts=[];let stable='';
+ const push=t=>{if(frames[frames.length-1]!==t)frames.push(t)};
+ for(const ch of text){
+  const code=ch.charCodeAt(0);
+  if(code<0xac00||code>0xd7a3){stable+=ch;push(stable);continue}
+  const value=code-0xac00,L=Math.floor(value/588),V=Math.floor(value%588/28),T=value%28;
+  push(stable+leads[L]);
+  if(compositeV[V])push(stable+String.fromCharCode(0xac00+L*588+compositeV[V][0]*28));
+  const base=0xac00+L*588+V*28;
+  push(stable+String.fromCharCode(base));
+  if(compositeT[T])push(stable+String.fromCharCode(base+compositeT[T]));
+  if(T)push(stable+ch);
+  stable+=ch;
+ }
+ return frames;
+}
+
 function renderMessages(container){
  $('#app').classList.add('messages-app');
  // Jiwoo is two years younger; she calls Jeongwon '오빠' in their private messages.
+ let typingJob=0;
  const conversations=[
   {date:'8월 24일',messages:[
    ['received','오빠 마음이 밥 줬어?'],
@@ -347,6 +374,7 @@ function renderMessages(container){
   ]}
  ];
  function showInbox(){
+  typingJob++;
   $('#app-title').textContent='메시지';
   container.innerHTML='<div class="messages-inbox"><div class="messages-inbox-nav"><button type="button" class="messages-home">‹ 홈</button><span>편집</span></div><h1>메시지</h1><div class="messages-search-line" aria-hidden="true">⌕　검색</div><button class="messages-conversation" type="button" aria-label="지우와의 대화 열기"><span class="messages-avatar">지</span><span class="messages-summary"><strong>지우</strong><span class="messages-preview"></span></span><span class="messages-conversation-meta"><small></small><span aria-hidden="true">›</span></span></button><p class="messages-demo-caption">이 휴대폰 속 대화는 이야기의 일부입니다.</p></div>';
   const latest=conversations[conversations.length-1];
@@ -359,7 +387,7 @@ function renderMessages(container){
  }
  function showThread(){
   $('#app-title').textContent='지우';
-  container.innerHTML='<div class="messages-thread"><header class="messages-thread-header"><button type="button" class="messages-back">‹ 메시지</button><div class="messages-thread-person"><span class="messages-avatar">지</span><strong>지우</strong></div><span class="messages-thread-spacer" aria-hidden="true"></span></header><div class="messages-chat" role="log" aria-label="지우와의 지난 메시지" aria-live="off"></div><div class="messages-compose" aria-label="메시지 입력 시뮬레이션"><span class="messages-compose-plus" aria-hidden="true">＋</span><span class="messages-compose-placeholder">문자 메시지</span><span class="messages-compose-send" aria-hidden="true">↑</span></div></div>';
+  container.innerHTML='<div class="messages-thread"><header class="messages-thread-header"><button type="button" class="messages-back">‹ 메시지</button><div class="messages-thread-person"><span class="messages-avatar">지</span><strong>지우</strong></div><span class="messages-thread-spacer" aria-hidden="true"></span></header><div class="messages-chat" role="log" aria-label="지우와의 지난 메시지" aria-live="off"></div><div class="messages-compose" aria-label="메시지 입력 시뮬레이션"><span class="messages-compose-plus" aria-hidden="true">＋</span><span class="messages-compose-placeholder" role="textbox" aria-label="전송하지 않은 메시지">문자 메시지</span><span class="messages-compose-send" aria-hidden="true">↑</span></div></div>';
   const chat=container.querySelector('.messages-chat');
   for(const group of conversations){
    const divider=document.createElement('div');
@@ -425,6 +453,37 @@ function renderMessages(container){
   container.querySelector('.messages-back').onclick=showInbox;
   chat.scrollTop=chat.scrollHeight;
   container.scrollTop=0;
+  const job=++typingJob;
+  const compose=container.querySelector('.messages-compose');
+  const input=compose.querySelector('.messages-compose-placeholder');
+  const frames=buildKoreanTypingFrames('어떻게 지내');
+  const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  const active=()=>typingJob===job&&container.contains(compose)&&!document.querySelector('#app').hidden;
+  async function animateUnsent(){
+   await delay(1100);
+   if(!active())return;
+   compose.classList.add('message-writing');
+   for(const frame of frames){
+    if(!active())return;
+    input.textContent=frame;
+    input.classList.add('has-draft');
+    await delay(100+Math.round(Math.random()*70));
+   }
+   await delay(1700);
+   if(!active())return;
+   compose.classList.remove('message-writing');
+   compose.classList.add('message-erasing');
+   for(let i=frames.length-2;i>=0;i--){
+    if(!active())return;
+    input.textContent=frames[i];
+    await delay(90+Math.round(Math.random()*42));
+   }
+   if(!active())return;
+   input.textContent='문자 메시지';
+   input.classList.remove('has-draft');
+   compose.classList.remove('message-erasing');
+  }
+  animateUnsent();
  }
  showInbox();
 }
@@ -469,10 +528,11 @@ function renderReminders(container){
  const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  const active=()=>document.querySelector('#reminder-form')===form;
  const type=async(text,speed)=>{
-  for(const letter of text){
+  input.value='';
+  for(const frame of buildKoreanTypingFrames(text)){
    if(!active())return false;
-   input.value+=letter;
-   await delay(speed);
+   input.value=frame;
+   await delay(speed+Math.round(Math.random()*38));
   }
   return active();
  };
@@ -489,11 +549,13 @@ function renderReminders(container){
   }
   if(!await type('지우',240))return;
   await delay(900);
-  while(input.value){
+  const deleteFrames=buildKoreanTypingFrames('지우');
+  for(let i=deleteFrames.length-2;i>=0;i--){
    if(!active())return;
-   input.value=input.value.slice(0,-1);
-   await delay(280);
+   input.value=deleteFrames[i];
+   await delay(230);
   }
+  input.value='';
   if(!active())return;
   input.readOnly=false;add.disabled=false;
   form.classList.remove('reminder-script-active');
