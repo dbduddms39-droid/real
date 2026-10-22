@@ -87,22 +87,70 @@ $('#back').focus({preventScroll:true});
 
 const seongsuPlaces=[
  {
-  "name": "한정선 성수점",
-  "kind": "디저트",
-  "desc": "과일 찹쌀떡을 포장해서 나눠 먹기",
-  "addr": "서울 성동구 연무장길 43-1"
+  "name": "봉은사",
+  "kind": "추억",
+  "desc": "우리 오래가자고 소원 빈 곳",
+  "addr": "서울 강남구 봉은사로 531"
  },
  {
   "name": "도토리오븐 성수",
-  "kind": "카페",
-  "desc": "아기자기한 디저트와 사진 남기기",
+  "kind": "카페·디저트",
+  "subkind": "카페",
+  "desc": "디저트 고르면서 잠깐 쉬어가기",
   "addr": "서울 성동구 연무장길 37-25"
  },
  {
   "name": "어니언 성수",
-  "kind": "카페",
+  "kind": "카페·디저트",
+  "subkind": "카페",
   "desc": "오래된 공장 분위기에서 빵과 음료",
   "addr": "서울 성동구 아차산로9길 8"
+ },
+ {
+  "name": "대림창고",
+  "kind": "카페·디저트",
+  "subkind": "카페",
+  "desc": "넓은 창고 공간에서 작품도 구경하기",
+  "addr": "서울 성동구 성수이로 78"
+ },
+ {
+  "name": "한정선 성수점",
+  "kind": "카페·디저트",
+  "subkind": "디저트",
+  "desc": "지우가 좋아하는 과일찹쌀떡",
+  "addr": "서울 성동구 연무장길 43-1"
+ },
+ {
+  "name": "베통 성수",
+  "kind": "카페·디저트",
+  "subkind": "디저트",
+  "desc": "소금빵 골라서 같이 먹기",
+  "addr": "서울 성동구 연무장7가길 8"
+ },
+ {
+  "name": "자연도소금빵 성수",
+  "kind": "카페·디저트",
+  "subkind": "디저트",
+  "desc": "따끈한 소금빵 포장해 가기",
+  "addr": "서울 성동구 연무장길 56-1"
+ },
+ {
+  "name": "서울숲",
+  "kind": "산책",
+  "desc": "나란히 걷다가 벤치에서 쉬기",
+  "addr": "서울 성동구 뚝섬로 273"
+ },
+ {
+  "name": "뚝섬한강공원",
+  "kind": "산책",
+  "desc": "한강을 보며 저녁 산책하기",
+  "addr": "서울 광진구 강변북로 139"
+ },
+ {
+  "name": "응봉근린공원",
+  "kind": "산책",
+  "desc": "바람 쐬며 공원길 걷기",
+  "addr": "서울 성동구 응봉동 269-4"
  },
  {
   "name": "성수연방",
@@ -117,52 +165,16 @@ const seongsuPlaces=[
   "addr": "서울 성동구 연무장17길 10"
  },
  {
-  "name": "서울숲",
-  "kind": "산책",
-  "desc": "나란히 걷다가 벤치에서 쉬기",
-  "addr": "서울 성동구 뚝섬로 273"
- },
- {
-  "name": "뚝섬한강공원",
-  "kind": "산책",
-  "desc": "한강을 보며 저녁 산책하기",
-  "addr": "서울 광진구 강변북로 2273"
- },
- {
   "name": "언더스탠드에비뉴",
   "kind": "구경",
-  "desc": "작은 가게와 팝업을 구경하기",
+  "desc": "서울숲 가는 길에 가게 구경하기",
   "addr": "서울 성동구 왕십리로 63"
  },
  {
   "name": "디올 성수",
   "kind": "구경",
-  "desc": "독특한 외관 앞에서 사진 남기기",
+  "desc": "특별한 외관 앞에서 사진 남기기",
   "addr": "서울 성동구 연무장5길 7"
- },
- {
-  "name": "성수동 수제화거리",
-  "kind": "구경",
-  "desc": "구두 가게와 골목을 천천히 둘러보기",
-  "addr": "서울 성동구 성수이로"
- },
- {
-  "name": "서울숲 곤충식물원",
-  "kind": "산책",
-  "desc": "서울숲에서 식물 구경하며 걷기",
-  "addr": "서울 성동구 뚝섬로 273"
- },
- {
-  "name": "봉은사",
-  "kind": "추억",
-  "desc": "우리 오래가자고 소원 빈 곳",
-  "addr": "서울 강남구 봉은사로 531"
- },
- {
-  "name": "별마당도서관",
-  "kind": "구경",
-  "desc": "봉은사 근처에서 함께 책 구경하기",
-  "addr": "서울 강남구 영동대로 513"
  }
 ];
 
@@ -171,7 +183,8 @@ const seongsuPlaces=[
 // and the visible external link remains usable when iframe embedding is blocked.
 function renderMap(container){
  $('#app').classList.add('map-app');
- container.innerHTML=`<div class="map-intro"><h1>성수 데이트 지도</h1><p>둘이 걸었던 곳과 오래 기억할 장소들 ♡</p></div>
+ container.innerHTML=`<div class="map-intro"><h1>우리의 데이트 지도</h1><p>함께 걷고 오래 기억할 장소들 ♡</p></div>
+ <button type="button" id="map-memory" class="map-memory" aria-label="봉은사, 우리 오래가자고 소원 빈 곳. 지도에서 보기"><span class="map-memory-kicker">💗 우리 추억</span><strong>봉은사</strong><span class="map-memory-note">우리 오래가자고 소원 빈 곳</span><span class="map-memory-action">지도에서 보기 ↗</span></button>
  <label class="map-search-wrap"><span aria-hidden="true">⌕</span><input id="map-query" type="search" placeholder="카페나 장소 검색" aria-label="지도 장소 검색" autocomplete="off"></label>
  <div id="map-filters" class="map-filters" role="group" aria-label="장소 유형 필터"></div>
  <div class="map-frame"><iframe id="map-iframe" title="선택한 장소 지도" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><span class="map-frame-note">지도가 보이지 않으면 아래의 지도 열기를 눌러 주세요</span></div>
@@ -185,7 +198,7 @@ function renderMap(container){
  const iframe=container.querySelector('#map-iframe');
  const selected=container.querySelector('#map-selected');
  const count=container.querySelector('#map-count');
- const categories=['전체','카페','디저트','산책','구경','추억'];
+ const categories=['전체','카페·디저트','산책','구경','추억'];
  const locationQuery=place=>place.name+' '+place.addr;
  const externalUrl=place=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(locationQuery(place));
  function showSelected(){
@@ -194,7 +207,7 @@ function renderMap(container){
   const nextMap='https://maps.google.com/maps?hl=ko&q='+encodeURIComponent(locationQuery(place))+'&z=16&output=embed';
   if(iframe.getAttribute('src')!==nextMap)iframe.src=nextMap;
   selected.replaceChildren();
-  const tag=document.createElement('span');tag.className='map-kind';tag.textContent=place.kind;
+  const tag=document.createElement('span');tag.className='map-kind';tag.textContent=place.subkind||place.kind;
   const title=document.createElement('h2');title.textContent=place.name;
   const desc=document.createElement('p');desc.textContent=place.desc;
   const address=document.createElement('p');address.className='map-address';address.textContent=place.addr;
@@ -219,10 +232,10 @@ function renderMap(container){
   iframe.hidden=false;selected.hidden=false;
   for(const place of matches){
    const button=document.createElement('button');button.type='button';button.className='map-place'+(place.i===selectedId?' selected':'');button.setAttribute('aria-pressed',String(place.i===selectedId));
-   const pin=document.createElement('span');pin.className='map-place-pin';pin.textContent=place.kind==='추억'?'💗':place.kind==='산책'?'🌿':place.kind==='구경'?'🛍️':place.kind==='디저트'?'🍰':'☕';
+   const pin=document.createElement('span');pin.className='map-place-pin';pin.textContent=place.kind==='추억'?'💗':place.kind==='산책'?'🌿':place.kind==='구경'?'🛍️':place.subkind==='디저트'?'🍰':'☕';
    const text=document.createElement('span');text.className='map-place-text';
    const name=document.createElement('strong');name.textContent=place.name;
-   const sub=document.createElement('small');sub.textContent=place.kind+' · '+place.desc;
+   const sub=document.createElement('small');sub.textContent=(place.subkind||place.kind)+' · '+place.desc;
    text.append(name,sub);
    const arrow=document.createElement('span');arrow.className='map-place-chevron';arrow.textContent='›';
    button.append(pin,text,arrow);
@@ -232,6 +245,10 @@ function renderMap(container){
   showSelected();
  }
  query.addEventListener('input',render);
+ container.querySelector('#map-memory').addEventListener('click',()=>{
+  category='추억';selectedId=seongsuPlaces.findIndex(place=>place.name==='봉은사');query.value='';render();
+  container.querySelector('.map-frame').scrollIntoView({block:'nearest',behavior:'smooth'});
+ });
  render();
 }
 
