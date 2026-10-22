@@ -1678,16 +1678,16 @@ showPage(0);setInterval(tick,1000);lock();paintMusicArtwork();syncMusic();restor
   let filter='all';
   function card(item){
    const isFav=favs.has(item.id);
-   return '<div class="ss-shortcut-card"><button type="button" class="ss-shortcut-run" data-shortcut-run="'+item.id+'"><span class="ss-shortcut-icon ss-shortcut-'+item.tint+'">'+glyph(item.icon)+'</span><strong>'+esc(item.title)+'</strong><small>'+esc(item.desc)+'</small><span class="ss-shortcut-play">▶ 실행</span></button><button type="button" class="ss-shortcut-fav '+(isFav?'active':'')+'" data-shortcut-fav="'+item.id+'" aria-pressed="'+isFav+'" aria-label="'+esc(item.title)+' 즐겨찾기 '+(isFav?'해제':'추가')+'">'+(isFav?'★':'☆')+'</button></div>';
+   return '<div class="ss-shortcut-card"><button type="button" class="ss-shortcut-run" data-shortcut-run="'+item.id+'"><span class="ss-shortcut-icon ss-shortcut-'+item.tint+'">'+glyph(item.icon)+'</span><strong>'+esc(item.title)+'</strong><span class="ss-shortcut-play">▶</span></button><button type="button" class="ss-shortcut-fav '+(isFav?'active':'')+'" data-shortcut-fav="'+item.id+'" aria-pressed="'+isFav+'" aria-label="'+esc(item.title)+' 즐겨찾기 '+(isFav?'해제':'추가')+'">'+(isFav?'★':'☆')+'</button></div>';
   }
   function paint(){
-   const items=filter==='favorites'?shortcuts.filter(s=>favs.has(s.id)):shortcuts;
-   let html='<header class="ss-topbar"><button type="button" class="ss-topback story-home" data-shortcut-home>‹ 홈</button><strong>단축어</strong><span aria-hidden="true"></span></header><main class="ss-shortcut-page"><div class="ss-shortcut-heading"><div><small>SHORTCUTS</small><h1>모든 단축어</h1></div><span class="ss-shortcut-heading-mark">↗</span></div><p class="ss-shortcut-intro">자주 열어보는 앱을 한 번에 실행해요.</p><div class="ss-shortcut-tabs" role="tablist" aria-label="단축어 필터"><button role="tab" data-shortcut-filter="all" aria-selected="'+(filter==='all')+'" class="'+(filter==='all'?'active':'')+'">전체</button><button role="tab" data-shortcut-filter="favorites" aria-selected="'+(filter==='favorites')+'" class="'+(filter==='favorites'?'active':'')+'">★ 즐겨찾기</button></div>';
+   const items=filter==='favorites'?shortcuts.filter(x=>favs.has(x.id)):shortcuts;
+   let html='<header class="ss-topbar"><button type="button" class="ss-topback story-home" data-shortcut-home>‹ 홈</button><strong>단축어</strong><span aria-hidden="true"></span></header><main class="ss-shortcut-page"><div class="ss-shortcut-heading"><div><small>단축어</small><h1>모든 단축어</h1></div><span class="ss-shortcut-heading-mark">＋</span></div><div class="ss-shortcut-tabs" role="tablist" aria-label="단축어 필터"><button role="tab" data-shortcut-filter="all" aria-selected="'+(filter==='all')+'" class="'+(filter==='all'?'active':'')+'">모든 단축어</button><button role="tab" data-shortcut-filter="favorites" aria-selected="'+(filter==='favorites')+'" class="'+(filter==='favorites'?'active':'')+'">즐겨찾기</button></div>';
    if(items.length)html+='<div class="ss-shortcut-grid">'+items.map(card).join('')+'</div>';
    else html+='<div class="ss-shortcut-empty">☆<p>즐겨찾기한 단축어가 없어요.</p></div>';
-   const recentItems=recent.map(id=>shortcuts.find(s=>s.id===id)).filter(Boolean).slice(0,3);
+   const recentItems=recent.map(id=>shortcuts.find(x=>x.id===id)).filter(Boolean).slice(0,3);
    if(recentItems.length)html+='<div class="ss-shortcut-recent"><h2>최근 실행</h2>'+recentItems.map(item=>'<button type="button" data-shortcut-run="'+item.id+'"><span class="ss-shortcut-icon ss-shortcut-'+item.tint+'">'+glyph(item.icon)+'</span><span>'+esc(item.title)+'</span><span class="ss-shortcut-arrow">›</span></button>').join('')+'</div>';
-   html+='<p class="ss-shortcut-foot">단축어는 이 이야기 속 iPhone 화면에서만 작동합니다.</p></main>';
+   html+='<p class="ss-shortcut-foot">이야기 속 iPhone에서 실행되는 단축어입니다.</p></main>';
    root.innerHTML=html;root.scrollTop=0;
   }
   function run(id){
