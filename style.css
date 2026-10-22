@@ -242,3 +242,20 @@
 .map-place-chevron{flex:none;font-size:25px;color:#babcc6;font-weight:300}
 .map-empty{padding:24px 10px;text-align:center;color:#777;font-size:13px}
 @media(max-width:350px){.map-app #app-content{padding-left:10px;padding-right:10px}.map-selected{padding:13px}.map-filter{padding:8px 11px}}
+
+
+/* Lock screen: correct iPhone-like glyph proportions without horizontal squeeze. */
+.lock{width:100%;min-width:0;padding-inline:clamp(10px,3vw,22px)}
+.lock h1{font-stretch:normal;font-weight:300;transform:none;transform-origin:center;font-size:clamp(66px,min(22vw,11.5vh),98px);line-height:1.1;letter-spacing:-3px;color:#f0f5ff;text-shadow:0 2px 8px #283c6690;-webkit-text-stroke:0;max-width:100%;white-space:nowrap;text-align:center}
+.lock p{font-size:clamp(15px,4vw,19px);text-align:center}
+.lock-bottom{width:100%;flex-shrink:0}
+.unlock{min-height:42px;max-width:100%;padding:10px 15px;touch-action:manipulation;white-space:normal;text-align:center}
+@media(hover:hover) and (pointer:fine){
+ .lock{cursor:grab}
+ .lock:active{cursor:grabbing}
+ .unlock{border:1px solid #ffffff4d;border-radius:999px;background:#ffffff23;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:12px;cursor:pointer}
+ .unlock:hover{background:#ffffff38}
+}
+@media(max-width:600px) and (orientation:portrait){
+ .lock h1{font-size:clamp(66px,22vw,94px)}
+}
