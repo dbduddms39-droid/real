@@ -54,3 +54,5 @@
 /* Opening sequence: home, a press on Music, then expansion from its icon. */
 #dock .icon.intro-tap{transform:scale(.88);filter:brightness(.8)}
 @media(prefers-reduced-motion:reduce){#dock .icon.intro-tap{transform:none}}
+
+.sound-start{position:absolute;z-index:20;top:calc(var(--status-height) + 8px);left:24px;right:24px;padding:14px 18px;border-radius:20px;background:#25384ff2;border:1px solid #ffffff55;box-shadow:0 8px 26px #101b3d40;color:white;text-align:center}.sound-start strong{display:block;font-size:15px;font-weight:600}.sound-start span{display:block;margin-top:4px;font-size:11px;color:#ffffffb3}

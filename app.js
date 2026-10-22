@@ -6,7 +6,7 @@ function paintSymbols(root=document){root.querySelectorAll('[data-symbol]').forE
 paintSymbols();
 const pages=[['FaceTime','캘린더','사진','카메라','메일','메모','미리 알림','시계','뉴스','TV','팟캐스트','App Store','지도','건강','지갑','설정'],['계산기','파일','단축어','연락처','음악','도서','날씨']];
 const dock=['전화','Safari','메시지','음악'];const allApps=[...new Set([...pages.flat(),...dock])];let pageIndex=0;let interval;let toastTimer;let holdTimer;let note='';let lastAppButton=null;
-let introTimer=null;
+let introFrame=null,introVisibleSince=null;
 let iconAppearance='light',iconSize='small';
 try{note=localStorage.getItem('my-phone-note')||'';const saved=JSON.parse(localStorage.getItem('my-phone-appearance')||'{}');if(['light','dark','clear'].includes(saved.appearance))iconAppearance=saved.appearance;if(['small','large'].includes(saved.size))iconSize=saved.size}catch{}
 function applyAppearance(){const phone=$('.phone');phone.classList.remove('theme-dark','theme-clear','icons-large');if(iconAppearance!=='light')phone.classList.add('theme-'+iconAppearance);if(iconSize==='large')phone.classList.add('icons-large');document.querySelectorAll('[data-appearance]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.appearance===iconAppearance)));document.querySelectorAll('[data-icon-size]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.iconSize===iconSize)))}
@@ -16,7 +16,7 @@ function makeIcon(name){const b=document.createElement('button');b.className='ap
 function showPage(index){pageIndex=index;$('#apps').replaceChildren(...pages[index].map(makeIcon));document.querySelectorAll('[data-page]').forEach(b=>{const selected=Number(b.dataset.page)===index;b.classList.toggle('selected',selected);b.setAttribute('aria-current',selected?'page':'false')});tick()}
 dock.forEach(name=>$('#dock').append(makeIcon(name)));
 function toast(text){$('#toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').textContent='',4500)}
-function cancelMusicIntro(){clearTimeout(introTimer);introTimer=null;$('#dock [data-app="음악"] .icon')?.classList.remove('intro-tap')}
+function cancelMusicIntro(){cancelAnimationFrame(introFrame);introFrame=null;introVisibleSince=null;$('#dock [data-app="음악"] .icon')?.classList.remove('intro-tap')}
 function home(restore=false){cancelMusicIntro();clearTimeout(holdTimer);$('#customize').hidden=true;clearInterval(interval);$('#app').hidden=true;$('#control').hidden=true;$('#lock').hidden=true;$('#home').hidden=false;['home','app','lock'].forEach(id=>$('#'+id).inert=false);if(restore&&lastAppButton?.isConnected)lastAppButton.focus()}
 function openControl(){cancelMusicIntro();$('#customize').hidden=true;['home','app','lock'].forEach(id=>$('#'+id).inert=true);$('#control').hidden=false;$('#close-control').focus()}
 function closeControl(){['home','app','lock'].forEach(id=>$('#'+id).inert=false);$('#control').hidden=true;$('#control-button').focus()}
@@ -168,6 +168,7 @@ function seekMusic(offset){if(!audio.src||!Number.isFinite(audio.duration))retur
 function syncMusic(){
  const playing=!audio.paused&&!audio.ended,ready=Boolean(audio.src),duration=Number.isFinite(audio.duration)?audio.duration:0;
  for(const id of ['music-play','media-play','lock-music-play']){const button=$('#'+id);if(!button)continue;button.innerHTML=symbols.symbol(playing?'pause':'play');button.setAttribute('aria-label',!ready?'음원 파일 연결 후 재생':playing?'일시 정지':'재생')}
+ $('#sound-start').hidden=!musicNeedsTap||playing;
  if($('#music-status'))$('#music-status').textContent=audio.error||musicPlaybackError?'파일을 재생할 수 없습니다. 다른 음원을 연결해 주세요.':musicRestoring?'저장한 음원을 확인하고 있어요…':!ready?'아래에서 MP3 · M4A 파일을 연결해 주세요.':playing?'재생 중':musicNeedsTap?'화면을 한 번 누르면 음악이 시작돼요.':musicStarting?'재생을 준비하고 있어요…':audio.ended?'재생 완료':'일시 정지됨';
  if($('#music-source-note')){$('#music-source-note').hidden=musicBundled;$('#music-source-note').textContent=!ready?'한 번 연결한 음원은 이 브라우저에 저장합니다.':musicStored?'이 브라우저에 저장되었습니다. 서버로 전송하지 않습니다.':'브라우저에 저장되지 않아 현재 화면에서만 재생됩니다.'}
  if($('.music-actions'))$('.music-actions').hidden=musicBundled;
@@ -207,27 +208,40 @@ applyAppearance();
 function startMusicOnInteraction(event){
  if(!musicNeedsTap||musicStarting||!audio.src||!event.isTrusted)return;
  if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;
- if(event.target.closest('a,#music-play,#media-play,#lock-music-play,#music-file,label[for=music-file],#music-disconnect'))return;
+ if(event.target.closest('a,#sound-start,#music-play,#media-play,#lock-music-play,#music-file,label[for=music-file],#music-disconnect'))return;
  requestMusicPlayback();
 }
 for(const type of ['touchend','click','keydown'])document.addEventListener(type,startMusicOnInteraction,{capture:true,passive:true});
-function scheduleMusicIntro(){
- introTimer=setTimeout(()=>{
-  const icon=$('#dock [data-app="음악"] .icon');
-  icon.classList.add('intro-tap');
-  introTimer=setTimeout(()=>{
-   const source=icon.getBoundingClientRect();
-   openApp('음악');
-   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-   const app=$('#app'),bounds=app.getBoundingClientRect();
-   $('#home').hidden=false;$('#home').inert=true;
-   const animation=app.animate([
-    {transform:`translate(${source.x+source.width/2-bounds.x-bounds.width/2}px,${source.y+source.height/2-bounds.y-bounds.height/2}px) scale(${source.width/bounds.width},${source.height/bounds.height})`,opacity:.35,borderRadius:'50px'},
-    {transform:'translate(0,0) scale(1)',opacity:1,borderRadius:'0px'}
-   ],{duration:520,easing:'cubic-bezier(.22,.8,.24,1)'});
-   const finish=()=>{if(!app.hidden)$('#home').hidden=true;$('#home').inert=false};
-   animation.finished.then(finish,finish);
-  },180);
- },2820);
+$('#sound-start').onclick=requestMusicPlayback;
+function openIntroMusic(){
+ const source=$('#dock [data-app="음악"] .icon').getBoundingClientRect();
+ openApp('음악');
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const app=$('#app'),bounds=app.getBoundingClientRect();
+ $('#home').hidden=false;$('#home').inert=true;
+ const animation=app.animate([
+  {transform:`translate(${source.x+source.width/2-bounds.x-bounds.width/2}px,${source.y+source.height/2-bounds.y-bounds.height/2}px) scale(${source.width/bounds.width},${source.height/bounds.height})`,opacity:.35,borderRadius:'50px'},
+  {transform:'translate(0,0) scale(1)',opacity:1,borderRadius:'0px'}
+ ],{duration:520,easing:'cubic-bezier(.22,.8,.24,1)'});
+ const finish=()=>{if(!app.hidden)$('#home').hidden=true;$('#home').inert=false};
+ animation.finished.then(finish,finish);
 }
+function scheduleMusicIntro(){
+ cancelMusicIntro();
+ const icon=$('#dock [data-app="음악"] .icon');
+ function frame(now){
+  if(document.hidden)introVisibleSince=null;
+  else{
+   if(introVisibleSince===null)introVisibleSince=now;
+   const elapsed=now-introVisibleSince;
+   if(elapsed>=2820)icon.classList.add('intro-tap');
+   if(elapsed>=3000){openIntroMusic();return}
+  }
+  introFrame=requestAnimationFrame(frame);
+ }
+ introFrame=requestAnimationFrame(frame);
+}
+// Background tabs and preloaded links must not consume the visible home delay.
+document.addEventListener('visibilitychange',()=>{if(document.hidden){introVisibleSince=null;$('#dock [data-app="음악"] .icon').classList.remove('intro-tap')}});
+window.addEventListener('pageshow',event=>{if(event.persisted){home();scheduleMusicIntro()}});
 showPage(0);setInterval(tick,1000);home();paintMusicArtwork();syncMusic();restoreMusic();scheduleMusicIntro();

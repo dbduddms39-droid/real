@@ -34,6 +34,6 @@ PC에서 `python3 serve.py --host 0.0.0.0`을 실행합니다. 휴대폰 브라�
 
 `/workspace/...`는 클라우드 작업 환경 내부의 파일 경로이며, 사용자의 휴대폰 Safari에서 접속할 수 있는 웹 주소가 아닙니다. 이 채팅에는 공개 미리보기 주소나 첨부 다운로드 주소를 만드는 도구가 없습니다. 내부 파일 경로를 실행 가능한 웹 링크처럼 안내해서는 안 됩니다.
 
-`python3 publish.py`는 공개용 정적 파일 7개를 `site/still-september/`에 준비하고 루트에 이동 페이지를 만듭니다. 이 명령 자체는 업로드나 게시를 수행하지 않습니다. 이 결과에는 사용자가 첨부한 음원이 포함됩니다.
+`python3 publish.py`는 공개용 정적 파일과 직접 재생할 MP3·앨범 이미지를 `site/still-september/`에 준비하고 루트에 이동 페이지를 만듭니다. 이 명령 자체는 업로드나 게시를 수행하지 않습니다. 이 결과에는 사용자가 첨부한 음원이 포함됩니다. 웹 배포의 자원 주소에는 내용별 버전이 붙습니다. 루트의 이동 링크에도 버전을 붙이며, 단일 HTML과 기존 사이트 ZIP은 음원을 내장한 오프라인 형태를 유지합니다.
 
 GitHub Pages 워크플로 `.github/workflows/publish.yml`은 `main` 변경 시 또는 수동으로 실행됩니다. GitHub Pages 소스를 **GitHub Actions**로 설정해야 합니다. 배포가 성공하면 `https://dbduddms39-droid.github.io/real/still-september/`로 접속할 수 있습니다. 루트 주소에서도 해당 경로로 이동합니다. 실제 게시 상태는 GitHub Actions 실행 결과와 공개 주소 접속으로 확인합니다.
