@@ -278,6 +278,7 @@ function renderCalendar(container){
    const event=document.createElement('div');event.className='birthday-event';
    event.innerHTML='<span class="event-time">하루 종일</span><div><strong></strong><p class="muted">생일 · 매년 반복</p></div>';
    event.querySelector('strong').textContent=birthday.title;events.append(event);
+   const videoLink=document.createElement('button');videoLink.className='birthday-video-link';videoLink.textContent='🎂 그날의 생일 영상 보기 ›';videoLink.onclick=()=>{openApp('사진');window.openBirthdayPhotoMemory?.()};events.append(videoLink);
   }else{
    const empty=document.createElement('p');empty.className='muted';empty.textContent='등록된 일정이 없습니다.';events.append(empty);
    const link=document.createElement('button');link.className='birthday-link';link.setAttribute('aria-label','9월 7일 지우 생일 보기');
