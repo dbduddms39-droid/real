@@ -50,6 +50,17 @@ def prepare(destination):
         'window.PhonePhotoAssets=' + json.dumps({'memoryPhotoId': gallery['memoryPhotoId'], 'photos': photos}, ensure_ascii=False) + ';\n',
         encoding='utf-8',
     )
+    # Include uploaded video files if present; do not break deployments that
+    # have not received the binary media assets yet.
+    videos_source = ROOT / 'assets/videos'
+    videos_destination = app_directory / 'assets/videos'
+    if videos_source.is_dir():
+        videos_destination.mkdir(parents=True, exist_ok=True)
+        for filename in ['clip-1.mp4', 'clip-1.jpg', 'clip-2.mp4', 'clip-2.jpg',
+                         'clip-3.mp4', 'clip-3.jpg', 'birthday.mp4', 'birthday.jpg']:
+            source = videos_source / filename
+            if source.is_file():
+                shutil.copyfile(source, videos_destination / filename)
     versions = {name: hashlib.sha256((app_directory / name).read_bytes()).hexdigest()[:12] for name in ASSETS}
     version = hashlib.sha256(''.join(versions.values()).encode()).hexdigest()[:12]
     html = (app_directory / 'index.html').read_text()
