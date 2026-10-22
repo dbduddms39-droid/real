@@ -266,3 +266,21 @@
 .video-tile{position:relative}.video-tile-length{position:absolute;right:5px;bottom:5px;padding:3px 5px;background:#000a;border-radius:5px;font-size:11px;color:#fff}
 .video-viewer .photo-viewer-stage{flex-direction:column;gap:12px;padding:10px 14px 25px;touch-action:auto}.video-viewer video{display:block;width:100%;max-height:75%;object-fit:contain}.birthday-video-heading{font-size:18px;text-align:center;color:#f6d7e4}.video-error{font-size:13px;color:#fff}
 .birthday-video-link{display:block;margin-top:16px;padding:12px 14px;border-radius:12px;background:#fff0f6;color:#914c6e;font-size:14px;text-align:left}
+
+
+/* Reminders: quiet iOS-like list with a brief first-open typing scene. */
+.reminders-list{min-height:104px;margin-bottom:19px}
+.reminders-list .reminder-item{justify-content:flex-start;gap:12px;min-height:52px;padding:13px 0;font-size:16px}
+.reminder-item input[type=checkbox]{appearance:none;-webkit-appearance:none;width:23px;height:23px;flex:0 0 23px;border:2px solid #c7c7cc;background:white;border-radius:50%;margin:0;cursor:pointer;display:grid;place-items:center}
+.reminder-item input[type=checkbox]:checked{background:#007aff;border-color:#007aff}
+.reminder-item input[type=checkbox]:checked:after{content:'✓';color:white;font-size:14px;font-weight:700}
+.reminder-item span{color:#262629;overflow-wrap:anywhere}
+.reminder-item.checked span{text-decoration:line-through;color:#8e8e93}
+.reminder-appear{animation:reminder-enter .25s ease-out both}
+@keyframes reminder-enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+#reminder-form .row{gap:10px}
+#reminder-form .row .app-search{flex:1;min-width:0}
+#reminder-form .row button{flex:0 0 auto}
+#reminder-form.reminder-script-active .app-search{caret-color:#007aff}
+#reminder-form button:disabled{opacity:.4}
+@media(prefers-reduced-motion:reduce){.reminder-appear{animation:none}}
