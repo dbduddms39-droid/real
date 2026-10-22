@@ -85,6 +85,66 @@ function renderMessages(container){
    ['sent','나를 뭘로 보는 거야'],
    ['received','잘했어 ㅋㅋ']
   ]},
+  {date:'8월 27일',messages:[
+   ['received','오빠 뭐해'],
+   ['sent','이제 집 가는 중'],
+   ['received','배고프겠다'],
+   ['sent','응 라면 먹을까 생각 중'],
+   ['received','또 라면이야?ㅋㅋㅋ'],
+   ['sent','너는 뭐 먹었어'],
+   ['received','떡볶이'],
+   ['sent','내 거는'],
+   ['received','오면 한 입 줄게'],
+   ['sent','한 입?'],
+   ['received','두 입ㅋㅋ']
+  ]},
+  {date:'8월 31일',messages:[
+   ['received','오빠 내일 몇 시에 끝나?'],
+   ['sent','아마 8시쯤'],
+   ['received','그럼 끝나고 통화하자'],
+   ['sent','응 끝나면 연락할게']
+  ]},
+  {date:'9월 1일',messages:[
+   ['received','오빠 아직 안 끝났어?'],
+   ['received','나 기다리고 있었는데'],
+   ['sent','미안 이제 봤어'],
+   ['received','끝나면 연락 준다며'],
+   ['sent','연습이 늦게 끝났어'],
+   ['received','늦어지는 건 괜찮은데 말은 해줄 수 있잖아'],
+   ['sent','그건 맞아 미안'],
+   ['received','맨날 나중에 미안하다고 하면 어떡해'],
+   ['sent','방금 끝나서 정신없었어'],
+   ['received','알겠어'],
+   ['sent','지우야'],
+   ['sent','내가 아까 정신없다고 한 말 좀 별로였다'],
+   ['sent','기다린 건 너인데 핑계부터 댔네'],
+   ['received','나도 오빠 바쁜 거 알아'],
+   ['received','그냥 연락 한 번 없으니까 서운했어'],
+   ['sent','다음부터 늦어지면 먼저 말할게'],
+   ['received','응 나도 말투 날카로웠던 건 미안'],
+   ['received','근데 나 지금 표정 진짜 안 좋거든'],
+   ['sent','얼마나'],
+   ['received',{type:'photo',photoId:'photo-15',alt:'지우가 보낸 셀카'}],
+   ['received','이 정도'],
+   ['sent','아 ㅋㅋㅋㅋ'],
+   ['sent','표정은 왜 그렇게 귀여운데'],
+   ['received','안 귀엽거든'],
+   ['sent','응 내가 잘못했어. 내일 만나서도 사과할게'],
+   ['received','알았어. 내일 맛있는 거 먹자'],
+   ['sent','내가 살게'],
+   ['received','대신 두 입만 줄 거야'],
+   ['sent','세 입은 줘라ㅋㅋ']
+  ]},
+  {date:'9월 3일',messages:[
+   ['sent','집 가는 길에 네가 좋아하는 거 봤어'],
+   ['received','뭔데'],
+   ['sent','과일찹쌀떡'],
+   ['received','사왔어?'],
+   ['sent','응'],
+   ['received','오빠 최고 ㅋㅋ'],
+   ['sent','그럼 내 건 몇 입'],
+   ['received','세 입!']
+  ]},
   {date:'9월 6일',messages:[
    ['sent','내일 오후에 시간 비워'],
    ['received','왜? 오빠 뭐 하게?'],
@@ -119,9 +179,50 @@ function renderMessages(container){
   for(const group of conversations){
    const divider=document.createElement('div');
    divider.className='messages-date';
+   if(group.date==='9월 1일')divider.id='messages-make-up-day';
    divider.textContent=group.date;
    chat.append(divider);
    for(const [direction,message] of group.messages){
+    if(typeof message==='object'&&message.type==='photo'){
+     // The selfie reuses an existing gallery image instead of embedding a duplicate.
+     const photo=window.PhonePhotoAssets?.photos?.find(item=>item.id===message.photoId);
+     const wrap=document.createElement('div');
+     wrap.className='messages-photo-bubble '+(direction==='sent'?'is-sent':'is-received');
+     if(photo?.src){
+      const button=document.createElement('button');
+      button.type='button';
+      button.className='messages-photo-button';
+      button.setAttribute('aria-label','지우가 보낸 셀카 크게 보기');
+      const img=document.createElement('img');
+      img.src=photo.src;img.alt=message.alt;img.loading='lazy';img.decoding='async';
+      button.append(img);wrap.append(button);
+      button.onclick=()=>{
+       const viewer=document.createElement('div');
+       viewer.className='messages-photo-viewer';
+       viewer.setAttribute('role','dialog');viewer.setAttribute('aria-modal','true');
+       viewer.setAttribute('aria-label','받은 사진 크게 보기');
+       const close=document.createElement('button');
+       close.type='button';close.className='messages-photo-close';
+       close.textContent='✕ 닫기';close.setAttribute('aria-label','사진 닫기');
+       const full=document.createElement('img');
+       full.src=photo.src;full.alt=message.alt;
+       viewer.append(close,full);
+       const dismiss=()=>{viewer.remove();button.focus({preventScroll:true})};
+       close.onclick=dismiss;
+       viewer.onclick=event=>{if(event.target===viewer)dismiss()};
+       viewer.onkeydown=event=>{if(event.key==='Escape'){event.preventDefault();dismiss()}};
+       container.querySelector('.messages-thread')?.append(viewer);
+       close.focus({preventScroll:true});
+      };
+     }else{
+      const fallback=document.createElement('span');
+      fallback.className='messages-photo-fallback';
+      fallback.textContent='사진을 불러올 수 없어요';
+      wrap.append(fallback);
+     }
+     chat.append(wrap);
+     continue;
+    }
     const bubble=document.createElement('div');
     bubble.className='messages-bubble '+(direction==='sent'?'is-sent':'is-received');
     bubble.textContent=message;
