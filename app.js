@@ -33,7 +33,7 @@ else if(name==='날씨'){c.innerHTML='<div style="text-align:center;padding-top:
 else if(name==='전화'){c.innerHTML='<div class="dial-display" aria-live="polite"></div><div class="dial"></div><p class="muted" style="text-align:center">번호 입력 데모 · 실제 통화는 연결되지 않습니다.</p>';const letters=['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ','','+',''];['1','2','3','4','5','6','7','8','9','*','0','#','⌫','통화'].forEach((key,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',key);b.textContent=key;if(letters[i]){const s=document.createElement('small');s.textContent=letters[i];b.append(s)}if(key==='통화'){b.className='call';b.innerHTML=symbols.app('전화')}b.onclick=()=>{const d=c.querySelector('.dial-display');if(key==='⌫')d.textContent=d.textContent.slice(0,-1);else if(key==='통화')toast('전화 연결 없이 번호 입력만 지원하는 데모입니다.');else if(d.textContent.length<18)d.textContent+=key};c.querySelector('.dial').append(b)})}
 else if(name==='계산기'){calculator(c)}
 else if(name==='미리 알림'){c.innerHTML='<h1 style="color:#007aff">미리 알림</h1><div class="card" id="reminder-list"></div><form id="reminder-form"><label class="muted" for="reminder-input">새로운 미리 알림</label><div class="row"><input class="app-search" id="reminder-input" placeholder="할 일 입력" required maxlength="120"><button type="submit">추가</button></div></form><p class="muted">현재 화면에서만 유지됩니다.</p>';$('#reminder-form').onsubmit=e=>{e.preventDefault();const input=$('#reminder-input'),text=input.value.trim();if(!text)return;const row=document.createElement('label');row.className='row';const check=document.createElement('input');check.type='checkbox';const span=document.createElement('span');span.textContent=text;span.style.cssText='flex:1;overflow-wrap:anywhere';check.onchange=()=>span.style.textDecoration=check.checked?'line-through':'none';row.append(check,span);$('#reminder-list').append(row);input.value=''}}
-else if(name==='음악'){renderMusic(c)}
+else if(name==='음악'){renderMusic(c);startInitialMusicIfOpen()}
 else if(name==='검색'){renderSearch(c)}
 else c.append(placeholder(name));
 $('#back').focus({preventScroll:true});
@@ -87,7 +87,7 @@ function flashlight(){const active=$('#flashlight').getAttribute('aria-pressed')
 document.addEventListener('click',e=>{const b=e.target.closest('[data-app]');if(b){lastAppButton=b;openApp(b.dataset.app)}});
 document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(Number(b.dataset.page)));
 $('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>home(true);$('#unlock').onclick=()=>home();$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
-const audio=$('#music-audio');let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false;audio.volume=Number($('#volume').value)/100;
+const audio=$('#music-audio');let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false,musicInitialPlaybackPending=true;audio.volume=Number($('#volume').value)/100;
 function paintMusicArtwork(root=document){
  if(!bundledTrack?.cover)return;
  root.querySelectorAll('.track-art,.track-art-small').forEach(element=>{
@@ -95,9 +95,9 @@ function paintMusicArtwork(root=document){
   if(element.classList.contains('track-art'))element.setAttribute('aria-label','어떻게 지내 앨범 커버');
  });
 }
-function connectBundledMusic(){
+function connectBundledMusic(playNow=true){
  ++musicGeneration;musicBundled=true;musicRestoring=false;musicStored=false;musicNeedsTap=false;musicPlaybackError=false;
- audio.pause();if(audioUrl)URL.revokeObjectURL(audioUrl);audioUrl=null;audio.src=bundledTrack.audio;audio.load();syncMusic();requestMusicPlayback();
+ audio.pause();if(audioUrl)URL.revokeObjectURL(audioUrl);audioUrl=null;audio.src=bundledTrack.audio;audio.load();syncMusic();if(playNow)requestMusicPlayback();else startInitialMusicIfOpen();
 }
 function formatMusicTime(seconds){if(!Number.isFinite(seconds))return '0:00';return `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`}
 function renderMusic(container){
@@ -135,22 +135,26 @@ async function writeStoredMusic(file,generation){
  if(generation!==musicGeneration){database.close();return false}
  return new Promise((resolve,reject)=>{const transaction=database.transaction('tracks','readwrite');const store=transaction.objectStore('tracks');if(file)store.put(file,'ovan-how-are-you');else store.delete('ovan-how-are-you');transaction.oncomplete=()=>{database.close();resolve(true)};transaction.onerror=transaction.onabort=()=>{database.close();reject(transaction.error)};});
 }
-function connectMusic(file,remember){
+function connectMusic(file,remember,playNow=true){
  const generation=++musicGeneration;musicBundled=false;musicRestoring=false;musicNeedsTap=false;musicPlaybackError=false;musicStored=!remember;
  audio.pause();if(audioUrl)URL.revokeObjectURL(audioUrl);audioUrl=URL.createObjectURL(file);audio.src=audioUrl;audio.load();syncMusic();
- requestMusicPlayback();
+ if(playNow)requestMusicPlayback();else startInitialMusicIfOpen();
  if(remember)writeStoredMusic(file,generation).then(saved=>{if(generation===musicGeneration){musicStored=saved;syncMusic()}}).catch(()=>{if(generation===musicGeneration){musicStored=false;syncMusic()}});
 }
+function startInitialMusicIfOpen(){
+ if(musicInitialPlaybackPending&&audio.src&&!$('#app').hidden&&$('#app-title').textContent==='음악')requestMusicPlayback();
+}
 async function requestMusicPlayback(){
+ musicInitialPlaybackPending=false;
  const generation=musicGeneration;musicStarting=true;musicNeedsTap=false;musicPlaybackError=false;syncMusic();
  try{await audio.play()}
  catch(error){if(generation!==musicGeneration)return;if(error.name==='NotAllowedError')musicNeedsTap=true;else if(error.name!=='AbortError')musicPlaybackError=true}
  finally{if(generation===musicGeneration){musicStarting=false;syncMusic()}}
 }
 async function restoreMusic(){
- if(bundledTrack?.audio){connectBundledMusic();return}
+ if(bundledTrack?.audio){connectBundledMusic(false);return}
  const generation=musicGeneration;
- try{const file=await readStoredMusic();if(generation===musicGeneration&&file instanceof Blob&&file.size>0)connectMusic(file,false)}
+ try{const file=await readStoredMusic();if(generation===musicGeneration&&file instanceof Blob&&file.size>0)connectMusic(file,false,false)}
  catch{}
  finally{musicRestoring=false;syncMusic()}
 }
