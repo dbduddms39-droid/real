@@ -652,3 +652,21 @@
 .story-health-point small{font-size:10px;color:#93939d}
 .story-health-axis{display:flex;justify-content:space-between;color:#a1a1aa;font-size:10px;margin-top:11px}
 .story-health-disclaimer{font-size:10px;color:#a1a1a8;line-height:1.5;margin-top:19px}
+
+
+/* College email inbox */
+.story-mail-app #app-content{background:#f5f5f8}
+.story-mail-list{margin-top:15px;background:white;border-radius:13px;overflow:hidden}
+.story-mail-row{width:100%;background:#fff;color:#23232b;display:flex;gap:8px;text-align:left;align-items:flex-start;padding:15px 10px;border-bottom:1px solid #ececf0}
+.story-mail-row:last-child{border:0}
+.story-mail-dot{width:7px;height:7px;flex:0 0 7px;background:#1576dc;border-radius:50%;margin-top:8px}
+.story-mail-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.story-mail-copy strong{font-size:14px}.story-mail-copy b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.story-mail-copy small{font-size:12px;color:#8f8f99;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.story-mail-row time{font-size:10px;color:#8d8d96;white-space:nowrap}
+.story-mail-detail{background:white;min-height:100%}
+.story-mail-detail h1{font-size:21px!important;line-height:1.35;margin:15px 0 19px!important}
+.story-mail-sender{display:flex;align-items:center;gap:10px;padding-bottom:18px;border-bottom:1px solid #ededf1}
+.story-mail-sender-icon{width:39px;height:39px;background:#8697b6;border-radius:50%;color:white;display:grid;place-items:center;font-size:17px}
+.story-mail-sender>span:nth-child(2){display:flex;flex-direction:column;gap:6px}.story-mail-sender strong{font-size:14px}.story-mail-sender small{font-size:11px;color:#898992}
+.story-mail-body{font-size:14px;line-height:1.9;white-space:pre-wrap;padding:23px 0 30px}
+.story-mail-return{color:#1478d9;background:#edf4fc;border-radius:11px;padding:12px;font-size:13px}
