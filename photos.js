@@ -56,7 +56,7 @@ function renderPhotos(container) {
    container.append(section);
   }
   const birthday=videos.find(v=>v.id==='birthday');
-  const birthdaySection=document.createElement('section');birthdaySection.className='birthday-memory';birthdaySection.innerHTML='<span class="birthday-memory-kicker">🎂 특별한 날</span><strong>9월 7일, 생일 축하해.</strong><span>그날의 추억을 다시 보기 ♡</span><button class="birthday-memory-open" type="button">생일 영상 보기 ›</button>';
+  const birthdaySection=document.createElement('section');birthdaySection.className='birthday-memory';birthdaySection.innerHTML='<span class="birthday-memory-kicker">🎂 특별한 날</span><span>그날의 추억을 다시 보기 ♡</span><button class="birthday-memory-open" type="button">생일 영상 보기 ›</button>';
   birthdaySection.querySelector('button').onclick=()=>openVideo(birthday,true);
   container.append(birthdaySection);
   const heading = document.createElement('h2');
@@ -93,7 +93,6 @@ function renderPhotos(container) {
   container.innerHTML='<div class="photo-viewer video-viewer"><div class="photo-viewer-toolbar"><button class="photos-back">‹ 보관함</button><span>동영상</span></div><div class="photo-viewer-stage"></div></div>';
   container.querySelector('.photos-back').onclick=showGallery;
   const stage=container.querySelector('.photo-viewer-stage');
-  if(special){const heading=document.createElement('p');heading.className='birthday-video-heading';heading.textContent='9월 7일, 생일 축하해.';stage.append(heading)}
   const media=document.createElement('video');media.src=video.src;media.poster=video.poster;media.controls=true;media.playsInline=true;media.preload='metadata';media.setAttribute('aria-label',video.name);stage.append(media);
   media.addEventListener('error',()=>{if(!container.contains(media))return;const note=document.createElement('p');note.className='video-error';note.textContent='동영상 파일이 아직 배포되지 않았어요.';stage.append(note)},{once:true});
   container.scrollTop=0;
