@@ -87,10 +87,11 @@ $('#back').focus({preventScroll:true});
 
 const seongsuPlaces=[
  {
-  "name": "봉은사",
-  "kind": "추억",
-  "desc": "우리 오래가자고 소원 빈 곳",
-  "addr": "서울 강남구 봉은사로 531"
+  "name": "한정선 성수점",
+  "kind": "카페·디저트",
+  "subkind": "디저트",
+  "desc": "지우가 좋아하는 과일찹쌀떡",
+  "addr": "서울 성동구 연무장길 43-1"
  },
  {
   "name": "도토리오븐 성수",
@@ -112,13 +113,6 @@ const seongsuPlaces=[
   "subkind": "카페",
   "desc": "넓은 창고 공간에서 작품도 구경하기",
   "addr": "서울 성동구 성수이로 78"
- },
- {
-  "name": "한정선 성수점",
-  "kind": "카페·디저트",
-  "subkind": "디저트",
-  "desc": "지우가 좋아하는 과일찹쌀떡",
-  "addr": "서울 성동구 연무장길 43-1"
  },
  {
   "name": "베통 성수",
@@ -175,6 +169,18 @@ const seongsuPlaces=[
   "kind": "구경",
   "desc": "특별한 외관 앞에서 사진 남기기",
   "addr": "서울 성동구 연무장5길 7"
+ },
+ {
+  "name": "봉은사",
+  "kind": "추억",
+  "desc": "우리 오래가자고 소원 빈 곳",
+  "addr": "서울 강남구 봉은사로 531"
+ },
+ {
+  "name": "남산타워",
+  "kind": "추억",
+  "desc": "100일 기념 자물쇠 건 곳",
+  "addr": "서울 용산구 남산공원길 105"
  }
 ];
 
@@ -184,7 +190,6 @@ const seongsuPlaces=[
 function renderMap(container){
  $('#app').classList.add('map-app');
  container.innerHTML=`<div class="map-intro"><h1>우리의 데이트 지도</h1><p>함께 걷고 오래 기억할 장소들 ♡</p></div>
- <button type="button" id="map-memory" class="map-memory" aria-label="봉은사, 우리 오래가자고 소원 빈 곳. 지도에서 보기"><span class="map-memory-kicker">💗 우리 추억</span><strong>봉은사</strong><span class="map-memory-note">우리 오래가자고 소원 빈 곳</span><span class="map-memory-action">지도에서 보기 ↗</span></button>
  <label class="map-search-wrap"><span aria-hidden="true">⌕</span><input id="map-query" type="search" placeholder="카페나 장소 검색" aria-label="지도 장소 검색" autocomplete="off"></label>
  <div id="map-filters" class="map-filters" role="group" aria-label="장소 유형 필터"></div>
  <div class="map-frame"><iframe id="map-iframe" title="선택한 장소 지도" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><span class="map-frame-note">지도가 보이지 않으면 아래의 지도 열기를 눌러 주세요</span></div>
@@ -245,10 +250,6 @@ function renderMap(container){
   showSelected();
  }
  query.addEventListener('input',render);
- container.querySelector('#map-memory').addEventListener('click',()=>{
-  category='추억';selectedId=seongsuPlaces.findIndex(place=>place.name==='봉은사');query.value='';render();
-  container.querySelector('.map-frame').scrollIntoView({block:'nearest',behavior:'smooth'});
- });
  render();
 }
 
