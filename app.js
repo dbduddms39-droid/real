@@ -81,13 +81,13 @@ function renderMessages(container){
   {date:'8월 24일',messages:[
    ['received','오빠 마음이 밥 줬어?'],
    ['sent','응 물도 새로 갈아줬어'],
-   ['received','오 다행이다 ㅋㅋ'],
+   ['received','오 다행이다'],
    ['sent','뭘 다행이야 나도 잘 챙겨'],
    ['received','알아 ㅎㅎ 그냥 물어본 거지'],
    ['sent','근데 아까 밥 주니까 엄청 좋아하더라'],
    ['received','그치? 밥 먹을 때 제일 신나 보여'],
    ['sent','누구 닮아서 그런가'],
-   ['received','나?ㅋㅋㅋㅋ'],
+   ['received','나? ㅎㅎ'],
    ['sent','응'],
    ['received','그럴 수도 있겠다 ㅎㅎ']
   ]},
@@ -96,13 +96,13 @@ function renderMessages(container){
    ['sent','이제 집 가는 중'],
    ['received','오늘도 늦었네. 저녁은 먹었어?'],
    ['sent','아직. 라면 먹을까 해'],
-   ['received','또 라면이야?ㅋㅋㅋ'],
+   ['received','또 라면이야?'],
    ['sent','간단하잖아'],
    ['received','그건 그렇지만 밥도 좀 챙겨 먹어'],
    ['sent','너는 먹었어?'],
    ['received','응 아까 떡볶이 먹었어'],
    ['sent','내 거는'],
-   ['received','다 먹었는데 ㅋㅋ'],
+   ['received','다 먹었는데'],
    ['sent','너무하네'],
    ['received','다음엔 같이 먹자. 내가 사줄게 ㅎㅎ']
   ]},
@@ -136,7 +136,7 @@ function renderMessages(container){
    ['sent','다음에는 늦어지면 꼭 먼저 말할게'],
    ['received','응 그럼 됐어'],
    ['sent','아직 화났어?'],
-   ['received','조금?ㅋㅋ'],
+   ['received','조금?'],
    ['sent','얼마나'],
    ['received',{type:'photo',photoId:'photo-15',alt:'지우가 보낸 셀카'}],
    ['received','지금 이 표정이야'],
@@ -145,12 +145,12 @@ function renderMessages(container){
    ['received','나 진지한데'],
    ['sent','알아. 내가 잘못한 것도 알고'],
    ['sent','근데 사진 보고 웃은 건 어쩔 수 없었어'],
-   ['received','나도 오빠 답장 보고 웃었네 ㅋㅋ'],
+   ['received','나도 오빠 답장 보고 웃었네'],
    ['sent','내일 맛있는 거 먹으러 가자. 내가 살게'],
    ['received','좋아. 대신 다음에는 기다리게 하지 마'],
    ['sent','응 약속'],
    ['sent','아 사진 저장했어'],
-   ['received','그걸 또 저장했어?ㅋㅋ'],
+   ['received','그걸 또 저장했어?'],
    ['sent','응 귀여워서'],
    ['received','참나 ㅎㅎ']
   ]},
@@ -166,11 +166,11 @@ function renderMessages(container){
    ['received','고마워 ㅎㅎ'],
    ['sent','아 그리고 사왔어'],
    ['received','진짜?'],
-   ['received','오빠 고마워! 지금 바로 먹고 싶다 ㅋㅋ'],
+   ['received','오빠 고마워! 지금 바로 먹고 싶다'],
    ['sent','그렇게 좋아?'],
    ['received','응. 한정선도 좋은데 오빠가 사온 거라 더 좋아'],
    ['sent','귀엽네'],
-   ['received','뭐야 ㅋㅋ 그냥 좋다고 말한 건데'],
+   ['received','뭐야 ㅎㅎ 그냥 좋다고 말한 건데'],
    ['sent','그게 귀엽다고'],
    ['received','알았어 ㅎㅎ 빨리 와']
   ]},
@@ -178,7 +178,7 @@ function renderMessages(container){
    ['sent','내일 오후에 시간 비워'],
    ['received','왜? 뭐 하게?'],
    ['sent','그냥 비워둬'],
-   ['received','오빠 내일 무슨 날인지 알지?ㅋㅋ'],
+   ['received','오빠 내일 무슨 날인지 알지?'],
    ['sent','알지'],
    ['received','모르는 척하길래 조금 걱정했어'],
    ['sent','내가 그걸 어떻게 잊어'],
@@ -192,7 +192,7 @@ function renderMessages(container){
   {date:'9월 7일',messages:[
    ['received','오빠 나 집 잘 들어왔어'],
    ['sent','오늘 많이 걸었지'],
-   ['received','응 발은 좀 아픈데 ㅋㅋ'],
+   ['received','응 발은 좀 아픈데'],
    ['received','오늘 진짜 좋았어'],
    ['sent','다행이다'],
    ['received','아까는 정신없어서 제대로 말 못 했는데'],
@@ -204,9 +204,9 @@ function renderMessages(container){
    ['received','고마워 🤍'],
    ['received','오늘 오래 기억할 것 같아'],
    ['sent','나도'],
-   ['received','집에 와서 사진 다시 보는데 계속 웃게 돼 ㅋㅋ'],
+   ['received','집에 와서 사진 다시 보는데 계속 웃게 돼'],
    ['sent','귀엽네'],
-   ['received','왜 또 귀엽대 ㅋㅋ'],
+   ['received','왜 또 귀엽대'],
    ['sent','그렇게 좋았다고 하니까'],
    ['received','응 정말 좋았어']
   ]},
@@ -217,7 +217,7 @@ function renderMessages(container){
    ['sent','알겠어'],
    ['received','아까 사진 보다가 어제 생각났어'],
    ['sent','벌써?'],
-   ['received','응 ㅋㅋ 어제 너무 즐거웠잖아'],
+   ['received','응, 어제 너무 즐거웠잖아'],
    ['received','사진도 많이 남아서 다행인 것 같아'],
    ['sent','그렇게 좋아해주니까 나도 좋다'],
    ['received','고마워. 오래오래 간직할게']
@@ -229,14 +229,14 @@ function renderMessages(container){
    ['sent','왜 무슨 일 있어?'],
    ['received','아니 그냥 목소리 듣고 싶어서'],
    ['sent','나도 보고 싶네'],
-   ['received','나도 ㅋㅋ'],
+   ['received','나도 ㅎㅎ'],
    ['sent','지난번에 봤는데 벌써?'],
    ['received','그러게 ㅎㅎ'],
    ['received','요즘 같이 있으면 시간이 너무 빨리 가'],
    ['sent','내가 그렇게 좋아?'],
    ['received','응 많이'],
    ['sent','그런 대답은 반칙인데'],
-   ['received','오빠가 먼저 물어봤잖아 ㅋㅋ'],
+   ['received','오빠가 먼저 물어봤잖아'],
    ['sent','귀여워'],
    ['received','ㅎㅎ 얼른 씻고 전화해']
   ]},
@@ -249,7 +249,7 @@ function renderMessages(container){
    ['sent','그럼 쉬는 날 맞춰보자'],
    ['received','좋아. 끝나고 서울숲도 걷자'],
    ['sent','이번에도 많이 걷겠네'],
-   ['received','이번엔 편한 신발 신을 거야 ㅋㅋ'],
+   ['received','이번엔 편한 신발 신을 거야'],
    ['sent','지난번엔 안 그랬나'],
    ['received','그때는 예쁜 신발 신고 싶었지'],
    ['sent','너는 뭘 신어도 예뻐'],
@@ -271,7 +271,7 @@ function renderMessages(container){
    ['sent','잘했네'],
    ['received','끝나고 서울숲도 가자'],
    ['sent','이번엔 편한 신발 신는다며'],
-   ['received','기억하고 있었네 ㅋㅋ'],
+   ['received','기억하고 있었네 ㅎㅎ'],
    ['sent','그럼. 토요일에 보자'],
    ['received','응 기대된다 ㅎㅎ']
   ]},
@@ -279,7 +279,7 @@ function renderMessages(container){
    ['sent','어제 찍은 사진 봤어?'],
    ['received','응! 같이 나온 사진 생각보다 잘 나왔더라'],
    ['sent','너는 다 잘 나왔어'],
-   ['received','오빠도 잘 나왔어 ㅋㅋ'],
+   ['received','오빠도 잘 나왔어'],
    ['sent','네가 그렇게 말하니까 믿어볼게'],
    ['received','진짜인데 ㅎㅎ'],
    ['received','어제 같이 전시 보면서 얘기한 것도 좋았어'],
@@ -596,112 +596,85 @@ function renderPhone(container){
 
 // A fictional, offline Safari history for the phone's story. It never opens
 // invented web destinations or sends a search term to an external service.
+// Safari keeps three real-place photo tabs in a quiet, familiar browser UI.
 function renderSafari(container){
  $('#app').classList.add('safari-app');
- const bookmarks=[
-  {id:'hans',name:'한정선',sub:'성수 · 디저트',badge:'H',theme:'cream',eyebrow:'성수의 작은 디저트 가게',headline:'한정선',note:'다음에 근처 가면 들르기',summary:'좋아하는 디저트를 사러 가는 길. 지나칠 때마다 한 번 더 열어 본 페이지.',items:['제철 과일 디저트','성수에서 들르기 좋은 곳','방문 전 영업 정보 확인']},
-  {id:'exhibit',name:'서울숲 근처 전시',sub:'주말에 가볼 곳',badge:'ART',theme:'sage',eyebrow:'이번 주말에 볼 전시',headline:'서울숲 근처 전시',note:'둘이 보러 가기로 한 전시',summary:'전시를 보고 나서 서울숲까지 걸어보기. 아직 탭을 닫지 않았다.',items:['전시 일정 다시 확인','주말 예매 정보','전시 보고 서울숲 산책']},
-  {id:'trip',name:'10월 여행지',sub:'가을 여행 계획',badge:'10',theme:'blue',eyebrow:'10월에 가고 싶은 곳',headline:'가을 여행',note:'둘이 같이 가려고 찾아본 곳',summary:'여행 날짜를 정하기 전에 먼저 열어 둔 페이지.',items:['주말 여행 일정','숙소 찾아보기','가을 산책 코스']},
-  {id:'autumn',name:'가을 데이트 코스',sub:'나중에 같이 가자',badge:'🍂',theme:'rose',eyebrow:'가을에 가볼 만한 곳',headline:'가을 데이트 코스',note:'다음에 같이 가자고 했던 곳들',summary:'날씨가 선선해지면 천천히 걸어보기 좋은 코스를 모아 둔 페이지.',items:['서울숲 걷기','전시 보고 카페 가기','저녁에 한강 산책']}
+ const places=[
+  {id:'hans',title:'한정선 성수점',subtitle:'성수 · 디저트',image:'https://d12zq4w4guyljn.cloudfront.net/750_750_20260203144428_photo1_bec06ee6c4b3.webp',alt:'성수 한정선 가게 외관',note:'지우가 좋아하는 곳',details:'서울 성동구 연무장길 43-1',source:'https://www.diningcode.com/profile.php?rid=sF3RPtaiGrlQ',credit:'사진: 다이닝코드',license:''},
+  {id:'forest',title:'서울숲',subtitle:'서울 · 산책',image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Seoul_Forest_%EC%84%9C%EC%9A%B8%EC%88%B2.jpg/960px-Seoul_Forest_%EC%84%9C%EC%9A%B8%EC%88%B2.jpg',alt:'서울숲에 설치된 서울숲 표지 조형물',note:'전시 보고 같이 걷기로 한 곳',details:'서울 성동구 뚝섬로 273',source:'https://commons.wikimedia.org/wiki/File:Seoul_Forest_%EC%84%9C%EC%9A%B8%EC%88%B2.jpg',credit:'사진: Christian Bolz · CC BY-SA 4.0',license:'https://creativecommons.org/licenses/by-sa/4.0/'},
+  {id:'gangneung',title:'강릉 경포해변',subtitle:'10월 여행 · 강릉',image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Gyeongpo_Beach_1.jpg/960px-Gyeongpo_Beach_1.jpg',alt:'강릉 경포해변의 모래사장과 파도',note:'10월에 가보려고 찾아본 바다',details:'강원특별자치도 강릉시 안현동',source:'https://commons.wikimedia.org/wiki/File:Gyeongpo_Beach_1.jpg',credit:'사진: Christophe95 · CC BY-SA 4.0',license:'https://creativecommons.org/licenses/by-sa/4.0/'}
  ];
- let tabs=bookmarks.map(page=>page.id);
- let nextBlank=1;
- const trail=[{mode:'start',id:null}];
- let trailPos=0;
- container.innerHTML='<div class="safari-root"><main class="safari-main" aria-label="Safari 페이지"></main><div class="safari-bottom"><div class="safari-address"><span class="safari-address-lock" aria-hidden="true">⌕</span><span class="safari-address-label">검색 또는 웹 사이트 이름 입력</span><span class="safari-address-menu" aria-hidden="true">↻</span></div><div class="safari-actions"><button type="button" class="safari-go-back safari-internal-back" aria-label="Safari 이전 화면">‹</button><button type="button" class="safari-go-forward" aria-label="Safari 다음 화면">›</button><button type="button" class="safari-bookmark-action" aria-label="즐겨찾기 보기">☆</button><button type="button" class="safari-tabs-action" aria-label="탭 보기"><span class="safari-tab-symbol" aria-hidden="true">▢</span><span class="safari-tab-count"></span></button></div></div></div>';
- const root=container.querySelector('.safari-root');
- const main=root.querySelector('.safari-main');
- const label=root.querySelector('.safari-address-label');
- const count=root.querySelector('.safari-tab-count');
- const back=root.querySelector('.safari-go-back');
- const forward=root.querySelector('.safari-go-forward');
- const esc=text=>String(text).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
- const find=id=>bookmarks.find(page=>page.id===id);
- const state=()=>trail[trailPos];
- function go(mode,id=null){
-  trail.splice(trailPos+1);
-  trail.push({mode,id});
-  trailPos=trail.length-1;
-  paint();
+ let tabs=places.map(item=>item.id);
+ let history=[{mode:'start'}],position=0;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const place=id=>places.find(p=>p.id===id);
+ const image=(p,cls)=>'<img class="'+cls+'" src="'+esc(p.image)+'" alt="'+esc(p.alt)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
+ container.innerHTML='<div class="safari-root"><main class="safari-main" aria-label="Safari 페이지"></main><div class="safari-bottom"><div class="safari-address"><span aria-hidden="true">⌕</span><span class="safari-address-label">검색 또는 웹 사이트 이름 입력</span><span aria-hidden="true">↻</span></div><div class="safari-actions"><button type="button" class="safari-go-back safari-internal-back" aria-label="Safari 뒤로 가기">‹</button><button type="button" class="safari-go-forward" aria-label="Safari 앞으로 가기">›</button><button type="button" class="safari-bookmark-action" aria-label="즐겨찾기">☆</button><button type="button" class="safari-tabs-action" aria-label="열린 탭"><span aria-hidden="true">▢</span><span class="safari-tab-count"></span></button></div></div></div>';
+ const root=container.querySelector('.safari-root'),main=root.querySelector('.safari-main');
+ const address=root.querySelector('.safari-address-label'),count=root.querySelector('.safari-tab-count');
+ const back=root.querySelector('.safari-go-back'),forward=root.querySelector('.safari-go-forward');
+ function goto(mode,id){
+  history=history.slice(0,position+1);
+  history.push({mode,id});position++;draw();
  }
- function tabCard(id){
-  if(id==='blank')return '<div class="safari-tile-cover safari-cover-blank"><span>＋</span></div>';
-  const page=find(id);
-  if(!page)return '';
-  return '<div class="safari-tile-cover safari-cover-'+page.theme+'"><span class="safari-tile-kicker">'+esc(page.eyebrow)+'</span><strong>'+esc(page.headline)+'</strong><small>'+esc(page.sub)+'</small></div>';
+ function card(p){
+  return '<button type="button" class="safari-photo-row" data-open="'+p.id+'">'+image(p,'safari-photo-thumb')+'<span class="safari-photo-text"><strong>'+esc(p.title)+'</strong><small>'+esc(p.subtitle)+'</small></span><span class="safari-row-arrow" aria-hidden="true">›</span></button>';
  }
- function paint(){
-  const current=state();
+ function bindRows(){
+  main.querySelectorAll('[data-open]').forEach(button=>button.onclick=()=>goto('page',button.dataset.open));
+ }
+ function draw(){
+  const state=history[position];
+  back.disabled=position===0;
+  forward.disabled=position===history.length-1;
   count.textContent=String(tabs.length);
-  back.disabled=trailPos===0;
-  forward.disabled=trailPos>=trail.length-1;
-  root.classList.toggle('safari-tab-mode',current.mode==='tabs');
-  root.classList.toggle('safari-reading-mode',current.mode==='page');
-  if(current.mode==='start'){
-   label.textContent='검색 또는 웹 사이트 이름 입력';
-   main.innerHTML='<section class="safari-start"><div class="safari-start-top"><span>Safari</span><span>✧</span></div><h1>시작 페이지</h1><form class="safari-search-form"><span aria-hidden="true">⌕</span><input aria-label="저장된 페이지 검색" placeholder="검색 또는 웹 사이트 이름" maxlength="90" autocomplete="off"><button type="submit" aria-label="검색">이동</button></form><h2>즐겨찾기</h2><div class="safari-favorite-grid"><button type="button" class="safari-folder-open"><span class="safari-favorite-icon">♡</span><strong>지우랑 ♡</strong></button><button type="button" class="safari-open-tabs"><span class="safari-favorite-icon safari-tabs-favorite">▢</span><strong>열린 탭</strong></button></div><div class="safari-start-divider"></div><div class="safari-start-list-heading"><h2>방문한 페이지</h2><span>최근</span></div><div class="safari-recent"></div></section>';
-   main.querySelector('.safari-folder-open').onclick=()=>go('folder');
-   main.querySelector('.safari-open-tabs').onclick=()=>go('tabs');
-   const recent=main.querySelector('.safari-recent');
-   bookmarks.slice(0,2).forEach(page=>{
-    const b=document.createElement('button');b.className='safari-recent-row';b.type='button';
-    b.innerHTML='<span class="safari-recent-icon safari-cover-'+page.theme+'">'+esc(page.badge)+'</span><span><strong>'+esc(page.name)+'</strong><small>'+esc(page.sub)+'</small></span><span class="safari-row-arrow">›</span>';
-    b.onclick=()=>go('page',page.id);recent.append(b);
-   });
-   const form=main.querySelector('.safari-search-form');
-   form.onsubmit=e=>{
+  address.textContent=state.mode==='page'?(place(state.id)?.title||'Safari'):'검색 또는 웹 사이트 이름 입력';
+  root.classList.toggle('safari-tab-mode',state.mode==='tabs');
+  if(state.mode==='start'){
+   main.innerHTML='<section class="safari-clean-start"><div class="safari-clean-title">Safari</div><h1>시작 페이지</h1><form class="safari-clean-search"><span>⌕</span><input aria-label="저장된 페이지 검색" placeholder="검색 또는 웹 사이트 이름" autocomplete="off" maxlength="80"></form><h2>즐겨찾기</h2><button type="button" class="safari-clean-folder"><span class="safari-clean-folder-icon">♡</span><span>지우랑 ♡</span><span aria-hidden="true">›</span></button><div class="safari-clean-heading"><h2>최근에 본 페이지</h2></div><div class="safari-clean-rows"></div></section>';
+   main.querySelector('.safari-clean-folder').onclick=()=>goto('folder');
+   main.querySelector('.safari-clean-rows').innerHTML=places.slice(0,2).map(card).join('');
+   bindRows();
+   const search=main.querySelector('.safari-clean-search');
+   search.onsubmit=e=>{
     e.preventDefault();
-    const q=form.querySelector('input').value.trim().toLowerCase();
+    const input=search.querySelector('input'),q=input.value.toLowerCase().trim();
     if(!q)return;
-    const match=bookmarks.find(page=>(page.name+' '+page.sub+' '+page.headline).toLowerCase().includes(q));
-    if(match)go('page',match.id);
-    else {const input=form.querySelector('input');input.setCustomValidity('저장된 페이지에서 찾을 수 없어요.');input.reportValidity();input.addEventListener('input',()=>input.setCustomValidity(''),{once:true})}
+    const match=places.find(p=>(p.title+' '+p.subtitle).toLowerCase().includes(q));
+    if(match)goto('page',match.id);
+    else{input.setCustomValidity('저장된 페이지에서 찾을 수 없어요.');input.reportValidity();input.addEventListener('input',()=>input.setCustomValidity(''),{once:true})}
    };
-  }else if(current.mode==='folder'){
-   label.textContent='즐겨찾기';
-   main.innerHTML='<section class="safari-folder"><div class="safari-folder-header"><button type="button" class="safari-folder-back">‹ 시작 페이지</button><span>즐겨찾기</span></div><h1>지우랑 ♡</h1><p>저장해 둔 페이지</p><div class="safari-folder-rows"></div></section>';
-   main.querySelector('.safari-folder-back').onclick=()=>go('start');
-   const wrap=main.querySelector('.safari-folder-rows');
-   bookmarks.forEach(page=>{
-    const b=document.createElement('button');b.type='button';b.className='safari-folder-row';b.innerHTML='<span class="safari-folder-mark safari-cover-'+page.theme+'">'+esc(page.badge)+'</span><span><strong>'+esc(page.name)+'</strong><small>'+esc(page.sub)+'</small></span><span class="safari-row-arrow">›</span>';b.onclick=()=>go('page',page.id);wrap.append(b);
-   });
-  }else if(current.mode==='tabs'){
-   label.textContent='탭 '+tabs.length+'개';
-   main.innerHTML='<section class="safari-overview"><div class="safari-overview-heading"><span>탭 그룹</span><strong>지우랑 ♡</strong><button type="button" class="safari-overview-done">완료</button></div><div class="safari-overview-grid" aria-label="열려 있는 탭"></div><div class="safari-overview-bottom"><button type="button" class="safari-new-tab" aria-label="새 탭 추가">＋</button><span>탭 '+tabs.length+'개</span><button type="button" class="safari-overview-done2">완료</button></div></section>';
-   const grid=main.querySelector('.safari-overview-grid');
-   tabs.forEach(id=>{
-    const page=find(id);const title=page?.name||'시작 페이지';
-    const tile=document.createElement('div');tile.className='safari-overview-tile';
-    tile.innerHTML='<div class="safari-tile-header"><span>'+esc(title)+'</span><button type="button" aria-label="'+esc(title)+' 탭 닫기">×</button></div><button type="button" class="safari-tile-open" aria-label="'+esc(title)+' 열기">'+tabCard(id)+'</button>';
-    tile.querySelector('.safari-tile-open').onclick=()=>go(id==='blank'?'start':'page',id==='blank'?null:id);
-    tile.querySelector('.safari-tile-header button').onclick=()=>{
-      tabs=tabs.filter(t=>t!==id);
-      paint();
-    };
-    grid.append(tile);
-   });
-   main.querySelector('.safari-new-tab').onclick=()=>{
-    if(!tabs.includes('blank'))tabs.push('blank');
-    go('start');
-   };
-   main.querySelectorAll('.safari-overview-done,.safari-overview-done2').forEach(b=>b.onclick=()=>go('start'));
-  }else if(current.mode==='page'){
-   const page=find(current.id);
-   if(!page){go('start');return}
-   label.textContent=page.name;
-   main.innerHTML='<article class="safari-page"><div class="safari-page-header"><button type="button" class="safari-page-previous">‹</button><span>저장해 둔 페이지</span><button type="button" class="safari-page-bookmark" aria-label="즐겨찾기 폴더 보기">☆</button></div><div class="safari-page-hero safari-cover-'+page.theme+'"><span>'+esc(page.eyebrow)+'</span><strong>'+esc(page.headline)+'</strong><small>'+esc(page.sub)+'</small></div><div class="safari-page-body"><span class="safari-page-pill">즐겨찾기 · 지우랑 ♡</span><h2>'+esc(page.note)+'</h2><p>'+esc(page.summary)+'</p><div class="safari-page-details"></div><p class="safari-page-footnote">정원이 남겨둔 페이지의 미리보기</p></div></article>';
-   main.querySelector('.safari-page-previous').onclick=()=>{if(trailPos>0){trailPos--;paint()}else go('tabs')};
-   main.querySelector('.safari-page-bookmark').onclick=()=>go('folder');
-   const ul=main.querySelector('.safari-page-details');
-   page.items.forEach((item,index)=>{const row=document.createElement('div');row.className='safari-page-detail';row.innerHTML='<span>'+String(index+1).padStart(2,'0')+'</span><strong>'+esc(item)+'</strong>';ul.append(row)});
+  }else if(state.mode==='folder'){
+   main.innerHTML='<section class="safari-clean-start"><button type="button" class="safari-clean-return">‹ 시작 페이지</button><h1>지우랑 ♡</h1><div class="safari-clean-rows"></div></section>';
+   main.querySelector('.safari-clean-return').onclick=()=>goto('start');
+   main.querySelector('.safari-clean-rows').innerHTML=places.map(card).join('');
+   bindRows();
+  }else if(state.mode==='tabs'){
+   main.innerHTML='<section class="safari-clean-tabs"><div class="safari-clean-tabs-heading"><button type="button" class="safari-clean-return">‹ 시작 페이지</button><strong>지우랑 ♡</strong><span>'+tabs.length+'개 탭</span></div><div class="safari-clean-tab-grid"></div><div class="safari-clean-tabs-footer"><button type="button" class="safari-new-tab">＋</button><button type="button" class="safari-clean-done">완료</button></div></section>';
+   const grid=main.querySelector('.safari-clean-tab-grid');
+   grid.innerHTML=tabs.map(id=>{
+    const p=place(id);
+    if(!p)return '<button class="safari-clean-tab safari-clean-blank" data-open="start">새로운 탭</button>';
+    return '<div class="safari-clean-tab"><div class="safari-clean-tab-head"><span>'+esc(p.title)+'</span><button type="button" data-close="'+id+'" aria-label="'+esc(p.title)+' 탭 닫기">×</button></div><button type="button" class="safari-clean-tab-preview" data-open="'+id+'">'+image(p,'safari-clean-tab-image')+'<span>'+esc(p.title)+'</span></button></div>';
+   }).join('');
+   bindRows();
+   grid.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{tabs=tabs.filter(id=>id!==b.dataset.close);draw()});
+   main.querySelector('.safari-clean-return').onclick=()=>goto('start');
+   main.querySelector('.safari-clean-done').onclick=()=>goto('start');
+   main.querySelector('.safari-new-tab').onclick=()=>goto('start');
+  }else if(state.mode==='page'){
+   const p=place(state.id);
+   if(!p){goto('start');return}
+   main.innerHTML='<article class="safari-clean-page"><button type="button" class="safari-clean-return">‹ 뒤로</button>'+image(p,'safari-clean-hero')+'<div class="safari-clean-page-body"><span>'+esc(p.subtitle)+'</span><h1>'+esc(p.title)+'</h1><p class="safari-clean-location">'+esc(p.details)+'</p><div class="safari-clean-note">'+esc(p.note)+'</div><a class="safari-clean-credit" target="_blank" rel="noopener noreferrer" href="'+esc(p.source)+'">'+esc(p.credit)+' ↗</a></div></article>';
+   main.querySelector('.safari-clean-return').onclick=()=>{if(position>0){position--;draw()}else goto('start')};
   }
   main.scrollTop=0;
  }
- back.onclick=()=>{if(trailPos>0){trailPos--;paint()}};
- forward.onclick=()=>{if(trailPos<trail.length-1){trailPos++;paint()}};
- root.querySelector('.safari-bookmark-action').onclick=()=>go('folder');
- root.querySelector('.safari-tabs-action').onclick=()=>go('tabs');
- paint();
+ back.onclick=()=>{if(position>0){position--;draw()}};
+ forward.onclick=()=>{if(position<history.length-1){position++;draw()}};
+ root.querySelector('.safari-bookmark-action').onclick=()=>goto('folder');
+ root.querySelector('.safari-tabs-action').onclick=()=>goto('tabs');
+ draw();
 }
 
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
@@ -817,7 +790,7 @@ const seongsuPlaces=[
  {
   "name": "남산타워",
   "kind": "추억",
-  "desc": "100일 기념 자물쇠 건 곳",
+  "desc": "500일 기념 자물쇠 건 곳",
   "addr": "서울 용산구 남산공원길 105"
  }
 ];
