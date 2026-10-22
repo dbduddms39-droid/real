@@ -713,3 +713,22 @@
 .mini-progress i{display:block;height:100%;background:#c67e4d}
 .mini-primary{display:block;margin:21px auto 0;border-radius:20px;background:#1678dc;color:white;padding:11px 34px;font-size:14px}
 .mini-feedback{min-height:23px}
+
+
+/* Korean IME composition and app-wide visual refinements */
+.messages-compose-placeholder.has-draft{color:#28282e;font-weight:400}
+.messages-compose.message-writing .messages-compose-placeholder.has-draft::after{content:'';display:inline-block;height:15px;border-right:1.5px solid #1682ee;margin-left:2px;vertical-align:-3px;animation:caret-soft .85s steps(1) infinite}
+.messages-compose.message-erasing .messages-compose-placeholder{color:#55565d}
+@keyframes caret-soft{50%{opacity:0}}
+.app:not(.messages-app):not(.photos-app):not(.safari-app) #app-content{scrollbar-width:none}
+.app:not(.messages-app):not(.photos-app):not(.safari-app) #app-content::-webkit-scrollbar{display:none}
+.story-panel,.mini-body{max-width:100%;min-width:0}
+.story-panel h1,.mini-body h1{line-height:1.18}
+.story-bar,.mini-top{flex-shrink:0}
+.story-person-row,.story-file-row,.story-note-row,.story-ft-row,.story-mail-row,.mini-list-row{min-height:56px}
+.story-person-row:active,.story-file-row:active,.story-note-row:active,.story-mail-row:active,.mini-list-row:active{background:#f3f4f7}
+.mini-list-row .mini-cover{box-shadow:0 3px 10px #00000014}
+.story-pass{box-shadow:0 6px 18px #23304a17}
+.story-health-stat{box-shadow:0 3px 12px #00000009}
+@media(max-width:380px){.story-panel,.mini-body{padding-left:13px;padding-right:13px}.story-bar{padding-left:11px;padding-right:11px}.mini-list-row{gap:9px}}
+@media(prefers-reduced-motion:reduce){.messages-compose.message-writing .messages-compose-placeholder.has-draft::after{animation:none}}
