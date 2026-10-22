@@ -259,3 +259,10 @@
 @media(max-width:600px) and (orientation:portrait){
  .lock h1{font-size:clamp(66px,22vw,94px)}
 }
+
+/* Videos and featured September 7 birthday memory */
+.birthday-memory{margin:20px 0;padding:24px 18px;background:linear-gradient(125deg,#fff1f5,#f8dfeb);color:#793956;border-radius:20px;display:flex;flex-direction:column;gap:9px}
+.birthday-memory-kicker{font-size:11px;color:#a95f7f}.birthday-memory strong{font-size:21px}.birthday-memory>span:nth-child(3){font-size:13px}.birthday-memory-open{align-self:flex-start;background:#8b4c6c;color:#fff;padding:11px 15px;border-radius:12px;margin-top:5px;font-size:13px}
+.video-tile{position:relative}.video-tile-length{position:absolute;right:5px;bottom:5px;padding:3px 5px;background:#000a;border-radius:5px;font-size:11px;color:#fff}
+.video-viewer .photo-viewer-stage{flex-direction:column;gap:12px;padding:10px 14px 25px;touch-action:auto}.video-viewer video{display:block;width:100%;max-height:75%;object-fit:contain}.birthday-video-heading{font-size:18px;text-align:center;color:#f6d7e4}.video-error{font-size:13px;color:#fff}
+.birthday-video-link{display:block;margin-top:16px;padding:12px 14px;border-radius:12px;background:#fff0f6;color:#914c6e;font-size:14px;text-align:left}
