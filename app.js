@@ -34,6 +34,37 @@ function goBack(){
  }
  if(pageIndex>0)showPage(0);
 }
+
+// Mobile browser Back (including Android system Back and iOS browser history gestures)
+// should navigate within the phone before leaving the website.
+// Keep one guard entry, rather than adding an entry for every app tap.
+let nativeBackGuardArmed=false;
+const nativeBackGuardKey='stillSeptemberBackGuard';
+function armNativeBackGuard(){
+ if(nativeBackGuardArmed)return;
+ try{
+  const currentState=history.state&&typeof history.state==='object'?history.state:{};
+  history.pushState({...currentState,[nativeBackGuardKey]:true},'',location.href);
+  nativeBackGuardArmed=true;
+ }catch{
+  // Some embedded browsers disable the History API. In-page Home remains usable.
+ }
+}
+function hasInternalBackTarget(){
+ return !$('#customize').hidden||!$('#control').hidden||!$('#lock').hidden||!$('#app').hidden||pageIndex>0;
+}
+window.addEventListener('popstate',()=>{
+ if(!nativeBackGuardArmed)return;
+ nativeBackGuardArmed=false;
+ if(hasInternalBackTarget()){
+  goBack();
+  armNativeBackGuard();
+ }else{
+  // At the home screen, follow the browser's real history instead of trapping Back.
+  history.back();
+ }
+});
+armNativeBackGuard();
 function tick(){const now=new Date();const time=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;$('#status-time').textContent=time;$('#lock-time').textContent=time;$('#lock-date').textContent=now.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'long'});$('#widget-date').textContent=now.getDate();$('#widget-day').textContent=now.toLocaleDateString('ko-KR',{weekday:'long'});const transforms={hour:(now.getHours()%12)*30+now.getMinutes()/2,minute:now.getMinutes()*6,second:now.getSeconds()*6};for(const [hand,angle]of Object.entries(transforms))document.querySelectorAll(`[data-clock-hand="${hand}"]`).forEach(el=>el.setAttribute('transform',`rotate(${angle} 50 50)`));document.querySelectorAll('[data-calendar-date]').forEach(el=>el.textContent=now.getDate());document.querySelectorAll('[data-calendar-weekday]').forEach(el=>el.textContent=now.toLocaleDateString('ko-KR',{weekday:'long'}))}
 
 function placeholder(name){const content=document.createElement('div');content.className='app-placeholder';content.innerHTML=`<span class="icon">${symbols.app(name)}</span><h2></h2><p class="muted"></p>`;content.querySelector('h2').textContent=name;const descriptions={'카메라':'카메라 화면은 준비 중입니다. 이 데모는 카메라 권한을 요청하지 않습니다.','Safari':'브라우저 화면 미리보기입니다. 실제 웹 탐색 기능은 아직 연결되지 않았습니다.','메일':'메일 계정이 연결되지 않았습니다.','메시지':'아직 대화가 없습니다. 실제 문자 발송 기능은 연결되지 않았습니다.','FaceTime':'FaceTime 스타일 미리보기입니다. 실제 영상 통화는 지원하지 않습니다.','음악':'라이브러리가 비어 있습니다. 재생할 음악이 연결되지 않았습니다.','App Store':'App Store 화면 미리보기입니다. 앱 설치는 지원하지 않습니다.'};content.querySelector('p').textContent=descriptions[name]||'기본 앱 화면입니다. 실제 서비스와 연결되는 기능은 아직 준비 중입니다.';return content}
@@ -100,7 +131,7 @@ function lock(){home();$('#home').hidden=true;$('#lock').hidden=false;$('#unlock
 function flashlight(){const active=$('#flashlight').getAttribute('aria-pressed')!=='true';['flashlight','control-torch'].forEach(id=>$('#'+id).setAttribute('aria-pressed',String(active)));toast(active?'손전등 아이콘을 켰습니다. 실제 기기 플래시는 제어하지 않습니다.':'손전등 시뮬레이션을 껐습니다.')}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-app]');if(b){lastAppButton=b;openApp(b.dataset.app)}});
 document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(Number(b.dataset.page)));
-$('#system-back').onclick=goBack;$('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>home(true);$('#unlock').onclick=()=>home();$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
+$('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>home(true);$('#unlock').onclick=()=>home();$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
 const audio=$('#music-audio');let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false,musicInitialPlaybackPending=true;audio.volume=Number($('#volume').value)/100;
 function paintMusicArtwork(root=document){
  if(!bundledTrack?.cover)return;
