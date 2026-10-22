@@ -228,6 +228,6 @@ function scheduleMusicIntro(){
    const finish=()=>{if(!app.hidden)$('#home').hidden=true;$('#home').inert=false};
    animation.finished.then(finish,finish);
   },180);
- },1100);
+ },2820);
 }
 showPage(0);setInterval(tick,1000);home();paintMusicArtwork();syncMusic();restoreMusic();scheduleMusicIntro();
