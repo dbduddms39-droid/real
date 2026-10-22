@@ -912,3 +912,93 @@
 .store-detail-lead>.store-real-icon{border-radius:19px}
 .between-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:16px}
 .between-gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:9px;background:#e4e8eb}
+
+
+/* News & Shortcuts: native-style interactive in-story apps */
+.ss-news-app>nav,.ss-shortcuts-app>nav{display:none}
+.ss-news-app #app-content,.ss-shortcuts-app #app-content{height:calc(100% - var(--system-navigation-height));padding:0;overflow:auto;background:#fafafa}
+.ss-shortcuts-app #app-content{background:#f5f5fa}
+.ss-topbar{height:47px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#fff;border-bottom:1px solid #e9e9ed;position:sticky;top:0;z-index:4}
+.ss-topbar button{border:0;background:none;color:#087aff;font-size:14px;padding:8px 0;text-align:left;min-width:64px}
+.ss-topbar strong{font-size:14px;font-weight:650}.ss-topbar>span{min-width:64px}
+.ss-news-page,.ss-news-article,.ss-shortcut-page{padding:21px 17px 45px}
+.ss-news-date,.ss-shortcut-heading small{display:block;font-size:11px;font-weight:700;letter-spacing:.25px;color:#92929a}
+.ss-news-page h1,.ss-shortcut-page h1{font-size:32px!important;margin:5px 0 3px!important;letter-spacing:-1.3px}
+.ss-news-note,.ss-shortcut-intro{font-size:12px;color:#86868e;margin:0 0 23px}
+.ss-news-tabs,.ss-shortcut-tabs{display:flex;gap:5px;padding:4px;border-radius:11px;background:#eaeaef;margin-bottom:23px}
+.ss-news-tabs button,.ss-shortcut-tabs button{flex:1;padding:9px 4px;background:transparent;border-radius:8px;font-size:12px;color:#777780;font-weight:600}
+.ss-news-tabs .selected,.ss-shortcut-tabs .active{background:#fff;color:#202027;box-shadow:0 1px 4px #00000012}
+.ss-news-section-title{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:750;letter-spacing:1px;color:#85858f;margin:22px 0 11px}
+.ss-news-section-title span{font-size:10px;letter-spacing:0;font-weight:500;color:#a2a2aa}
+.ss-news-tone-mint{background:#d8e9e2;color:#41635b}
+.ss-news-tone-peach{background:#f1e0d3;color:#95674d}
+.ss-news-tone-blue{background:#dce5f1;color:#536b87}
+.ss-news-tone-lilac{background:#e6e0f1;color:#74658c}
+.ss-news-tone-cream{background:#eee6d3;color:#807253}
+.ss-news-tone-gray{background:#e6e6e8;color:#767780}
+.ss-news-hero{border-radius:17px;position:relative;overflow:hidden;min-height:235px}
+.ss-news-hero>button:first-child{width:100%;text-align:left;display:flex;flex-direction:column;align-items:flex-start;background:none;color:inherit;padding:19px 18px 20px;gap:10px}
+.ss-news-hero-mark{align-self:flex-end;font-size:66px;font-weight:300;line-height:1;opacity:.58}
+.ss-news-category{font-size:10px;letter-spacing:.4px;font-weight:700}
+.ss-news-hero strong{font-size:21px;line-height:1.3;letter-spacing:-.6px;max-width:235px}
+.ss-news-hero>button:first-child>span:last-child{font-size:11px;line-height:1.5;opacity:.8;max-width:250px}
+.ss-news-save{position:absolute;right:10px;bottom:8px;background:#fff9;border:0;border-radius:100%;width:30px;height:30px;font-size:21px;color:#7e7e8a;display:grid;place-items:center}
+.ss-news-save.is-saved{color:#ee5a75}
+.ss-news-card{position:relative;background:#fff;border-radius:13px;margin-bottom:9px;border:1px solid #f0f0f2;box-shadow:0 1px 3px #00000006;overflow:hidden}
+.ss-news-card-main{display:flex;width:100%;gap:12px;padding:13px 12px 17px;text-align:left;background:none;color:#1b1b20;align-items:flex-start}
+.ss-news-card-art{display:grid;place-items:center;flex:0 0 79px;height:85px;border-radius:9px;font-size:43px}
+.ss-news-card-copy{display:flex;flex-direction:column;gap:6px;min-width:0;padding-right:8px}
+.ss-news-card-copy small{font-size:10px;color:#92929b}
+.ss-news-card-copy strong{font-size:13px;line-height:1.42;letter-spacing:-.3px}
+.ss-news-card-copy>span{font-size:10px;color:#92929a;line-height:1.4}
+.ss-news-card .ss-news-save{right:8px;bottom:6px;background:transparent}
+.ss-news-disclaimer{font-size:10px;color:#9b9ba5;line-height:1.6;margin:22px 3px 10px}
+.ss-news-empty{text-align:center;padding:35px 10px;color:#9a9aa5}
+.ss-news-empty>span{display:block;font-size:32px}.ss-news-empty strong{display:block;font-size:13px;margin-top:8px}.ss-news-empty p{font-size:11px}
+.ss-news-article>.ss-news-category{color:#737d8c}
+.ss-news-article h1{font-size:27px!important;line-height:1.34;letter-spacing:-.7px;margin:10px 0!important}
+.ss-news-lede{font-size:14px;line-height:1.6;color:#6f707b}
+.ss-news-article-meta{position:relative;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:15px 0;margin:22px 0;font-size:11px;color:#93939b}
+.ss-news-article-meta .ss-news-save{top:7px;right:0;bottom:auto}
+.ss-news-article-art{height:160px;display:grid;place-items:center;border-radius:12px;font-size:92px}
+.ss-news-article-body{padding-top:13px}
+.ss-news-article-body p{font-size:14px;line-height:1.95;color:#363640;margin:16px 0}
+.ss-news-end{color:#087aff;background:#edf4ff;padding:11px 15px;border-radius:10px;font-size:12px}
+.ss-shortcut-heading{display:flex;align-items:center;justify-content:space-between}
+.ss-shortcut-heading-mark{font-size:25px;font-weight:300;color:#9a9aa7}
+.ss-shortcut-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ss-shortcut-card{min-height:150px;background:#fff;border-radius:16px;position:relative;box-shadow:0 2px 9px #2424380a;overflow:hidden}
+.ss-shortcut-run{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;width:100%;height:100%;background:none;color:#202028;padding:15px 13px 14px}
+.ss-shortcut-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;color:white;flex-shrink:0}
+.ss-shortcut-icon svg{width:22px;height:22px}
+.ss-shortcut-coral{background:linear-gradient(145deg,#fc94a4,#e25c85)}
+.ss-shortcut-pink{background:linear-gradient(145deg,#fb82ba,#e15c99)}
+.ss-shortcut-violet{background:linear-gradient(145deg,#a88ef8,#7d64df)}
+.ss-shortcut-blue{background:linear-gradient(145deg,#7baefb,#4c8fe8)}
+.ss-shortcut-orange{background:linear-gradient(145deg,#f7ae6a,#ed8c46)}
+.ss-shortcut-yellow{background:linear-gradient(145deg,#f2cb69,#e7ad42)}
+.ss-shortcut-run strong{font-size:13px;font-weight:750;margin-top:2px}
+.ss-shortcut-run small{font-size:10px;color:#9797a0;line-height:1.3}
+.ss-shortcut-play{font-size:10px;color:#2780d9;margin-top:auto;font-weight:700}
+.ss-shortcut-fav{position:absolute;top:12px;right:12px;border:0;background:transparent;color:#c2c2ca;font-size:20px;padding:0 1px}
+.ss-shortcut-fav.active{color:#f3b945}
+.ss-shortcut-recent{margin-top:28px}
+.ss-shortcut-recent h2{font-size:18px;margin-bottom:12px}
+.ss-shortcut-recent>button{display:flex;align-items:center;width:100%;gap:12px;background:#fff;border-bottom:1px solid #f0f0f4;padding:9px 12px;text-align:left;color:#2c2c33;font-size:13px}
+.ss-shortcut-recent>button:first-of-type{border-radius:12px 12px 0 0}
+.ss-shortcut-recent>button:last-of-type{border:0;border-radius:0 0 12px 12px}
+.ss-shortcut-recent .ss-shortcut-icon{width:34px;height:34px;border-radius:9px}
+.ss-shortcut-recent .ss-shortcut-icon svg{width:18px;height:18px}
+.ss-shortcut-arrow{margin-left:auto;color:#a0a0a8;font-size:21px}
+.ss-shortcut-foot{font-size:10px;color:#aaaab3;margin-top:25px}
+.ss-shortcut-empty{font-size:28px;color:#aaaab3;text-align:center;padding:35px}
+.ss-shortcut-empty p{font-size:12px}
+.store-live-preview .between-gallery img{cursor:pointer}
+.ss-between-lightbox{position:absolute;inset:0;z-index:100;background:#101116;color:#fff;display:flex;flex-direction:column}
+.ss-between-lightbox-top{display:flex;align-items:center;justify-content:space-between;min-height:66px;padding:15px 15px 0}
+.ss-between-lightbox-top button{background:transparent;color:#fff;font-size:13px}
+.ss-between-lightbox-top strong{font-size:14px}.ss-between-lightbox-top span{font-size:11px;color:#c4c5ce}
+.ss-between-lightbox-stage{display:flex;align-items:center;justify-content:space-between;flex:1;min-height:0;gap:5px}
+.ss-between-lightbox-stage img{width:calc(100% - 74px);max-height:90%;object-fit:contain}
+.ss-between-lightbox-stage button{background:#ffffff16;color:white;width:32px;height:52px;font-size:28px}
+.ss-between-lightbox-bottom{text-align:center;color:#9a9aa6;font-size:11px;padding:14px 0 30px}
