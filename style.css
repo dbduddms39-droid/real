@@ -328,3 +328,24 @@
 .messages-photo-viewer{position:absolute;z-index:10;inset:0;background:#141416f5;display:flex;justify-content:center;align-items:center;padding:52px 14px 35px}
 .messages-photo-viewer img{width:100%;max-height:90%;object-fit:contain}
 .messages-photo-close{position:absolute;top:12px;left:15px;z-index:2;border:0;border-radius:12px;background:#ffffff26;color:#fff;font-size:14px;padding:8px 11px}
+
+/* Hold 1 on the keypad for a fictional call to Jiwoo. */
+.phone-app #app-content{position:relative}
+.phone-speed-hint{text-align:center;color:#007aff;font-size:13px;margin:3px 0 7px}
+.dial .phone-speed-key{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.dial .phone-speed-key small{font-size:10px;letter-spacing:0;color:#6e6e73}
+.phone-app.call-active{background:#151a25;color:white}
+.phone-app.call-active nav{background:#151a25;border-color:#303542;color:white}
+.phone-app.call-active nav button{color:#d2d8e4}
+.phone-app.call-active #app-content{padding:0;height:calc(100% - 48px);overflow:hidden}
+.phone-call-screen{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;background:radial-gradient(ellipse at 50% 15%,#344050 0%,#181e2b 57%,#11141c 100%);color:#fff;padding:35px 16px 26px}
+.phone-call-top{display:flex;flex-direction:column;align-items:center;gap:8px}
+.phone-call-number{font-size:13px;color:#b8c0ca}
+#app-content .phone-call-top h1{font-size:36px;letter-spacing:-1px;font-weight:500;margin:10px 0 1px;color:#fff}
+.phone-call-status{color:#c2c8d1;font-size:16px;margin:0;font-variant-numeric:tabular-nums}
+.phone-call-avatar{background:linear-gradient(145deg,#9296a4,#5f6778);width:118px;height:118px;display:grid;place-items:center;border-radius:50%;font-size:58px;color:#fff;box-shadow:0 10px 36px #0003}
+.phone-call-bottom{display:flex;flex-direction:column;align-items:center;gap:10px}
+.phone-call-end{width:76px;height:76px;display:grid;place-items:center;border-radius:50%;background:#f0444b;color:#fff;transform:none}
+.phone-call-end svg{width:31px;height:31px;transform:rotate(135deg)}
+.phone-call-bottom>span{font-size:13px;color:#ebedf1}
+.phone-call-bottom p{font-size:11px;color:#aeb5c0;margin:12px 0 0}
