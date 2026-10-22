@@ -288,7 +288,8 @@
 /* Fictional message history UI */
 .messages-app #app-content{padding:0;height:calc(100% - 48px);background:#fff}
 .messages-app nav{display:none}
-.messages-app #app-content{height:calc(100% - 48px + 48px)}
+/* Keep the message composer ABOVE the persistent iPhone Home indicator. */
+.messages-app #app-content{height:calc(100% - var(--system-navigation-height));max-height:calc(100% - var(--system-navigation-height));min-height:0;overflow:hidden;padding:0}
 .messages-inbox{padding:18px 17px 40px}
 .messages-inbox-nav{display:flex;justify-content:space-between;align-items:center;color:#007aff;font-size:14px}
 .messages-inbox-nav button,.messages-back{background:none;color:#007aff;padding:5px 0;font-size:15px}
@@ -866,3 +867,10 @@
 .story-person-row:focus-visible,.story-file-row:focus-visible,.story-note-row:focus-visible,.book-shelf-item:focus-visible,.store-product-info:focus-visible{outline:2px solid #0a7cff;outline-offset:-2px}
 .story-mail-detail,.story-file-preview,.story-note-detail{line-height:1.75}
 @media(prefers-reduced-motion:reduce){.story-person-row,.story-file-row,.story-note-row,.story-mail-row{transition:none}}
+
+/* Message thread: chat scrolls independently, composer stays in view. */
+.messages-app .messages-thread{height:100%;min-height:0;overflow:hidden}
+.messages-app .messages-chat{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden}
+.messages-app .messages-compose{flex:0 0 auto;position:relative;z-index:2;min-height:58px;padding:10px 14px 12px;background:#fff}
+.messages-app .messages-compose-placeholder{min-width:0;min-height:35px;line-height:19px;white-space:normal;overflow-wrap:anywhere}
+.phone:has(.messages-app:not([hidden])) .system-navigation{background:#fff;border-top:0}
