@@ -105,54 +105,6 @@ const seongsuPlaces=[
   "addr": "서울 성동구 아차산로9길 8"
  },
  {
-  "name": "대림창고",
-  "kind": "카페",
-  "desc": "넓은 창고형 공간에서 느긋한 카페 데이트",
-  "addr": "서울 성동구 성수이로 78"
- },
- {
-  "name": "마일스톤 커피 성수",
-  "kind": "카페",
-  "desc": "서울숲 근처에서 잠깐 쉬어가기",
-  "addr": "서울 성동구 서울숲4길 15"
- },
- {
-  "name": "카페 마트리",
-  "kind": "카페",
-  "desc": "꽃 장식이 돋보이는 분위기 좋은 공간",
-  "addr": "서울 성동구 서울숲4길 17"
- },
- {
-  "name": "로우키 성수",
-  "kind": "카페",
-  "desc": "조용한 분위기에서 잠깐 쉬어가기",
-  "addr": "서울 성동구 연무장3길 6"
- },
- {
-  "name": "베통 성수",
-  "kind": "디저트",
-  "desc": "소금빵을 함께 고르는 베이커리 데이트",
-  "addr": "서울 성동구 연무장7가길 8"
- },
- {
-  "name": "마를리",
-  "kind": "카페",
-  "desc": "케이크와 함께 오래 이야기하기",
-  "addr": "서울 성동구 연무장길 47"
- },
- {
-  "name": "텅 성수 스페이스",
-  "kind": "카페",
-  "desc": "색감 있는 디저트와 감각적인 카페",
-  "addr": "서울 성동구 성수이로 82 2층"
- },
- {
-  "name": "웜브라운",
-  "kind": "디저트",
-  "desc": "베녜 도넛으로 달달하게 쉬어 가기",
-  "addr": "서울 성동구 연무장길 16-2"
- },
- {
   "name": "성수연방",
   "kind": "구경",
   "desc": "작은 브랜드 숍과 공간 구경",
@@ -167,7 +119,7 @@ const seongsuPlaces=[
  {
   "name": "서울숲",
   "kind": "산책",
-  "desc": "카페 들른 뒤 나란히 걷기",
+  "desc": "나란히 걷다가 벤치에서 쉬기",
   "addr": "서울 성동구 뚝섬로 273"
  },
  {
@@ -175,6 +127,42 @@ const seongsuPlaces=[
   "kind": "산책",
   "desc": "한강을 보며 저녁 산책하기",
   "addr": "서울 광진구 강변북로 2273"
+ },
+ {
+  "name": "언더스탠드에비뉴",
+  "kind": "구경",
+  "desc": "작은 가게와 팝업을 구경하기",
+  "addr": "서울 성동구 왕십리로 63"
+ },
+ {
+  "name": "디올 성수",
+  "kind": "구경",
+  "desc": "독특한 외관 앞에서 사진 남기기",
+  "addr": "서울 성동구 연무장5길 7"
+ },
+ {
+  "name": "성수동 수제화거리",
+  "kind": "구경",
+  "desc": "구두 가게와 골목을 천천히 둘러보기",
+  "addr": "서울 성동구 성수이로"
+ },
+ {
+  "name": "서울숲 곤충식물원",
+  "kind": "산책",
+  "desc": "서울숲에서 식물 구경하며 걷기",
+  "addr": "서울 성동구 뚝섬로 273"
+ },
+ {
+  "name": "봉은사",
+  "kind": "추억",
+  "desc": "우리 오래가자고 소원 빈 곳",
+  "addr": "서울 강남구 봉은사로 531"
+ },
+ {
+  "name": "별마당도서관",
+  "kind": "구경",
+  "desc": "봉은사 근처에서 함께 책 구경하기",
+  "addr": "서울 강남구 영동대로 513"
  }
 ];
 
@@ -183,7 +171,7 @@ const seongsuPlaces=[
 // and the visible external link remains usable when iframe embedding is blocked.
 function renderMap(container){
  $('#app').classList.add('map-app');
- container.innerHTML=`<div class="map-intro"><h1>성수 데이트 지도</h1><p>둘이 걷고, 마시고, 구경할 곳들 ♡</p></div>
+ container.innerHTML=`<div class="map-intro"><h1>성수 데이트 지도</h1><p>둘이 걸었던 곳과 오래 기억할 장소들 ♡</p></div>
  <label class="map-search-wrap"><span aria-hidden="true">⌕</span><input id="map-query" type="search" placeholder="카페나 장소 검색" aria-label="지도 장소 검색" autocomplete="off"></label>
  <div id="map-filters" class="map-filters" role="group" aria-label="장소 유형 필터"></div>
  <div class="map-frame"><iframe id="map-iframe" title="선택한 장소 지도" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><span class="map-frame-note">지도가 보이지 않으면 아래의 지도 열기를 눌러 주세요</span></div>
@@ -197,7 +185,7 @@ function renderMap(container){
  const iframe=container.querySelector('#map-iframe');
  const selected=container.querySelector('#map-selected');
  const count=container.querySelector('#map-count');
- const categories=['전체','카페','디저트','산책','구경'];
+ const categories=['전체','카페','디저트','산책','구경','추억'];
  const locationQuery=place=>place.name+' '+place.addr;
  const externalUrl=place=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(locationQuery(place));
  function showSelected(){
@@ -231,7 +219,7 @@ function renderMap(container){
   iframe.hidden=false;selected.hidden=false;
   for(const place of matches){
    const button=document.createElement('button');button.type='button';button.className='map-place'+(place.i===selectedId?' selected':'');button.setAttribute('aria-pressed',String(place.i===selectedId));
-   const pin=document.createElement('span');pin.className='map-place-pin';pin.textContent=place.kind==='산책'?'🌿':place.kind==='구경'?'🛍️':place.kind==='디저트'?'🍰':'☕';
+   const pin=document.createElement('span');pin.className='map-place-pin';pin.textContent=place.kind==='추억'?'💗':place.kind==='산책'?'🌿':place.kind==='구경'?'🛍️':place.kind==='디저트'?'🍰':'☕';
    const text=document.createElement('span');text.className='map-place-text';
    const name=document.createElement('strong');name.textContent=place.name;
    const sub=document.createElement('small');sub.textContent=place.kind+' · '+place.desc;
