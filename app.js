@@ -1147,7 +1147,7 @@ function renderBookStore(container,kind){
    map:'<div class="preview-title">학교 가는 길</div><div class="preview-map"><span>학교</span><i></i><span>버스 정류장</span></div><div class="preview-check">도보 · 대중교통</div>',
    music:'<div class="preview-title">최근에 들은 음악</div><div class="preview-album">♫</div><div class="preview-check">등굣길 플레이리스트</div>',
    reading:'<div class="preview-title">보관함</div><div class="preview-album">책</div><div class="preview-check">새로운 책 살펴보기</div>',
-   between:'<div class="preview-between"><div class="between-overline">BETWEEN</div><div class="between-people"><span>정원</span><span class="between-heart">♡</span><span>지우</span></div><div class="between-photo-shape"><strong>500일</strong><small>남산에서 남긴 기록</small></div><div class="between-stamp">마지막 기록 · 9월</div><div class="between-gallery">'+[12,13,14].map(n=>'<img loading="lazy" src="assets/jiwoo-'+n+'.webp" alt="지우 사진">').join('')+'</div></div>',
+   between:'<div class="preview-between"><div class="between-overline">BETWEEN</div><div class="between-people"><span>정원</span><span class="between-heart">♡</span><span>지우</span></div><div class="between-photo-shape"><strong>500일</strong><small>남산에서 남긴 기록</small></div><div class="between-stamp">마지막 기록 · 9월</div><div class="between-gallery">'+[12,13,14].map(n=>'<img loading="lazy" src="'+(window.StillSeptemberJiwooPhotos?.[n]||'assets/jiwoo-'+n+'.webp')+'" alt="지우 사진">').join('')+'</div></div>',
    focus:'<div class="preview-title">오늘의 집중</div><div class="preview-focus">25:00</div><div class="preview-check">수업 자료 정리</div>'
   };
   return screens[item.screen]||'';
