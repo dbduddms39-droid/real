@@ -76,30 +76,31 @@ let reminderIntroPlayed=false;
 // Fictional text history kept inside the phone; no SMS is sent or received.
 function renderMessages(container){
  $('#app').classList.add('messages-app');
+ // Jiwoo is two years younger; she calls Jeongwon '오빠' in their private messages.
  const conversations=[
   {date:'8월 24일',messages:[
-   ['received','마음이 밥 줬어?'],
+   ['received','오빠 마음이 밥 줬어?'],
    ['sent','응 물도 갈았어'],
-   ['received','오 웬일ㅋㅋㅋㅋ'],
+   ['received','오빠가? 웬일ㅋㅋㅋㅋ'],
    ['sent','나를 뭘로 보는 거야'],
    ['received','잘했어 ㅋㅋ']
   ]},
   {date:'9월 6일',messages:[
    ['sent','내일 오후에 시간 비워'],
-   ['received','왜?'],
+   ['received','왜? 오빠 뭐 하게?'],
    ['sent','그냥'],
-   ['received','생일인 거 잊은 척하더니ㅋㅋ'],
+   ['received','내 생일인 거 잊은 척하더니ㅋㅋ'],
    ['sent','안 잊었거든'],
    ['received','ㅋㅋㅋㅋ 알았어 기대할게']
   ]},
   {date:'9월 7일',messages:[
-   ['received','나 집 들어왔어'],
+   ['received','오빠 나 집 들어왔어'],
    ['sent','오늘 많이 걸었지'],
    ['received','응 발 아파ㅋㅋ'],
    ['sent','그래도 좋았어?'],
    ['received','엄청'],
    ['sent','생일 축하해 지우야'],
-   ['received','고마워'],
+   ['received','고마워 오빠'],
    ['received','오늘 오래 기억할 것 같아'],
    ['sent','나도']
   ]}
