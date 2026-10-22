@@ -27,7 +27,7 @@ function goBack(){
  if(!$('#control').hidden){closeControl();return}
  if(!$('#lock').hidden){return}
  if(!$('#app').hidden){
-  const nestedBack=$('#app-content .photos-back');
+  const nestedBack=$('#app-content .photos-back, #app-content .messages-back');
   if(nestedBack){nestedBack.click();return}
   if(appHistory.length){openApp(appHistory.pop(),true);return}
   home(true);return;
@@ -72,6 +72,72 @@ function placeholder(name){const content=document.createElement('div');content.c
 // The first visit plays a tiny story in Reminders. Saved items survive reopening.
 const reminderStorageKey='stillSeptemberRemindersV1';
 let reminderIntroPlayed=false;
+
+// Fictional text history kept inside the phone; no SMS is sent or received.
+function renderMessages(container){
+ $('#app').classList.add('messages-app');
+ const conversations=[
+  {date:'8월 24일',messages:[
+   ['received','마음이 밥 줬어?'],
+   ['sent','응 물도 갈았어'],
+   ['received','오 웬일ㅋㅋㅋㅋ'],
+   ['sent','나를 뭘로 보는 거야'],
+   ['received','잘했어 ㅋㅋ']
+  ]},
+  {date:'9월 6일',messages:[
+   ['sent','내일 오후에 시간 비워'],
+   ['received','왜?'],
+   ['sent','그냥'],
+   ['received','생일인 거 잊은 척하더니ㅋㅋ'],
+   ['sent','안 잊었거든'],
+   ['received','ㅋㅋㅋㅋ 알았어 기대할게']
+  ]},
+  {date:'9월 7일',messages:[
+   ['received','나 집 들어왔어'],
+   ['sent','오늘 많이 걸었지'],
+   ['received','응 발 아파ㅋㅋ'],
+   ['sent','그래도 좋았어?'],
+   ['received','엄청'],
+   ['sent','생일 축하해 지우야'],
+   ['received','고마워'],
+   ['received','오늘 오래 기억할 것 같아'],
+   ['sent','나도']
+  ]}
+ ];
+ function showInbox(){
+  $('#app-title').textContent='메시지';
+  container.innerHTML='<div class="messages-inbox"><div class="messages-inbox-nav"><button type="button" class="messages-home">‹ 홈</button><span>편집</span></div><h1>메시지</h1><div class="messages-search-line" aria-hidden="true">⌕　검색</div><button class="messages-conversation" type="button" aria-label="지우와의 대화 열기"><span class="messages-avatar">지</span><span class="messages-summary"><strong>지우</strong><span class="messages-preview">나도</span></span><span class="messages-conversation-meta"><small>9월 7일</small><span aria-hidden="true">›</span></span></button><p class="messages-demo-caption">이 휴대폰 속 대화는 이야기의 일부입니다.</p></div>';
+  container.querySelector('.messages-home').onclick=()=>home(true);
+  container.querySelector('.messages-conversation').onclick=showThread;
+  container.scrollTop=0;
+ }
+ function showThread(){
+  $('#app-title').textContent='지우';
+  container.innerHTML='<div class="messages-thread"><header class="messages-thread-header"><button type="button" class="messages-back">‹ 메시지</button><div class="messages-thread-person"><span class="messages-avatar">지</span><strong>지우</strong></div><span class="messages-thread-spacer" aria-hidden="true"></span></header><div class="messages-chat" role="log" aria-label="지우와의 지난 메시지" aria-live="off"></div><div class="messages-compose" aria-label="메시지 입력 시뮬레이션"><span class="messages-compose-plus" aria-hidden="true">＋</span><span class="messages-compose-placeholder">문자 메시지</span><span class="messages-compose-send" aria-hidden="true">↑</span></div></div>';
+  const chat=container.querySelector('.messages-chat');
+  for(const group of conversations){
+   const divider=document.createElement('div');
+   divider.className='messages-date';
+   divider.textContent=group.date;
+   chat.append(divider);
+   for(const [direction,message] of group.messages){
+    const bubble=document.createElement('div');
+    bubble.className='messages-bubble '+(direction==='sent'?'is-sent':'is-received');
+    bubble.textContent=message;
+    chat.append(bubble);
+   }
+  }
+  const marker=document.createElement('div');
+  marker.className='messages-last-status';
+  marker.textContent='읽음';
+  chat.append(marker);
+  container.querySelector('.messages-back').onclick=showInbox;
+  chat.scrollTop=chat.scrollHeight;
+  container.scrollTop=0;
+ }
+ showInbox();
+}
+
 function renderReminders(container){
  const defaults=[{text:'마음이 밥 주기',checked:false},{text:'불면약 먹기',checked:false}];
  let reminders=null;
@@ -155,6 +221,7 @@ else if(name==='사진'){renderPhotos(c)}
 else if(name==='날씨'){c.innerHTML='<div style="text-align:center;padding-top:22px"><h1 style="font-size:30px;font-weight:400;margin-bottom:0">서울</h1><div style="font-size:88px;font-weight:200;letter-spacing:-6px">21°</div><p style="font-size:19px;margin:0">맑음</p><p>최고:24° · 최저:16°</p><div class="card padded muted" style="margin-top:35px">디자인을 위한 예시 날씨입니다.<br>실시간 기상 정보와 연결되지 않았습니다.</div></div>'}
 else if(name==='전화'){c.innerHTML='<div class="dial-display" aria-live="polite"></div><div class="dial"></div><p class="muted" style="text-align:center">번호 입력 데모 · 실제 통화는 연결되지 않습니다.</p>';const letters=['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ','','+',''];['1','2','3','4','5','6','7','8','9','*','0','#','⌫','통화'].forEach((key,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',key);b.textContent=key;if(letters[i]){const s=document.createElement('small');s.textContent=letters[i];b.append(s)}if(key==='통화'){b.className='call';b.innerHTML=symbols.app('전화')}b.onclick=()=>{const d=c.querySelector('.dial-display');if(key==='⌫')d.textContent=d.textContent.slice(0,-1);else if(key==='통화')toast('전화 연결 없이 번호 입력만 지원하는 데모입니다.');else if(d.textContent.length<18)d.textContent+=key};c.querySelector('.dial').append(b)})}
 else if(name==='계산기'){calculator(c)}
+else if(name==='메시지'){renderMessages(c)}
 else if(name==='미리 알림'){renderReminders(c)}
 else if(name==='음악'){renderMusic(c);startInitialMusicIfOpen()}
 else if(name==='검색'){renderSearch(c)}
