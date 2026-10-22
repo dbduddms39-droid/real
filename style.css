@@ -1002,3 +1002,28 @@
 .ss-between-lightbox-stage img{width:calc(100% - 74px);max-height:90%;object-fit:contain}
 .ss-between-lightbox-stage button{background:#ffffff16;color:white;width:32px;height:52px;font-size:28px}
 .ss-between-lightbox-bottom{text-align:center;color:#9a9aa6;font-size:11px;padding:14px 0 30px}
+
+
+/* iOS Shortcuts visual parity: brightly colored action tiles, compact two-column grid */
+.ss-shortcuts-app #app-content{background:#f2f2f7}
+.ss-shortcut-page{padding-top:16px}
+.ss-shortcut-heading small{font-size:11px;color:#92929a;font-weight:500;letter-spacing:0}
+.ss-shortcut-heading h1{font-size:30px!important;letter-spacing:-1px;margin:5px 0 15px!important}
+.ss-shortcut-heading-mark{font-size:27px;color:#1679ee;margin-top:-15px}
+.ss-shortcut-tabs{margin-bottom:17px;background:transparent;padding:0;gap:17px;border-radius:0}
+.ss-shortcut-tabs button{flex:0 0 auto;background:transparent;border-radius:0;color:#86868f;padding:8px 0 11px;font-size:12px}
+.ss-shortcut-tabs button.active{background:transparent;box-shadow:none;color:#2675d9;border-bottom:2px solid #2675d9}
+.ss-shortcut-grid{gap:12px}
+.ss-shortcut-card{min-height:115px;background:linear-gradient(130deg,#7365dd,#554cc8);border-radius:15px;box-shadow:0 2px 5px #24243812;color:white}
+.ss-shortcut-card:nth-child(6n+2){background:linear-gradient(130deg,#e782b4,#d2528e)}
+.ss-shortcut-card:nth-child(6n+3){background:linear-gradient(130deg,#7594df,#5171c9)}
+.ss-shortcut-card:nth-child(6n+4){background:linear-gradient(130deg,#59bca8,#319b86)}
+.ss-shortcut-card:nth-child(6n+5){background:linear-gradient(130deg,#f2ad61,#df8840)}
+.ss-shortcut-card:nth-child(6n+6){background:linear-gradient(130deg,#d28ac5,#b65aa5)}
+.ss-shortcut-run{color:#fff;padding:15px 13px 12px;gap:7px}
+.ss-shortcut-icon{width:29px;height:29px;border-radius:0;background:transparent!important}
+.ss-shortcut-icon svg{width:27px;height:27px;stroke-width:2.2}
+.ss-shortcut-run strong{font-size:14px;line-height:1.25;margin-top:auto;color:white}
+.ss-shortcut-play{position:absolute;bottom:13px;right:13px;display:grid;place-items:center;background:#ffffff37;border-radius:100%;width:24px;height:24px;font-size:10px;color:#fff}
+.ss-shortcut-fav{top:11px;right:12px;color:#ffffffab;font-size:15px}
+.ss-shortcut-fav.active{color:#fff5a7}
