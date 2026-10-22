@@ -27,7 +27,7 @@ function goBack(){
  if(!$('#control').hidden){closeControl();return}
  if(!$('#lock').hidden){return}
  if(!$('#app').hidden){
-  const nestedBack=$('#app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end, #app-content .safari-internal-back:not(:disabled)');
+  const nestedBack=$('#app-content .story-internal-back:not(.story-home), #app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end, #app-content .safari-internal-back:not(:disabled)');
   if(nestedBack){nestedBack.click();return}
   if(appHistory.length){openApp(appHistory.pop(),true);return}
   home(true);return;
@@ -843,13 +843,16 @@ function renderSafari(container){
  }
  const calls=[
   {id:'mom',when:'10월 21일',time:'오후 9:12',kind:'FaceTime 영상 · 12분'},
-  {id:'junseo',when:'10월 19일',time:'오후 8:33',kind:'FaceTime 영상 · 18분'},
-  {id:'minseo',when:'10월 17일',time:'오후 4:25',kind:'FaceTime 영상 · 6분'},
+  {id:'minseo',when:'10월 15일',time:'오후 5:30',kind:'FaceTime 영상 · 9분'},
   {id:'dad',when:'10월 12일',time:'오후 7:45',kind:'FaceTime 영상 · 9분'},
-  {id:'subin',when:'10월 6일',time:'오후 11:02',kind:'FaceTime 영상 · 24분'},
   {id:'jiwoo',when:'9월 25일',time:'오후 8:42',kind:'부재중 FaceTime',missed:true},
+  {id:'jiwoo',when:'9월 23일',time:'오후 11:03',kind:'FaceTime 영상 · 7분'},
   {id:'jiwoo',when:'9월 21일',time:'오후 10:06',kind:'FaceTime 영상 · 1시간 12분'},
-  {id:'jiwoo',when:'9월 18일',time:'오후 9:17',kind:'FaceTime 영상 · 33분'}
+  {id:'jiwoo',when:'9월 18일',time:'오후 9:17',kind:'FaceTime 영상 · 33분'},
+  {id:'jiwoo',when:'9월 14일',time:'오후 10:31',kind:'FaceTime 영상 · 1시간 4분'},
+  {id:'jiwoo',when:'9월 10일',time:'오후 8:55',kind:'FaceTime 영상 · 42분'},
+  {id:'jiwoo',when:'9월 6일',time:'오후 11:20',kind:'FaceTime 영상 · 26분'},
+  {id:'jiwoo',when:'9월 2일',time:'오후 9:46',kind:'FaceTime 영상 · 58분'}
  ];
  function renderFaceTime(root,opts={}){
   let filter='all';
@@ -861,7 +864,7 @@ function renderSafari(container){
    calls.filter(c=>filter==='all'||c.missed).forEach(entry=>{
     const contact=contacts.find(c=>c.id===entry.id);
     const row=document.createElement('div');row.className='story-ft-row'+(entry.missed?' missed':'');
-    row.innerHTML='<span class="story-ft-glyph">▣</span><span class="story-ft-person"><strong>'+E(contact?.name||'알 수 없음')+'</strong><small>'+E(entry.kind)+'</small></span><span class="story-ft-date">'+E(entry.when)+'</span><button type="button" class="story-ft-info" aria-label="'+E(contact?.name||'연락처')+' 연락처 상세 보기">ⓘ</button>';
+    row.innerHTML='<span class="story-ft-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="5.8" width="13" height="12.4" rx="3"/><path d="m15.6 10 5.2-3v10l-5.2-3z"/></svg></span><span class="story-ft-person"><strong>'+E(contact?.name||'알 수 없음')+'</strong><small>'+E(entry.kind)+'</small></span><span class="story-ft-date">'+E(entry.when)+'</span><button type="button" class="story-ft-info" aria-label="'+E(contact?.name||'연락처')+' 연락처 상세 보기">ⓘ</button>';
     row.querySelector('button').onclick=()=>opts.openContact?.(entry.id);
     list.append(row);
    });
@@ -1182,7 +1185,7 @@ function unlockPhone(){home();scheduleMusicIntro()}
 function flashlight(){const active=$('#flashlight').getAttribute('aria-pressed')!=='true';['flashlight','control-torch'].forEach(id=>$('#'+id).setAttribute('aria-pressed',String(active)));toast(active?'손전등 아이콘을 켰습니다. 실제 기기 플래시는 제어하지 않습니다.':'손전등 시뮬레이션을 껐습니다.')}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-app]');if(b){lastAppButton=b;openApp(b.dataset.app)}});
 document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(Number(b.dataset.page)));
-$('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>{if($('#lock').hidden)home(true)};$('#unlock').onclick=unlockPhone;$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
+$('#back').onclick=goBack;$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>{if($('#lock').hidden)home(true)};$('#unlock').onclick=unlockPhone;$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
 const audio=$('#music-audio');audio.loop=true;let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false,musicInitialPlaybackPending=true;audio.volume=Number($('#volume').value)/100;
 function paintMusicArtwork(root=document){
  if(!bundledTrack?.cover)return;
