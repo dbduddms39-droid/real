@@ -349,3 +349,6 @@
 .phone-call-end svg{width:31px;height:31px;transform:rotate(135deg)}
 .phone-call-bottom>span{font-size:13px;color:#ebedf1}
 .phone-call-bottom p{font-size:11px;color:#aeb5c0;margin:12px 0 0}
+
+.messages-photo-bubble{flex-direction:column;align-items:flex-start;gap:4px}
+.messages-photo-saved{font-size:10px;color:#8e8e93;padding-left:5px}
