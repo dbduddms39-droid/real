@@ -1053,7 +1053,7 @@ function renderBookStore(container,kind){
  const pageOf=book=>Math.max(0,Math.min(book.pages.length-1,Number(bookProgress[book.id]??0)||0));
  const percent=book=>Math.round((pageOf(book)+1)/book.pages.length*100);
  const bookCover=book=>'<span class="lib-cover '+book.color+'" role="img" aria-label="'+esc(book.title)+' 표지"><i class="lib-cover-spine"></i><span class="lib-cover-symbol">'+book.mark+'</span><strong>'+esc(book.title)+'</strong><small>'+esc(book.topic)+'</small></span>';
- const appIcon=item=>'<span class="store-real-icon '+item.logo+'" aria-label="'+esc(item.name)+' 아이콘"><img loading="lazy" alt="" src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/00/00/00/00000000-0000-0000-0000-000000000000/icon.png" data-app-art="'+item.appId+'"></span>';
+ const appIcon=item=>'<span class="store-real-icon '+item.logo+'" aria-label="'+esc(item.name)+' 아이콘"><img loading="lazy" alt="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-app-art="'+item.appId+'"></span>';
  function loadRealIcons(){
   if(isBooks)return;
   const ids=apps.map(x=>x.appId).join(',');
