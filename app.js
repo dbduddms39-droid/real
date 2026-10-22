@@ -83,26 +83,33 @@ function renderMessages(container){
    ['sent','응 물도 갈았어'],
    ['received','오빠가? 웬일ㅋㅋㅋㅋ'],
    ['sent','나를 뭘로 보는 거야'],
-   ['received','잘했어 ㅋㅋ']
+   ['received','잘했어 ㅋㅋ'],
+   ['sent','칭찬이 너무 성의없는데'],
+   ['received','우쭈쭈 우리 오빠 장해요~ 😊']
   ]},
   {date:'8월 27일',messages:[
    ['received','오빠 뭐해'],
    ['sent','이제 집 가는 중'],
-   ['received','배고프겠다'],
+   ['received','배고프겠다 ㅠ'],
    ['sent','응 라면 먹을까 생각 중'],
    ['received','또 라면이야?ㅋㅋㅋ'],
-   ['sent','너는 뭐 먹었어'],
-   ['received','떡볶이'],
+   ['sent','그럼 뭐 먹어'],
+   ['received','나 떡볶이 먹었는데'],
    ['sent','내 거는'],
    ['received','오면 한 입 줄게'],
    ['sent','한 입?'],
-   ['received','두 입ㅋㅋ']
+   ['received','두 입 ㅋㅋ'],
+   ['sent','인심 후하네'],
+   ['received','오빠니까 특별히 봐주는 거지 😚']
   ]},
   {date:'8월 31일',messages:[
    ['received','오빠 내일 몇 시에 끝나?'],
    ['sent','아마 8시쯤'],
-   ['received','그럼 끝나고 통화하자'],
-   ['sent','응 끝나면 연락할게']
+   ['received','그럼 끝나고 통화하자 ☎️'],
+   ['sent','응 끝나면 연락할게'],
+   ['received','까먹지 마요 양정원씨'],
+   ['sent','안 까먹어'],
+   ['received','진짜지? ㅎㅎ']
   ]},
   {date:'9월 1일',messages:[
    ['received','오빠 아직 안 끝났어?'],
@@ -112,38 +119,58 @@ function renderMessages(container){
    ['sent','연습이 늦게 끝났어'],
    ['received','늦어지는 건 괜찮은데 말은 해줄 수 있잖아'],
    ['sent','그건 맞아 미안'],
-   ['received','맨날 나중에 미안하다고 하면 어떡해'],
+   ['received','맨날 나중에 미안하다고 하면 어떡해 ㅠ'],
    ['sent','방금 끝나서 정신없었어'],
    ['received','알겠어'],
    ['sent','지우야'],
    ['sent','내가 아까 정신없다고 한 말 좀 별로였다'],
    ['sent','기다린 건 너인데 핑계부터 댔네'],
-   ['received','나도 오빠 바쁜 거 알아'],
+   ['received','나도 오빠 바쁜 거 아는데'],
    ['received','그냥 연락 한 번 없으니까 서운했어'],
    ['sent','다음부터 늦어지면 먼저 말할게'],
    ['received','응 나도 말투 날카로웠던 건 미안'],
    ['received','근데 나 지금 표정 진짜 안 좋거든'],
    ['sent','얼마나'],
    ['received',{type:'photo',photoId:'photo-15',alt:'지우가 보낸 셀카'}],
-   ['received','이 정도'],
+   ['received','이 정도 😠'],
    ['sent','아 ㅋㅋㅋㅋ'],
-   ['sent','표정은 왜 그렇게 귀여운데'],
+   ['sent','화났다더니 왜 이렇게 귀여워'],
    ['received','안 귀엽거든'],
+   ['sent','귀여운데'],
+   ['received','흥'],
    ['sent','응 내가 잘못했어. 내일 만나서도 사과할게'],
-   ['received','알았어. 내일 맛있는 거 먹자'],
-   ['sent','내가 살게'],
-   ['received','대신 두 입만 줄 거야'],
-   ['sent','세 입은 줘라ㅋㅋ']
+   ['received','알았어'],
+   ['received','대신 맛있는 거 사줘 😗'],
+   ['sent','그건 원래도 사주려고 했어'],
+   ['received','오빠 최고 ㅎㅎ'],
+   ['sent','아 그리고 사진 저장했다'],
+   ['received','왜애 ㅋㅋㅋㅋ 지워'],
+   ['sent','싫어. 귀여워서 못 지워']
   ]},
   {date:'9월 3일',messages:[
    ['sent','집 가는 길에 네가 좋아하는 거 봤어'],
-   ['received','뭔데'],
-   ['sent','과일찹쌀떡'],
-   ['received','사왔어?'],
+   ['received','뭔데 뭔데'],
+   ['sent','한정선'],
+   ['received','헐 진짜????'],
+   ['received','오빠 나 사랑하지'],
+   ['sent','갑자기'],
+   ['received','한정선 사다 주는 사람 = 좋은 사람'],
+   ['sent','그럼 거의 천사네'],
+   ['received','맞네 우리 오빠 천사네 😚'],
+   ['sent','말은 잘하네'],
+   ['received','그래서 사왔어?'],
    ['sent','응'],
-   ['received','오빠 최고 ㅋㅋ'],
-   ['sent','그럼 내 건 몇 입'],
-   ['received','세 입!']
+   ['received','꺄'],
+   ['received','오빠 최고야 ㅋㅋㅋㅋ'],
+   ['sent','그렇게 좋아?'],
+   ['received','응 완전!!'],
+   ['received','귀여운 거 사 들고 오는 오빠 너무 좋음'],
+   ['sent','귀여운 건 너지'],
+   ['received','아 왜 또 그렇게 말해 ㅎㅎ'],
+   ['sent','사실인데'],
+   ['received','그럼 내가 한 입 더 줄게'],
+   ['sent','세 입은 줘라'],
+   ['received','오빠니까 세 입까지 특별 허용 😌']
   ]},
   {date:'9월 6일',messages:[
    ['sent','내일 오후에 시간 비워'],
@@ -151,23 +178,80 @@ function renderMessages(container){
    ['sent','그냥'],
    ['received','내 생일인 거 잊은 척하더니ㅋㅋ'],
    ['sent','안 잊었거든'],
-   ['received','ㅋㅋㅋㅋ 알았어 기대할게']
+   ['received','수상한데'],
+   ['sent','아무튼 비워'],
+   ['received','네에~ 오빠 말 들을게요 🙋🏻‍♀️'],
+   ['sent','왜 이렇게 순해'],
+   ['received','기분 좋으니까 ㅎㅎ']
   ]},
   {date:'9월 7일',messages:[
    ['received','오빠 나 집 들어왔어'],
    ['sent','오늘 많이 걸었지'],
    ['received','응 발 아파ㅋㅋ'],
+   ['sent','그러게 그렇게 돌아다니자고 하더니'],
+   ['received','그래도 너무 좋았어 ㅎㅎ'],
    ['sent','그래도 좋았어?'],
    ['received','엄청'],
+   ['received','진짜 행복했어'],
    ['sent','생일 축하해 지우야'],
-   ['received','고마워 오빠'],
+   ['received','고마워 오빠 🤍'],
    ['received','오늘 오래 기억할 것 같아'],
-   ['sent','나도']
+   ['sent','나도'],
+   ['received','집 와서도 계속 웃고 있어 ㅋㅋ'],
+   ['sent','귀엽네'],
+   ['received','오빠가 더 귀엽거든'],
+   ['sent','아닌데'],
+   ['received','맞는데 😌']
+  ]},
+  {date:'9월 8일',messages:[
+   ['received','오빠 어제 사진 보내줘'],
+   ['sent','뭐부터'],
+   ['received','다'],
+   ['sent','욕심 많네'],
+   ['received','생일 지난 사람 특권임'],
+   ['sent','그런 특권이 어딨어'],
+   ['received','내가 방금 만들었지 ㅎㅎ'],
+   ['sent','알았어 보내줄게'],
+   ['received','오빠 최고 🤍'],
+   ['sent','어제도 최고라더니 오늘도 최고네'],
+   ['received','매일 최고일 수도 있지~']
+  ]},
+  {date:'9월 10일',messages:[
+   ['received','오빠 뭐해'],
+   ['sent','이제 씻으려고'],
+   ['received','나 심심해 ㅠ'],
+   ['sent','왜'],
+   ['received','그냥 오빠 보고 싶어서'],
+   ['sent','나도 보고 싶어'],
+   ['received','그럼 지금 당장 와줘 ㅎㅎ'],
+   ['sent','말만 하면 다 되냐'],
+   ['received','힝'],
+   ['sent','그거 하지 마'],
+   ['received','왜애'],
+   ['sent','귀여워서 보러 가고 싶어지니까'],
+   ['received','ㅋㅋㅋㅋ 성공 😚']
+  ]},
+  {date:'9월 13일',messages:[
+   ['received','오빠 뭐 먹어'],
+   ['sent','아직 안 먹었어'],
+   ['received','또 대충 먹지 말고 제대로 먹어'],
+   ['sent','잔소리하네'],
+   ['received','걱정이거든 ㅡ3ㅡ'],
+   ['sent','그 표정 또 하고 있지'],
+   ['received','어떻게 알았어'],
+   ['sent','눈에 보여'],
+   ['received','그럼 말 잘 들어'],
+   ['sent','응 이따 밥 먹을게'],
+   ['received','착하다 우리 오빠 😊']
   ]}
  ];
  function showInbox(){
   $('#app-title').textContent='메시지';
-  container.innerHTML='<div class="messages-inbox"><div class="messages-inbox-nav"><button type="button" class="messages-home">‹ 홈</button><span>편집</span></div><h1>메시지</h1><div class="messages-search-line" aria-hidden="true">⌕　검색</div><button class="messages-conversation" type="button" aria-label="지우와의 대화 열기"><span class="messages-avatar">지</span><span class="messages-summary"><strong>지우</strong><span class="messages-preview">나도</span></span><span class="messages-conversation-meta"><small>9월 7일</small><span aria-hidden="true">›</span></span></button><p class="messages-demo-caption">이 휴대폰 속 대화는 이야기의 일부입니다.</p></div>';
+  container.innerHTML='<div class="messages-inbox"><div class="messages-inbox-nav"><button type="button" class="messages-home">‹ 홈</button><span>편집</span></div><h1>메시지</h1><div class="messages-search-line" aria-hidden="true">⌕　검색</div><button class="messages-conversation" type="button" aria-label="지우와의 대화 열기"><span class="messages-avatar">지</span><span class="messages-summary"><strong>지우</strong><span class="messages-preview"></span></span><span class="messages-conversation-meta"><small></small><span aria-hidden="true">›</span></span></button><p class="messages-demo-caption">이 휴대폰 속 대화는 이야기의 일부입니다.</p></div>';
+  const latest=conversations[conversations.length-1];
+  const lastItem=latest.messages[latest.messages.length-1][1];
+  container.querySelector('.messages-preview').textContent=typeof lastItem==='string'?lastItem:'사진';
+  container.querySelector('.messages-conversation-meta small').textContent=latest.date;
   container.querySelector('.messages-home').onclick=()=>home(true);
   container.querySelector('.messages-conversation').onclick=showThread;
   container.scrollTop=0;
@@ -196,6 +280,10 @@ function renderMessages(container){
       const img=document.createElement('img');
       img.src=photo.src;img.alt=message.alt;img.loading='lazy';img.decoding='async';
       button.append(img);wrap.append(button);
+      const saved=document.createElement('span');
+      saved.className='messages-photo-saved';
+      saved.textContent='사진 앱에 저장됨';
+      wrap.append(saved);
       button.onclick=()=>{
        const viewer=document.createElement('div');
        viewer.className='messages-photo-viewer';
