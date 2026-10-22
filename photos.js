@@ -78,11 +78,10 @@ function renderPhotos(container) {
   const photo = photos[index];
   lastPhotoId = photo.id;
   app.classList.add('dark-app', 'photo-viewer-mode');
-  container.innerHTML = '<div class="photo-viewer"><div class="photo-viewer-toolbar"><button class="photos-back">‹ 보관함</button><span class="photo-counter" aria-live="polite"></span></div><div class="photo-viewer-stage"></div><p class="photo-viewer-caption"></p><div class="photo-viewer-controls"><button class="photo-previous" aria-label="이전 사진">‹</button><button class="photo-next" aria-label="다음 사진">›</button></div></div>';
+  container.innerHTML = '<div class="photo-viewer"><div class="photo-viewer-toolbar"><button class="photos-back">‹ 보관함</button><span class="photo-counter" aria-live="polite"></span></div><div class="photo-viewer-stage"></div><div class="photo-viewer-controls"><button class="photo-previous" aria-label="이전 사진">‹</button><button class="photo-next" aria-label="다음 사진">›</button></div></div>';
   const viewer = container.querySelector('.photo-viewer');
   viewer.querySelector('.photo-counter').textContent = `${index + 1} / ${photos.length}`;
   viewer.querySelector('.photo-viewer-stage').append(image(photo, true));
-  viewer.querySelector('.photo-viewer-caption').textContent = photo.id === assets.memoryPhotoId ? `1년 전 오늘 · ${memoryDate}` : photo.alt;
   const back = viewer.querySelector('.photos-back');
   back.onclick = showGallery;
   const previous = viewer.querySelector('.photo-previous');
