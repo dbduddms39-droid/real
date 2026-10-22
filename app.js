@@ -27,7 +27,7 @@ function goBack(){
  if(!$('#control').hidden){closeControl();return}
  if(!$('#lock').hidden){return}
  if(!$('#app').hidden){
-  const nestedBack=$('#app-content .story-internal-back:not(.story-home), #app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end, #app-content .safari-internal-back:not(:disabled)');
+  const nestedBack=$('#app-content .story-internal-back:not(.story-home), #app-content .mini-back, #app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end, #app-content .safari-internal-back:not(:disabled)');
   if(nestedBack){nestedBack.click();return}
   if(appHistory.length){openApp(appHistory.pop(),true);return}
   home(true);return;
