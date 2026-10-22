@@ -88,45 +88,45 @@ $('#back').focus({preventScroll:true});
 const seongsuPlaces=[
  {
   "name": "한정선 성수점",
-  "kind": "카페·디저트",
+  "kind": "디저트·카페",
   "subkind": "디저트",
   "desc": "지우가 좋아하는 과일찹쌀떡",
   "addr": "서울 성동구 연무장길 43-1"
  },
  {
+  "name": "서울앵무새 성수",
+  "kind": "디저트·카페",
+  "subkind": "디저트",
+  "desc": "알록달록한 퀸아망을 같이 고르기",
+  "addr": "서울 성동구 서울숲9길 3"
+ },
+ {
+  "name": "자연도소금빵 성수",
+  "kind": "디저트·카페",
+  "subkind": "디저트",
+  "desc": "따끈한 소금빵 포장해 가기",
+  "addr": "서울 성동구 연무장길 56-1"
+ },
+ {
   "name": "도토리오븐 성수",
-  "kind": "카페·디저트",
+  "kind": "디저트·카페",
   "subkind": "카페",
   "desc": "디저트 고르면서 잠깐 쉬어가기",
   "addr": "서울 성동구 연무장길 37-25"
  },
  {
   "name": "어니언 성수",
-  "kind": "카페·디저트",
+  "kind": "디저트·카페",
   "subkind": "카페",
   "desc": "오래된 공장 분위기에서 빵과 음료",
   "addr": "서울 성동구 아차산로9길 8"
  },
  {
   "name": "대림창고",
-  "kind": "카페·디저트",
+  "kind": "디저트·카페",
   "subkind": "카페",
   "desc": "넓은 창고 공간에서 작품도 구경하기",
   "addr": "서울 성동구 성수이로 78"
- },
- {
-  "name": "베통 성수",
-  "kind": "카페·디저트",
-  "subkind": "디저트",
-  "desc": "소금빵 골라서 같이 먹기",
-  "addr": "서울 성동구 연무장7가길 8"
- },
- {
-  "name": "자연도소금빵 성수",
-  "kind": "카페·디저트",
-  "subkind": "디저트",
-  "desc": "따끈한 소금빵 포장해 가기",
-  "addr": "서울 성동구 연무장길 56-1"
  },
  {
   "name": "서울숲",
@@ -203,7 +203,7 @@ function renderMap(container){
  const iframe=container.querySelector('#map-iframe');
  const selected=container.querySelector('#map-selected');
  const count=container.querySelector('#map-count');
- const categories=['전체','카페·디저트','산책','구경','추억'];
+ const categories=['전체','디저트·카페','산책','구경','추억'];
  const locationQuery=place=>place.name+' '+place.addr;
  const externalUrl=place=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(locationQuery(place));
  function showSelected(){
