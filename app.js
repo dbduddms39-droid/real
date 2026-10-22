@@ -200,5 +200,13 @@ $('#home').addEventListener('pointermove',e=>{if(holdPoint&&Math.hypot(e.clientX
 $('#home').addEventListener('contextmenu',e=>{if(!e.target.closest('button')){e.preventDefault();openCustomize()}});
 applyAppearance();
 
-document.addEventListener('pointerup',event=>{if(musicNeedsTap&&audio.src&&!event.target.closest('button,a,input,label'))requestMusicPlayback()},{passive:true});
+// Retry a blocked start inside a real user gesture, including Safari's touchend.
+// Playback controls keep their own handlers so the first play tap cannot toggle twice.
+function startMusicOnInteraction(event){
+ if(!musicNeedsTap||musicStarting||!audio.src||!event.isTrusted)return;
+ if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;
+ if(event.target.closest('a,#music-play,#media-play,#lock-music-play,#music-file,label[for=music-file],#music-disconnect'))return;
+ requestMusicPlayback();
+}
+for(const type of ['touchend','click','keydown'])document.addEventListener(type,startMusicOnInteraction,{capture:true,passive:true});
 showPage(0);setInterval(tick,1000);openApp('음악');paintMusicArtwork();syncMusic();restoreMusic();
