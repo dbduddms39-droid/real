@@ -3,6 +3,7 @@
 function renderPhotos(container) {
  const assets = window.PhonePhotoAssets || {photos: [], memoryPhotoId: null};
  const photos = assets.photos;
+ const videos=[{id:'video-01',name:'첫 번째 일상 영상',src:'assets/videos/clip-1.mp4',poster:'assets/videos/clip-1.jpg',length:'0:04'},{id:'video-02',name:'두 번째 일상 영상',src:'assets/videos/clip-2.mp4',poster:'assets/videos/clip-2.jpg',length:'0:03'},{id:'video-03',name:'세 번째 일상 영상',src:'assets/videos/clip-3.mp4',poster:'assets/videos/clip-3.jpg',length:'0:02'},{id:'birthday',name:'지우의 생일 축하 영상',src:'assets/videos/birthday.mp4',poster:'assets/videos/birthday.jpg',length:'0:19'}];
  const app = document.querySelector('#app');
  let galleryScroll = 0;
  let lastPhotoId = null;
@@ -33,7 +34,7 @@ function renderPhotos(container) {
   app.classList.remove('dark-app', 'photo-viewer-mode');
   app.classList.add('photos-app');
   container.innerHTML = '<div class="photos-heading"><h1>보관함</h1><span class="photos-count"></span></div>';
-  container.querySelector('.photos-count').textContent = `${photos.length}장의 사진`;
+  container.querySelector('.photos-count').textContent = `${photos.length}장의 사진 · ${videos.length}개의 동영상`;
   if (!photos.length) {
    const empty = document.createElement('p');
    empty.className = 'photos-empty';
@@ -54,6 +55,10 @@ function renderPhotos(container) {
    card.onclick = () => openPhoto(memoryIndex);
    container.append(section);
   }
+  const birthday=videos.find(v=>v.id==='birthday');
+  const birthdaySection=document.createElement('section');birthdaySection.className='birthday-memory';birthdaySection.innerHTML='<span class="birthday-memory-kicker">🎂 특별한 날</span><span>그날의 추억을 다시 보기 ♡</span><button class="birthday-memory-open" type="button">생일 영상 보기 ›</button>';
+  birthdaySection.querySelector('button').onclick=()=>openVideo(birthday,true);
+  container.append(birthdaySection);
   const heading = document.createElement('h2');
   heading.className = 'photos-grid-heading';
   heading.textContent = '모든 사진';
@@ -70,10 +75,29 @@ function renderPhotos(container) {
    grid.append(button);
   });
   container.append(heading, grid);
+  const videoHeading=document.createElement('h2');videoHeading.className='photos-grid-heading';videoHeading.textContent='동영상';
+  const videoGrid=document.createElement('div');videoGrid.className='photos-grid';
+  for(const video of videos.filter(v=>v.id!=='birthday')){
+   const button=document.createElement('button');button.className='photo-tile video-tile';button.setAttribute('aria-label',video.name+' 재생');
+   const poster=document.createElement('img');poster.src=video.poster;poster.alt=video.name;poster.loading='lazy';button.append(poster);
+   const label=document.createElement('span');label.className='video-tile-length';label.textContent='▶ '+video.length;button.append(label);
+   button.onclick=()=>openVideo(video,false);videoGrid.append(button);
+  }
+  container.append(videoHeading,videoGrid);
   container.scrollTop = galleryScroll;
   if (lastPhotoId) [...grid.children].find(button => button.dataset.photoId === lastPhotoId)?.focus({preventScroll: true});
  }
 
+ function openVideo(video,special){
+  galleryScroll=container.scrollTop;app.classList.add('dark-app','photo-viewer-mode');
+  container.innerHTML='<div class="photo-viewer video-viewer"><div class="photo-viewer-toolbar"><button class="photos-back">‹ 보관함</button><span>동영상</span></div><div class="photo-viewer-stage"></div></div>';
+  container.querySelector('.photos-back').onclick=showGallery;
+  const stage=container.querySelector('.photo-viewer-stage');
+  const media=document.createElement('video');media.src=video.src;media.poster=video.poster;media.controls=true;media.playsInline=true;media.preload='metadata';media.setAttribute('aria-label',video.name);stage.append(media);
+  media.addEventListener('error',()=>{if(!container.contains(media))return;const note=document.createElement('p');note.className='video-error';note.textContent='동영상 파일이 아직 배포되지 않았어요.';stage.append(note)},{once:true});
+  container.scrollTop=0;
+ }
+ window.openBirthdayPhotoMemory=()=>openVideo(videos.find(v=>v.id==='birthday'),true);
  function showPhoto(index) {
   const photo = photos[index];
   lastPhotoId = photo.id;
