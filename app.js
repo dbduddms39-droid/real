@@ -1027,7 +1027,7 @@ function renderBookStore(container,kind){
    {heading:'보여 주는 것과 가르치는 것',body:['할 수 있는 동작을 남에게 설명하는 일은 생각보다 어렵다. 익숙해서 잊고 있던 기본을 다시 말로 풀어내야 하기 때문이다.','한 번 보여 주고 끝내지 말고, 상대가 이해한 방식으로 다시 설명할 수 있는지 확인한다.']},
    {heading:'쉬는 시간도 훈련이다',body:['몸을 쓰는 사람에게 휴식은 계획의 바깥에 있는 시간이 아니다. 회복할 수 있어야 다음 활동도 이어 갈 수 있다.','운동을 마치고 무리 없이 정리하는 습관을 수업에도 포함한다.']}
   ]},
-  {id:'ordinary',title:'아무렇지 않은 날들',writer:'짧은 에세이',topic:'에세이',color:'linen',mark:'DAY',pages:[
+  {id:'ordinary',title:'아무렇지 않은 날들',writer:'짧은 에세이',topic:'에세이',color:'linen',mark:'DAY',memory:{date:'9월 17일',note:'지우가 읽어보라고 해서'},pages:[
    {heading:'평범한 아침',body:['일어나는 시간이 비슷하고, 같은 길로 학교에 간다. 버스를 기다리면서 날씨를 확인하고 가방 안의 이어폰을 찾는다.','대단한 일을 하지 않아도 하루에는 생각보다 많은 장면이 있다.']},
    {heading:'계절이 바뀌는 동안',body:['가을이 왔다는 사실은 어느 날 갑자기 느껴진다. 아침 공기가 조금 차가워졌거나, 걸어가는 길에 나뭇잎이 쌓이기 시작했을 때다.','바뀌는 것은 날씨뿐이 아니지만 모든 변화를 바로 알아차릴 수 있는 것도 아니다.']},
    {heading:'돌아오는 길',body:['하루가 끝나면 가끔은 일부러 조금 먼 길로 돌아간다. 편의점 앞을 지나고, 학교 담장 아래로 걷는다.','익숙한 길을 다시 걸으면서도 그날의 기분은 다를 수 있다.']}
@@ -1043,6 +1043,7 @@ function renderBookStore(container,kind){
   {id:'naver',name:'네이버 지도',category:'내비게이션',about:'학교 가는 길부터 약속 장소까지',glyph:'N',logo:'naver',installed:true,screen:'map',highlights:['길찾기','대중교통','저장한 장소']},
   {id:'spotify',name:'Spotify',category:'음악',about:'등굣길에 듣는 음악과 플레이리스트',glyph:'♫',logo:'spotify',installed:true,screen:'music',highlights:['플레이리스트','음악','추천']},
   {id:'millie',name:'밀리의 서재',category:'도서',about:'틈날 때 읽는 전자책',glyph:'밀',logo:'millie',installed:false,screen:'reading',highlights:['전자책','읽기','독서']},
+  {id:'between',name:'비트윈',category:'소셜 네트워킹',about:'둘만의 사진과 기념일을 모아두는 공간',glyph:'B',logo:'between',installed:true,screen:'between',highlights:['사진','기념일','둘만의 공간']},
   {id:'forest',name:'Forest',category:'생산성',about:'집중할 시간을 정해두는 타이머',glyph:'♣',logo:'forest',installed:false,screen:'focus',highlights:['집중 시간','공부','타이머']}
  ];
  let bookProgress=safeRead('still-september-books-progress-v2',{lesson:1,practice:0,ordinary:1,november:0});
@@ -1103,7 +1104,7 @@ function renderBookStore(container,kind){
   selected=books.find(b=>b.id===id);if(!selected)return renderList();
   readerPage=null;
   const b=selected;
-  paint(top('도서','보관함')+'<section class="media-page book-detail">'+bookCover(b)+'<h1>'+esc(b.title)+'</h1><p>'+esc(b.writer)+'</p><div class="book-detail-progress"><div class="media-bar"><i style="width:'+percent(b)+'%"></i></div><small>'+percent(b)+'% 읽음 · '+b.pages.length+'개 장</small></div><button class="book-read-btn" type="button">'+(pageOf(b)>0?'이어 읽기':'읽기 시작')+'</button><div class="book-detail-rule"></div><h2>책 소개</h2><p class="book-about">'+esc(b.pages[0].body[0])+'</p><h2>목차</h2><div class="book-chapters">'+b.pages.map((page,i)=>'<button data-page="'+i+'" type="button"><span>0'+(i+1)+'</span><strong>'+esc(page.heading)+'</strong><span>›</span></button>').join('')+'</div></section>');
+  paint(top('도서','보관함')+'<section class="media-page book-detail">'+bookCover(b)+'<h1>'+esc(b.title)+'</h1><p>'+esc(b.writer)+'</p><div class="book-detail-progress"><div class="media-bar"><i style="width:'+percent(b)+'%"></i></div><small>'+percent(b)+'% 읽음 · '+b.pages.length+'개 장</small></div><button class="book-read-btn" type="button">'+(pageOf(b)>0?'이어 읽기':'읽기 시작')+'</button><div class="book-detail-rule"></div>'+(b.memory?'<div class="book-memory-badge"><span class="book-memory-icon">⌑</span><span><small>남겨둔 메모</small><strong>'+esc(b.memory.note)+'</strong><em>'+esc(b.memory.date)+'</em></span></div>':'')+'<h2>책 소개</h2><p class="book-about">'+esc(b.pages[0].body[0])+'</p><h2>목차</h2><div class="book-chapters">'+b.pages.map((page,i)=>'<button data-page="'+i+'" type="button"><span>0'+(i+1)+'</span><strong>'+esc(page.heading)+'</strong><span>›</span></button>').join('')+'</div></section>');
   wireBack(backList);
   container.querySelector('.book-read-btn').onclick=()=>readBook(pageOf(b));
   container.querySelectorAll('[data-page]').forEach(btn=>btn.onclick=()=>readBook(Number(btn.dataset.page)));
@@ -1113,7 +1114,7 @@ function renderBookStore(container,kind){
   readerPage=Math.min(Math.max(0,index),selected.pages.length-1);
   bookProgress[selected.id]=readerPage;safeWrite('still-september-books-progress-v2',bookProgress);
   const data=selected.pages[readerPage];
-  paint(top('읽는 중','도서 정보')+'<article class="book-reader'+(fontLarge?' enlarged':'')+'"><div class="book-reader-meta">'+esc(selected.title)+'<span>'+(readerPage+1)+' / '+selected.pages.length+'</span></div><h1>'+esc(data.heading)+'</h1><div class="book-reader-text">'+data.body.map(p=>'<p>'+esc(p)+'</p>').join('')+'</div><div class="book-reader-tools"><button type="button" data-size="small" aria-label="글자 크기 줄이기">가</button><button type="button" data-size="large" aria-label="글자 크기 키우기">가＋</button><span>글자 크기</span></div><div class="book-reader-bottom"><button type="button" data-turn="prev" '+(readerPage===0?'disabled':'')+'>‹ 이전</button><span class="media-bar"><i style="width:'+percent(selected)+'%"></i></span><button type="button" data-turn="next" '+(readerPage===selected.pages.length-1?'disabled':'')+'>다음 ›</button></div></article>');
+  paint(top('읽는 중','도서 정보')+'<article class="book-reader'+(fontLarge?' enlarged':'')+'"><div class="book-reader-meta">'+esc(selected.title)+'<span>'+(readerPage+1)+' / '+selected.pages.length+'</span></div><h1>'+esc(data.heading)+'</h1><div class="book-reader-text">'+data.body.map(p=>'<p>'+esc(p)+'</p>').join('')+'</div>'+(selected.memory&&readerPage===1?'<div class="book-reader-marker"><span>책갈피 · '+esc(selected.memory.date)+'</span><strong>'+esc(selected.memory.note)+'</strong></div>':'')+'<div class="book-reader-tools"><button type="button" data-size="small" aria-label="글자 크기 줄이기">가</button><button type="button" data-size="large" aria-label="글자 크기 키우기">가＋</button><span>글자 크기</span></div><div class="book-reader-bottom"><button type="button" data-turn="prev" '+(readerPage===0?'disabled':'')+'>‹ 이전</button><span class="media-bar"><i style="width:'+percent(selected)+'%"></i></span><button type="button" data-turn="next" '+(readerPage===selected.pages.length-1?'disabled':'')+'>다음 ›</button></div></article>');
   wireBack(()=>showBook(selected.id));
   container.querySelector('[data-turn=prev]').onclick=()=>readBook(readerPage-1);
   container.querySelector('[data-turn=next]').onclick=()=>readBook(readerPage+1);
@@ -1137,6 +1138,7 @@ function renderBookStore(container,kind){
    map:'<div class="preview-title">학교 가는 길</div><div class="preview-map"><span>학교</span><i></i><span>버스 정류장</span></div><div class="preview-check">도보 · 대중교통</div>',
    music:'<div class="preview-title">최근에 들은 음악</div><div class="preview-album">♫</div><div class="preview-check">등굣길 플레이리스트</div>',
    reading:'<div class="preview-title">보관함</div><div class="preview-album">책</div><div class="preview-check">새로운 책 살펴보기</div>',
+   between:'<div class="preview-between"><div class="between-overline">BETWEEN</div><div class="between-people"><span>정원</span><span class="between-heart">♡</span><span>지우</span></div><div class="between-photo-shape"><strong>500일</strong><small>남산에서 남긴 기록</small></div><div class="between-stamp">마지막 기록 · 9월</div></div>',
    focus:'<div class="preview-title">오늘의 집중</div><div class="preview-focus">25:00</div><div class="preview-check">수업 자료 정리</div>'
   };
   return screens[item.screen]||'';
