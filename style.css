@@ -874,3 +874,23 @@
 .messages-app .messages-compose{flex:0 0 auto;position:relative;z-index:2;min-height:58px;padding:10px 14px 12px;background:#fff}
 .messages-app .messages-compose-placeholder{min-width:0;min-height:35px;line-height:19px;white-space:normal;overflow-wrap:anywhere}
 .phone:has(.messages-app:not([hidden])) .system-navigation{background:#fff;border-top:0}
+
+
+/* Quiet Jiwoo traces, discovered only in book details and couple app preview */
+.book-memory-badge{display:flex;align-items:flex-start;gap:11px;padding:13px;border-radius:12px;background:#fff9f0;text-align:left;border:1px solid #eee2d2;margin:0 0 23px}
+.book-memory-icon{display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;background:#e8d8c2;border-radius:10px;color:#886749;font-size:23px}
+.book-memory-badge>span:last-child{display:flex;flex-direction:column;gap:4px}
+.book-memory-badge small,.book-memory-badge em{font-size:10px;color:#938475;font-style:normal}
+.book-memory-badge strong{font-size:13px;font-weight:500;color:#524739}
+.book-reader-marker{display:flex;flex-direction:column;gap:7px;margin:22px 0;padding:12px 14px;background:#f3e9d9;border-left:3px solid #bf9160;text-align:left}
+.book-reader-marker span{font-size:10px;color:#927a62}
+.book-reader-marker strong{font-size:13px;color:#57493d;font-weight:500}
+.store-real-icon.between{background:linear-gradient(135deg,#83d4e3,#53a1cf);color:white}
+.store-real-icon.between strong{font-weight:650;font-size:34px;font-family:Georgia,serif}
+.preview-between{text-align:center;padding:8px 0 0;color:#45616f}
+.between-overline{font-size:10px;letter-spacing:2.2px;color:#6dabb8;margin-bottom:13px}
+.between-people{display:flex;justify-content:center;align-items:center;gap:17px;font-size:14px;font-weight:650}
+.between-heart{font-size:25px;color:#74b8cb}
+.between-photo-shape{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;margin:20px auto 14px;max-width:220px;min-height:108px;border-radius:12px;background:linear-gradient(160deg,#d5e8e8,#94c4cd);color:#3a6472}
+.between-photo-shape strong{font-size:26px}.between-photo-shape small{font-size:11px}
+.between-stamp{font-size:11px;color:#9caab0;border-top:1px solid #dce6e9;padding-top:12px}
