@@ -1167,6 +1167,7 @@ function renderBookStore(container,kind){
   paint(top(selected.name,'앱 정보')+'<section class="media-page store-live-preview"><div class="store-live-phone">'+appIcon(selected)+previewContent(selected)+'</div><p>앱 화면 미리보기</p><button class="store-preview-back" type="button">App Store로 돌아가기</button></section>');
   wireBack(()=>showApp(id));container.querySelector('.store-preview-back').onclick=()=>showApp(id);
  }
+ if(!isBooks)window.StillSeptemberExtras?.enhanceBetween(container);
  renderList();
 }
 
