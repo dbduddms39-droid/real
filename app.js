@@ -25,7 +25,7 @@ function goBack(){
  cancelMusicIntro();
  if(!$('#customize').hidden){closeCustomize();return}
  if(!$('#control').hidden){closeControl();return}
- if(!$('#lock').hidden){home();return}
+ if(!$('#lock').hidden){return}
  if(!$('#app').hidden){
   const nestedBack=$('#app-content .photos-back');
   if(nestedBack){nestedBack.click();return}
@@ -51,7 +51,7 @@ function armNativeBackGuard(){
  }
 }
 function hasInternalBackTarget(){
- return !$('#customize').hidden||!$('#control').hidden||!$('#lock').hidden||!$('#app').hidden||pageIndex>0;
+ return !$('#customize').hidden||!$('#control').hidden||!$('#app').hidden||pageIndex>0;
 }
 window.addEventListener('popstate',()=>{
  if(!nativeBackGuardArmed)return;
@@ -297,10 +297,11 @@ function renderSearch(c){c.innerHTML='<h1>검색</h1><input id="app-search" clas
 function syncSettings(){if(!$('#settings-airplane'))return;$('#settings-airplane').checked=$('.airplane').getAttribute('aria-pressed')==='true';$('#settings-wifi').textContent=$('.wifi-toggle').getAttribute('aria-pressed')==='true'?'켜짐':'끔';$('#settings-bluetooth').textContent=$('.bluetooth').getAttribute('aria-pressed')==='true'?'켬':'끔'}
 function toggleControl(button){const active=button.getAttribute('aria-pressed')!=='true';button.setAttribute('aria-pressed',String(active));button.classList.toggle('active',active);if(button.classList.contains('focus'))button.querySelector('small').textContent=active?'켬':'끔';syncSettings()}
 function lock(){home();$('#home').hidden=true;$('#lock').hidden=false;$('#unlock').focus()}
+function unlockPhone(){home();scheduleMusicIntro()}
 function flashlight(){const active=$('#flashlight').getAttribute('aria-pressed')!=='true';['flashlight','control-torch'].forEach(id=>$('#'+id).setAttribute('aria-pressed',String(active)));toast(active?'손전등 아이콘을 켰습니다. 실제 기기 플래시는 제어하지 않습니다.':'손전등 시뮬레이션을 껐습니다.')}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-app]');if(b){lastAppButton=b;openApp(b.dataset.app)}});
 document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(Number(b.dataset.page)));
-$('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>home(true);$('#unlock').onclick=()=>home();$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
+$('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>{if($('#lock').hidden)home(true)};$('#unlock').onclick=unlockPhone;$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
 const audio=$('#music-audio');audio.loop=true;let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false,musicInitialPlaybackPending=true;audio.volume=Number($('#volume').value)/100;
 function paintMusicArtwork(root=document){
  if(!bundledTrack?.cover)return;
@@ -405,7 +406,7 @@ $('#media-open').onclick=()=>openApp('음악');$('#lock-music-open').onclick=()=
 document.querySelectorAll('.toggle').forEach(b=>b.onclick=()=>toggleControl(b));$('#flashlight').onclick=flashlight;$('#control-torch').onclick=flashlight;$('#mirror').onclick=()=>toast('실제 화면 미러링은 연결되지 않은 데모입니다.');$('#media-play').onclick=toggleMusic;
 $('#brightness').oninput=e=>{const value=Number(e.target.value);$('.phone').style.setProperty('--dim',String(1-value/100));e.target.parentElement.style.background=`linear-gradient(to top,#fffffff0 ${value}%,#ffffff15 ${value}%)`};$('#volume').oninput=e=>{e.target.parentElement.style.background=`linear-gradient(to top,#fffffff0 ${e.target.value}%,#ffffff15 ${e.target.value}%)`;audio.volume=Number(e.target.value)/100};
 $('#search').onclick=()=>openApp('검색');$('#fullscreen').onclick=async()=>{try{if(!document.documentElement.requestFullscreen)throw Error();await document.documentElement.requestFullscreen();closeControl()}catch{toast('Safari에서는 공유 → 홈 화면에 추가 후 실행해 주세요.')}};
-let touchStart=null;$('.phone').addEventListener('touchstart',e=>{const t=e.changedTouches[0],rect=$('.phone').getBoundingClientRect();touchStart={x:t.clientX,y:t.clientY,localY:t.clientY-rect.top,right:rect.right-t.clientX,height:rect.height}},{passive:true});$('.phone').addEventListener('touchend',e=>{if(!touchStart)return;const t=e.changedTouches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;if(touchStart.localY<90&&touchStart.right<100&&dy>55)openControl();else if(touchStart.localY>touchStart.height-50&&dy< -50)home();else if(!$('#lock').hidden&&dy< -50)home();else if(!$('#home').hidden&&$('#control').hidden&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)showPage(dx<0?1:0);touchStart=null},{passive:true});
+let touchStart=null;$('.phone').addEventListener('touchstart',e=>{const t=e.changedTouches[0],rect=$('.phone').getBoundingClientRect();touchStart={x:t.clientX,y:t.clientY,localY:t.clientY-rect.top,right:rect.right-t.clientX,height:rect.height}},{passive:true});$('.phone').addEventListener('touchend',e=>{if(!touchStart)return;const t=e.changedTouches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;if(touchStart.localY<90&&touchStart.right<100&&dy>55)openControl();else if(!$('#lock').hidden&&dy< -50)unlockPhone();else if(touchStart.localY>touchStart.height-50&&dy< -50)home();else if(!$('#home').hidden&&$('#control').hidden&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)showPage(dx<0?1:0);touchStart=null},{passive:true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')goBack();if(!$('#home').hidden&&$('#control').hidden&&$('#customize').hidden&&['ArrowLeft','ArrowRight'].includes(e.key))showPage(e.key==='ArrowRight'?1:0)});
 
 function openCustomize(){customizeReturnApp=!$('#app').hidden?$('#app-title').textContent:null;home();['home','app','lock'].forEach(id=>$('#'+id).inert=true);$('#customize').hidden=false;applyAppearance();$('#close-customize').focus()}
@@ -461,5 +462,5 @@ function scheduleMusicIntro(){
 }
 // Background tabs and preloaded links must not consume the visible home delay.
 document.addEventListener('visibilitychange',()=>{if(document.hidden){introVisibleSince=null;$('#dock [data-app="음악"] .icon').classList.remove('intro-tap')}});
-window.addEventListener('pageshow',event=>{if(event.persisted){home();scheduleMusicIntro()}});
-showPage(0);setInterval(tick,1000);home();paintMusicArtwork();syncMusic();restoreMusic();scheduleMusicIntro();
+window.addEventListener('pageshow',event=>{if(event.persisted)lock()});
+showPage(0);setInterval(tick,1000);lock();paintMusicArtwork();syncMusic();restoreMusic();
