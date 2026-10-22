@@ -80,8 +80,171 @@ else if(name==='계산기'){calculator(c)}
 else if(name==='미리 알림'){c.innerHTML='<h1 style="color:#007aff">미리 알림</h1><div class="card" id="reminder-list"></div><form id="reminder-form"><label class="muted" for="reminder-input">새로운 미리 알림</label><div class="row"><input class="app-search" id="reminder-input" placeholder="할 일 입력" required maxlength="120"><button type="submit">추가</button></div></form><p class="muted">현재 화면에서만 유지됩니다.</p>';$('#reminder-form').onsubmit=e=>{e.preventDefault();const input=$('#reminder-input'),text=input.value.trim();if(!text)return;const row=document.createElement('label');row.className='row';const check=document.createElement('input');check.type='checkbox';const span=document.createElement('span');span.textContent=text;span.style.cssText='flex:1;overflow-wrap:anywhere';check.onchange=()=>span.style.textDecoration=check.checked?'line-through':'none';row.append(check,span);$('#reminder-list').append(row);input.value=''}}
 else if(name==='음악'){renderMusic(c);startInitialMusicIfOpen()}
 else if(name==='검색'){renderSearch(c)}
+else if(name==='지도'){renderMap(c)}
 else c.append(placeholder(name));
 $('#back').focus({preventScroll:true});
+}
+
+const seongsuPlaces=[
+ {
+  "name": "한정선 성수점",
+  "kind": "디저트",
+  "desc": "과일 찹쌀떡을 포장해서 나눠 먹기",
+  "addr": "서울 성동구 연무장길 43-1"
+ },
+ {
+  "name": "도토리오븐 성수",
+  "kind": "카페",
+  "desc": "아기자기한 디저트와 사진 남기기",
+  "addr": "서울 성동구 연무장길 37-25"
+ },
+ {
+  "name": "어니언 성수",
+  "kind": "카페",
+  "desc": "오래된 공장 분위기에서 커피와 빵",
+  "addr": "서울 성동구 아차산로9길 8"
+ },
+ {
+  "name": "대림창고",
+  "kind": "카페",
+  "desc": "넓은 창고형 공간에서 느긋한 카페 데이트",
+  "addr": "서울 성동구 성수이로 78"
+ },
+ {
+  "name": "마일스톤 커피 성수",
+  "kind": "카페",
+  "desc": "서울숲 근처에서 커피 한 잔",
+  "addr": "서울 성동구 서울숲4길 15"
+ },
+ {
+  "name": "카페 마트리",
+  "kind": "카페",
+  "desc": "꽃 장식이 돋보이는 분위기 좋은 공간",
+  "addr": "서울 성동구 서울숲4길 17"
+ },
+ {
+  "name": "로우키 성수",
+  "kind": "카페",
+  "desc": "커피를 좋아하는 둘에게 어울리는 곳",
+  "addr": "서울 성동구 연무장3길 6"
+ },
+ {
+  "name": "베통 성수",
+  "kind": "디저트",
+  "desc": "소금빵을 함께 고르는 베이커리 데이트",
+  "addr": "서울 성동구 연무장7가길 8"
+ },
+ {
+  "name": "마를리",
+  "kind": "카페",
+  "desc": "케이크와 함께 오래 이야기하기",
+  "addr": "서울 성동구 연무장길 47"
+ },
+ {
+  "name": "텅 성수 스페이스",
+  "kind": "카페",
+  "desc": "색감 있는 디저트와 감각적인 카페",
+  "addr": "서울 성동구 성수이로 82 2층"
+ },
+ {
+  "name": "웜브라운",
+  "kind": "디저트",
+  "desc": "베녜 도넛으로 달달하게 쉬어 가기",
+  "addr": "서울 성동구 연무장길 16-2"
+ },
+ {
+  "name": "성수연방",
+  "kind": "구경",
+  "desc": "작은 브랜드 숍과 공간 구경",
+  "addr": "서울 성동구 성수이로14길 14"
+ },
+ {
+  "name": "LCDC 서울",
+  "kind": "구경",
+  "desc": "편집숍과 팝업을 천천히 둘러보기",
+  "addr": "서울 성동구 연무장17길 10"
+ },
+ {
+  "name": "서울숲",
+  "kind": "산책",
+  "desc": "커피 마신 뒤 나란히 걷기",
+  "addr": "서울 성동구 뚝섬로 273"
+ },
+ {
+  "name": "뚝섬한강공원",
+  "kind": "산책",
+  "desc": "한강을 보며 저녁 산책하기",
+  "addr": "서울 광진구 강변북로 2273"
+ }
+];
+
+
+// The map queries are address-based: the embedded map handles geocoding,
+// and the visible external link remains usable when iframe embedding is blocked.
+function renderMap(container){
+ $('#app').classList.add('map-app');
+ container.innerHTML=`<div class="map-intro"><h1>성수 데이트 지도</h1><p>둘이 걷고, 마시고, 구경할 곳들 ♡</p></div>
+ <label class="map-search-wrap"><span aria-hidden="true">⌕</span><input id="map-query" type="search" placeholder="카페나 장소 검색" aria-label="지도 장소 검색" autocomplete="off"></label>
+ <div id="map-filters" class="map-filters" role="group" aria-label="장소 유형 필터"></div>
+ <div class="map-frame"><iframe id="map-iframe" title="선택한 장소 지도" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><span class="map-frame-note">지도가 보이지 않으면 아래의 지도 열기를 눌러 주세요</span></div>
+ <section id="map-selected" class="map-selected" aria-live="polite"></section>
+ <div class="map-list-header"><strong>데이트 장소 모음</strong><span id="map-count"></span></div>
+ <div id="map-results" class="map-results"></div>`;
+ let category='전체', selectedId=0;
+ const query=container.querySelector('#map-query');
+ const filterRoot=container.querySelector('#map-filters');
+ const results=container.querySelector('#map-results');
+ const iframe=container.querySelector('#map-iframe');
+ const selected=container.querySelector('#map-selected');
+ const count=container.querySelector('#map-count');
+ const categories=['전체','카페','디저트','산책','구경'];
+ const locationQuery=place=>place.name+' '+place.addr;
+ const externalUrl=place=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(locationQuery(place));
+ function showSelected(){
+  const place=seongsuPlaces[selectedId];
+  if(!place){iframe.removeAttribute('src');selected.replaceChildren();return}
+  const nextMap='https://maps.google.com/maps?hl=ko&q='+encodeURIComponent(locationQuery(place))+'&z=16&output=embed';
+  if(iframe.getAttribute('src')!==nextMap)iframe.src=nextMap;
+  selected.replaceChildren();
+  const tag=document.createElement('span');tag.className='map-kind';tag.textContent=place.kind;
+  const title=document.createElement('h2');title.textContent=place.name;
+  const desc=document.createElement('p');desc.textContent=place.desc;
+  const address=document.createElement('p');address.className='map-address';address.textContent=place.addr;
+  const link=document.createElement('a');link.className='map-external';link.href=externalUrl(place);link.target='_blank';link.rel='noopener noreferrer';link.textContent='지도에서 길찾기 ↗';
+  selected.append(tag,title,desc,address,link);
+ }
+ function render(){
+  const term=query.value.trim().toLocaleLowerCase('ko-KR');
+  const matches=seongsuPlaces.map((place,i)=>({...place,i})).filter(place=>(category==='전체'||place.kind===category)&&(!term||(place.name+' '+place.addr+' '+place.desc).toLocaleLowerCase('ko-KR').includes(term)));
+  count.textContent=matches.length+'곳';
+  if(matches.length&&!matches.some(p=>p.i===selectedId))selectedId=matches[0].i;
+  filterRoot.replaceChildren();
+  for(const name of categories){
+   const button=document.createElement('button');button.type='button';button.className='map-filter'+(name===category?' active':'');button.textContent=name;button.setAttribute('aria-pressed',String(name===category));
+   button.onclick=()=>{category=name;render()};filterRoot.append(button);
+  }
+  results.replaceChildren();
+  if(!matches.length){
+   iframe.hidden=true;selected.hidden=true;
+   const empty=document.createElement('p');empty.className='map-empty';empty.textContent='검색 결과가 없어요. 다른 장소를 검색해 보세요.';results.append(empty);return;
+  }
+  iframe.hidden=false;selected.hidden=false;
+  for(const place of matches){
+   const button=document.createElement('button');button.type='button';button.className='map-place'+(place.i===selectedId?' selected':'');button.setAttribute('aria-pressed',String(place.i===selectedId));
+   const pin=document.createElement('span');pin.className='map-place-pin';pin.textContent=place.kind==='산책'?'🌿':place.kind==='구경'?'🛍️':place.kind==='디저트'?'🍰':'☕';
+   const text=document.createElement('span');text.className='map-place-text';
+   const name=document.createElement('strong');name.textContent=place.name;
+   const sub=document.createElement('small');sub.textContent=place.kind+' · '+place.desc;
+   text.append(name,sub);
+   const arrow=document.createElement('span');arrow.className='map-place-chevron';arrow.textContent='›';
+   button.append(pin,text,arrow);
+   button.onclick=()=>{selectedId=place.i;render();container.querySelector('.map-frame').scrollIntoView({block:'nearest',behavior:'smooth'})};
+   results.append(button);
+  }
+  showSelected();
+ }
+ query.addEventListener('input',render);
+ render();
 }
 
 function renderCalendar(container){
@@ -132,7 +295,7 @@ function flashlight(){const active=$('#flashlight').getAttribute('aria-pressed')
 document.addEventListener('click',e=>{const b=e.target.closest('[data-app]');if(b){lastAppButton=b;openApp(b.dataset.app)}});
 document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>showPage(Number(b.dataset.page)));
 $('#back').onclick=()=>home(true);$('#done').onclick=()=>home(true);$('#home-button').onclick=()=>home(true);$('#unlock').onclick=()=>home();$('#control-button').onclick=openControl;$('#close-control').onclick=closeControl;$('#lock-button').onclick=lock;
-const audio=$('#music-audio');let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false,musicInitialPlaybackPending=true;audio.volume=Number($('#volume').value)/100;
+const audio=$('#music-audio');audio.loop=true;let audioUrl=null;const bundledTrack=window.PhoneBundledTrack;let musicBundled=false;let musicGeneration=0,musicStored=false,musicRestoring=true,musicStarting=false,musicNeedsTap=false,musicPlaybackError=false,musicInitialPlaybackPending=true;audio.volume=Number($('#volume').value)/100;
 function paintMusicArtwork(root=document){
  if(!bundledTrack?.cover)return;
  root.querySelectorAll('.track-art,.track-art-small').forEach(element=>{
@@ -147,7 +310,7 @@ function connectBundledMusic(playNow=true){
 function formatMusicTime(seconds){if(!Number.isFinite(seconds))return '0:00';return `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`}
 function renderMusic(container){
  $('#app').classList.add('music-app');
- container.innerHTML=`<div class="music-library-heading"><span>보관함</span><small>${story.owner}의 음악</small></div><button id="music-track" class="music-track-row" aria-label="어떻게 지내 곡 정보"><span class="track-art-small" aria-hidden="true">OVAN</span><span><strong>${story.song.title}</strong><small>${story.song.artist}</small></span><span class="music-track-selected">♪</span></button><section class="music-player" aria-label="지금 재생 중"><div class="track-art" role="img" aria-label="곡 제목으로 구성한 임시 아트워크"><span>OVAN</span><strong>어떻게<br>지내</strong><small>양정원의 보관함</small></div><div class="music-track-title"><div><h1>${story.song.title}</h1><p>${story.song.artist}</p></div><span class="music-heart" aria-label="보관함에 추가됨">♥</span></div><input id="music-seek" class="music-seek" type="range" min="0" max="0" value="0" step="0.1" aria-label="재생 위치" disabled><div class="music-times"><span id="music-elapsed">0:00</span><span id="music-duration">—:—</span></div><div class="music-controls"><button id="music-rewind" aria-label="10초 뒤로">${symbols.symbol('previous')}</button><button id="music-play" aria-label="음원 파일 연결 후 재생">${symbols.symbol('play')}</button><button id="music-forward" aria-label="10초 앞으로">${symbols.symbol('next')}</button><button id="music-repeat" aria-label="한 곡 반복" aria-pressed="false">${symbols.symbol('repeat')}</button></div><p id="music-status" class="music-status" role="status"></p><div class="music-actions"><label class="audio-file-button" for="music-file">음원 파일 연결<input id="music-file" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac"></label><a id="music-service" target="_blank" rel="noopener noreferrer">Apple Music에서 찾기 ↗</a></div><button id="music-disconnect" class="music-disconnect" hidden>연결한 음원 지우기</button><p id="music-source-note" class="music-source-note">처음 한 번 음원 파일을 연결해 주세요.</p></section>`;
+ container.innerHTML=`<div class="music-library-heading"><span>보관함</span><small>${story.owner}의 음악</small></div><button id="music-track" class="music-track-row" aria-label="어떻게 지내 곡 정보"><span class="track-art-small" aria-hidden="true">OVAN</span><span><strong>${story.song.title}</strong><small>${story.song.artist}</small></span><span class="music-track-selected">♪</span></button><section class="music-player" aria-label="지금 재생 중"><div class="track-art" role="img" aria-label="곡 제목으로 구성한 임시 아트워크"><span>OVAN</span><strong>어떻게<br>지내</strong><small>양정원의 보관함</small></div><div class="music-track-title"><div><h1>${story.song.title}</h1><p>${story.song.artist}</p></div><span class="music-heart" aria-label="보관함에 추가됨">♥</span></div><input id="music-seek" class="music-seek" type="range" min="0" max="0" value="0" step="0.1" aria-label="재생 위치" disabled><div class="music-times"><span id="music-elapsed">0:00</span><span id="music-duration">—:—</span></div><div class="music-controls"><button id="music-rewind" aria-label="10초 뒤로">${symbols.symbol('previous')}</button><button id="music-play" aria-label="음원 파일 연결 후 재생">${symbols.symbol('play')}</button><button id="music-forward" aria-label="10초 앞으로">${symbols.symbol('next')}</button><button id="music-repeat" aria-label="한 곡 반복" aria-pressed="true">${symbols.symbol('repeat')}</button></div><p id="music-status" class="music-status" role="status"></p><div class="music-actions"><label class="audio-file-button" for="music-file">음원 파일 연결<input id="music-file" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac"></label><a id="music-service" target="_blank" rel="noopener noreferrer">Apple Music에서 찾기 ↗</a></div><button id="music-disconnect" class="music-disconnect" hidden>연결한 음원 지우기</button><p id="music-source-note" class="music-source-note">처음 한 번 음원 파일을 연결해 주세요.</p></section>`;
  paintMusicArtwork(container);$('#music-service').href=story.song.searchUrl;$('#music-disconnect').onclick=disconnectMusic;
  $('#music-track').onclick=()=>container.querySelector('.music-player').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
  $('#music-play').onclick=toggleMusic;$('#music-rewind').onclick=()=>seekMusic(-10);$('#music-forward').onclick=()=>seekMusic(10);
