@@ -27,7 +27,7 @@ function goBack(){
  if(!$('#control').hidden){closeControl();return}
  if(!$('#lock').hidden){return}
  if(!$('#app').hidden){
-  const nestedBack=$('#app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end');
+  const nestedBack=$('#app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end, #app-content .safari-internal-back:not(:disabled)');
   if(nestedBack){nestedBack.click();return}
   if(appHistory.length){openApp(appHistory.pop(),true);return}
   home(true);return;
@@ -593,6 +593,117 @@ function renderPhone(container){
  showDial();
 }
 
+
+// A fictional, offline Safari history for the phone's story. It never opens
+// invented web destinations or sends a search term to an external service.
+function renderSafari(container){
+ $('#app').classList.add('safari-app');
+ const bookmarks=[
+  {id:'hans',name:'한정선',sub:'성수 · 디저트',badge:'H',theme:'cream',eyebrow:'성수의 작은 디저트 가게',headline:'한정선',note:'다음에 근처 가면 들르기',summary:'좋아하는 디저트를 사러 가는 길. 지나칠 때마다 한 번 더 열어 본 페이지.',items:['제철 과일 디저트','성수에서 들르기 좋은 곳','방문 전 영업 정보 확인']},
+  {id:'exhibit',name:'서울숲 근처 전시',sub:'주말에 가볼 곳',badge:'ART',theme:'sage',eyebrow:'이번 주말에 볼 전시',headline:'서울숲 근처 전시',note:'둘이 보러 가기로 한 전시',summary:'전시를 보고 나서 서울숲까지 걸어보기. 아직 탭을 닫지 않았다.',items:['전시 일정 다시 확인','주말 예매 정보','전시 보고 서울숲 산책']},
+  {id:'trip',name:'10월 여행지',sub:'가을 여행 계획',badge:'10',theme:'blue',eyebrow:'10월에 가고 싶은 곳',headline:'가을 여행',note:'둘이 같이 가려고 찾아본 곳',summary:'여행 날짜를 정하기 전에 먼저 열어 둔 페이지.',items:['주말 여행 일정','숙소 찾아보기','가을 산책 코스']},
+  {id:'autumn',name:'가을 데이트 코스',sub:'나중에 같이 가자',badge:'🍂',theme:'rose',eyebrow:'가을에 가볼 만한 곳',headline:'가을 데이트 코스',note:'다음에 같이 가자고 했던 곳들',summary:'날씨가 선선해지면 천천히 걸어보기 좋은 코스를 모아 둔 페이지.',items:['서울숲 걷기','전시 보고 카페 가기','저녁에 한강 산책']}
+ ];
+ let tabs=bookmarks.map(page=>page.id);
+ let nextBlank=1;
+ const trail=[{mode:'start',id:null}];
+ let trailPos=0;
+ container.innerHTML='<div class="safari-root"><main class="safari-main" aria-label="Safari 페이지"></main><div class="safari-bottom"><div class="safari-address"><span class="safari-address-lock" aria-hidden="true">⌕</span><span class="safari-address-label">검색 또는 웹 사이트 이름 입력</span><span class="safari-address-menu" aria-hidden="true">↻</span></div><div class="safari-actions"><button type="button" class="safari-go-back safari-internal-back" aria-label="Safari 이전 화면">‹</button><button type="button" class="safari-go-forward" aria-label="Safari 다음 화면">›</button><button type="button" class="safari-bookmark-action" aria-label="즐겨찾기 보기">☆</button><button type="button" class="safari-tabs-action" aria-label="탭 보기"><span class="safari-tab-symbol" aria-hidden="true">▢</span><span class="safari-tab-count"></span></button></div></div></div>';
+ const root=container.querySelector('.safari-root');
+ const main=root.querySelector('.safari-main');
+ const label=root.querySelector('.safari-address-label');
+ const count=root.querySelector('.safari-tab-count');
+ const back=root.querySelector('.safari-go-back');
+ const forward=root.querySelector('.safari-go-forward');
+ const esc=text=>String(text).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+ const find=id=>bookmarks.find(page=>page.id===id);
+ const state=()=>trail[trailPos];
+ function go(mode,id=null){
+  trail.splice(trailPos+1);
+  trail.push({mode,id});
+  trailPos=trail.length-1;
+  paint();
+ }
+ function tabCard(id){
+  if(id==='blank')return '<div class="safari-tile-cover safari-cover-blank"><span>＋</span></div>';
+  const page=find(id);
+  if(!page)return '';
+  return '<div class="safari-tile-cover safari-cover-'+page.theme+'"><span class="safari-tile-kicker">'+esc(page.eyebrow)+'</span><strong>'+esc(page.headline)+'</strong><small>'+esc(page.sub)+'</small></div>';
+ }
+ function paint(){
+  const current=state();
+  count.textContent=String(tabs.length);
+  back.disabled=trailPos===0;
+  forward.disabled=trailPos>=trail.length-1;
+  root.classList.toggle('safari-tab-mode',current.mode==='tabs');
+  root.classList.toggle('safari-reading-mode',current.mode==='page');
+  if(current.mode==='start'){
+   label.textContent='검색 또는 웹 사이트 이름 입력';
+   main.innerHTML='<section class="safari-start"><div class="safari-start-top"><span>Safari</span><span>✧</span></div><h1>시작 페이지</h1><form class="safari-search-form"><span aria-hidden="true">⌕</span><input aria-label="저장된 페이지 검색" placeholder="검색 또는 웹 사이트 이름" maxlength="90" autocomplete="off"><button type="submit" aria-label="검색">이동</button></form><h2>즐겨찾기</h2><div class="safari-favorite-grid"><button type="button" class="safari-folder-open"><span class="safari-favorite-icon">♡</span><strong>지우랑 ♡</strong></button><button type="button" class="safari-open-tabs"><span class="safari-favorite-icon safari-tabs-favorite">▢</span><strong>열린 탭</strong></button></div><div class="safari-start-divider"></div><div class="safari-start-list-heading"><h2>방문한 페이지</h2><span>최근</span></div><div class="safari-recent"></div></section>';
+   main.querySelector('.safari-folder-open').onclick=()=>go('folder');
+   main.querySelector('.safari-open-tabs').onclick=()=>go('tabs');
+   const recent=main.querySelector('.safari-recent');
+   bookmarks.slice(0,2).forEach(page=>{
+    const b=document.createElement('button');b.className='safari-recent-row';b.type='button';
+    b.innerHTML='<span class="safari-recent-icon safari-cover-'+page.theme+'">'+esc(page.badge)+'</span><span><strong>'+esc(page.name)+'</strong><small>'+esc(page.sub)+'</small></span><span class="safari-row-arrow">›</span>';
+    b.onclick=()=>go('page',page.id);recent.append(b);
+   });
+   const form=main.querySelector('.safari-search-form');
+   form.onsubmit=e=>{
+    e.preventDefault();
+    const q=form.querySelector('input').value.trim().toLowerCase();
+    if(!q)return;
+    const match=bookmarks.find(page=>(page.name+' '+page.sub+' '+page.headline).toLowerCase().includes(q));
+    if(match)go('page',match.id);
+    else {const input=form.querySelector('input');input.setCustomValidity('저장된 페이지에서 찾을 수 없어요.');input.reportValidity();input.addEventListener('input',()=>input.setCustomValidity(''),{once:true})}
+   };
+  }else if(current.mode==='folder'){
+   label.textContent='즐겨찾기';
+   main.innerHTML='<section class="safari-folder"><div class="safari-folder-header"><button type="button" class="safari-folder-back">‹ 시작 페이지</button><span>즐겨찾기</span></div><h1>지우랑 ♡</h1><p>저장해 둔 페이지</p><div class="safari-folder-rows"></div></section>';
+   main.querySelector('.safari-folder-back').onclick=()=>go('start');
+   const wrap=main.querySelector('.safari-folder-rows');
+   bookmarks.forEach(page=>{
+    const b=document.createElement('button');b.type='button';b.className='safari-folder-row';b.innerHTML='<span class="safari-folder-mark safari-cover-'+page.theme+'">'+esc(page.badge)+'</span><span><strong>'+esc(page.name)+'</strong><small>'+esc(page.sub)+'</small></span><span class="safari-row-arrow">›</span>';b.onclick=()=>go('page',page.id);wrap.append(b);
+   });
+  }else if(current.mode==='tabs'){
+   label.textContent='탭 '+tabs.length+'개';
+   main.innerHTML='<section class="safari-overview"><div class="safari-overview-heading"><span>탭 그룹</span><strong>지우랑 ♡</strong><button type="button" class="safari-overview-done">완료</button></div><div class="safari-overview-grid" aria-label="열려 있는 탭"></div><div class="safari-overview-bottom"><button type="button" class="safari-new-tab" aria-label="새 탭 추가">＋</button><span>탭 '+tabs.length+'개</span><button type="button" class="safari-overview-done2">완료</button></div></section>';
+   const grid=main.querySelector('.safari-overview-grid');
+   tabs.forEach(id=>{
+    const page=find(id);const title=page?.name||'시작 페이지';
+    const tile=document.createElement('div');tile.className='safari-overview-tile';
+    tile.innerHTML='<div class="safari-tile-header"><span>'+esc(title)+'</span><button type="button" aria-label="'+esc(title)+' 탭 닫기">×</button></div><button type="button" class="safari-tile-open" aria-label="'+esc(title)+' 열기">'+tabCard(id)+'</button>';
+    tile.querySelector('.safari-tile-open').onclick=()=>go(id==='blank'?'start':'page',id==='blank'?null:id);
+    tile.querySelector('.safari-tile-header button').onclick=()=>{
+      tabs=tabs.filter(t=>t!==id);
+      paint();
+    };
+    grid.append(tile);
+   });
+   main.querySelector('.safari-new-tab').onclick=()=>{
+    if(!tabs.includes('blank'))tabs.push('blank');
+    go('start');
+   };
+   main.querySelectorAll('.safari-overview-done,.safari-overview-done2').forEach(b=>b.onclick=()=>go('start'));
+  }else if(current.mode==='page'){
+   const page=find(current.id);
+   if(!page){go('start');return}
+   label.textContent=page.name;
+   main.innerHTML='<article class="safari-page"><div class="safari-page-header"><button type="button" class="safari-page-previous">‹</button><span>저장해 둔 페이지</span><button type="button" class="safari-page-bookmark" aria-label="즐겨찾기 폴더 보기">☆</button></div><div class="safari-page-hero safari-cover-'+page.theme+'"><span>'+esc(page.eyebrow)+'</span><strong>'+esc(page.headline)+'</strong><small>'+esc(page.sub)+'</small></div><div class="safari-page-body"><span class="safari-page-pill">즐겨찾기 · 지우랑 ♡</span><h2>'+esc(page.note)+'</h2><p>'+esc(page.summary)+'</p><div class="safari-page-details"></div><p class="safari-page-footnote">정원이 남겨둔 페이지의 미리보기</p></div></article>';
+   main.querySelector('.safari-page-previous').onclick=()=>{if(trailPos>0){trailPos--;paint()}else go('tabs')};
+   main.querySelector('.safari-page-bookmark').onclick=()=>go('folder');
+   const ul=main.querySelector('.safari-page-details');
+   page.items.forEach((item,index)=>{const row=document.createElement('div');row.className='safari-page-detail';row.innerHTML='<span>'+String(index+1).padStart(2,'0')+'</span><strong>'+esc(item)+'</strong>';ul.append(row)});
+  }
+  main.scrollTop=0;
+ }
+ back.onclick=()=>{if(trailPos>0){trailPos--;paint()}};
+ forward.onclick=()=>{if(trailPos<trail.length-1){trailPos++;paint()}};
+ root.querySelector('.safari-bookmark-action').onclick=()=>go('folder');
+ root.querySelector('.safari-tabs-action').onclick=()=>go('tabs');
+ paint();
+}
+
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
 if(name==='메모'){$('#app').classList.add('notes-app');c.innerHTML='<p class="notes-date"></p><textarea aria-label="메모" placeholder="메모를 입력하세요"></textarea><p class="muted">이 브라우저에 자동 저장됩니다.</p>';c.querySelector('.notes-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric'});const t=c.querySelector('textarea');t.value=note;t.oninput=()=>{note=t.value;try{localStorage.setItem('my-phone-note',note)}catch{toast('저장 공간을 사용할 수 없어 현재 화면에서만 유지됩니다.')}}}
 else if(name==='설정'){c.innerHTML=`<h1>설정</h1><div class="card profile"><span class="avatar">${story.initials}</span><div><strong>${story.owner}</strong><p class="muted">${story.owner}의 iPhone</p></div></div><div class="card"><div class="row"><span class="row-label"><span class="settings-icon" style="background:#ff9500" data-symbol="airplane"></span>비행기 모드</span><input id="settings-airplane" class="setting-switch" type="checkbox" aria-label="비행기 모드 시뮬레이션"></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="wifi"></span>Wi-Fi</span><span id="settings-wifi"></span></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="bluetooth"></span>Bluetooth</span><span id="settings-bluetooth"></span></div></div><div class="card"><label class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="moon"></span>다크 배경</span><input class="setting-switch" type="checkbox" id="dark"></label><div class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="sun"></span>홈 화면 사용자화</span><button id="settings-customize">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="mirror"></span>제어 센터</span><button id="settings-control">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="lock"></span>화면 잠금</span><button id="settings-lock">잠그기</button></div></div><p class="muted">이 화면의 설정은 웹 데모에만 적용됩니다.</p>`;paintSymbols(c);$('#dark').checked=document.body.classList.contains('dark');$('#dark').onchange=e=>document.body.classList.toggle('dark',e.target.checked);$('#settings-control').onclick=openControl;$('#settings-customize').onclick=openCustomize;$('#settings-lock').onclick=lock;syncSettings();$('#settings-airplane').onchange=()=>toggleControl($('.airplane'))}
@@ -600,6 +711,7 @@ else if(name==='시계'){c.innerHTML='<h1>세계 시계</h1><div class="card pad
 else if(name==='캘린더'){renderCalendar(c)}
 else if(name==='사진'){renderPhotos(c)}
 else if(name==='날씨'){c.innerHTML='<div style="text-align:center;padding-top:22px"><h1 style="font-size:30px;font-weight:400;margin-bottom:0">서울</h1><div style="font-size:88px;font-weight:200;letter-spacing:-6px">21°</div><p style="font-size:19px;margin:0">맑음</p><p>최고:24° · 최저:16°</p><div class="card padded muted" style="margin-top:35px">디자인을 위한 예시 날씨입니다.<br>실시간 기상 정보와 연결되지 않았습니다.</div></div>'}
+else if(name==='Safari'){renderSafari(c)}
 else if(name==='전화'){$('#app').classList.add('phone-app');renderPhone(c)}
 else if(name==='계산기'){calculator(c)}
 else if(name==='메시지'){renderMessages(c)}
