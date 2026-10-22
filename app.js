@@ -910,7 +910,34 @@ function renderSafari(container){
   root.querySelectorAll('[data-range]').forEach(b=>b.onclick=()=>{range=b.dataset.range;paint()});
   paint();
  }
- window.PhoneMemoryApps={renderContacts,renderNotes,renderFiles,renderFaceTime,renderWallet,renderHealth};
+ const mailbox=[
+  {id:'volunteer',from:'교육봉사 담당자',subject:'교육봉사 활동 일정 안내',preview:'다음 주 교육봉사 일정을 확인해주세요.',date:'10월 21일',body:'안녕하세요.\n\n다음 주 교육봉사 일정 안내드립니다.\n\n활동 전 안전교육 내용을 확인하고 실내 운동화와 편한 복장을 준비해 주세요.\n\n활동 확인서는 일정 종료 후 발급됩니다.\n\n감사합니다.'},
+  {id:'practical',from:'체육교육과 학과사무실',subject:'실기평가 시간 및 준비물 안내',preview:'실기평가 일정이 공지되었습니다.',date:'10월 20일',body:'체육교육과 학생 여러분께 안내드립니다.\n\n실기평가 당일 학생증과 운동복, 실내 운동화를 지참해 주세요.\n\n평가 시작 20분 전까지 입실 바랍니다.\n\n자세한 내용은 학과 공지사항을 확인해 주세요.'},
+  {id:'parttime',from:'과외 학부모',subject:'다음 주 수업 시간 문의',preview:'화요일 수업 시간을 조정할 수 있을까요?',date:'10월 18일',body:'안녕하세요, 선생님.\n\n다음 주 화요일에는 아이가 학교 행사로 조금 늦게 끝난다고 해서요.\n\n혹시 수업을 30분 늦춰서 시작할 수 있을까요?\n\n편하실 때 답장 부탁드립니다.'},
+  {id:'library',from:'대학교 도서관',subject:'대출 도서 반납 예정 안내',preview:'반납 예정일을 확인해주세요.',date:'10월 16일',body:'도서관 대출 자료의 반납 예정일이 다가왔습니다.\n\n대출 중인 도서는 내역에서 확인해 주세요.\n\n연체 시 대출이 제한될 수 있습니다.'},
+  {id:'order',from:'온라인 주문 알림',subject:'주문하신 상품이 배송 완료되었습니다',preview:'주문하신 운동 양말이 배송되었습니다.',date:'10월 14일',body:'안녕하세요.\n\n주문하신 운동 양말이 배송 완료되었습니다.\n\n상품에 문제가 있다면 구매 내역에서 문의할 수 있습니다.\n\n이 메일은 재현된 알림입니다.'}
+ ];
+ function renderMail(root){
+  function inbox(){
+   setView(root,'story-mail-app',header('메일')+'<section class="story-panel story-mail"><h1>받은 편지함</h1><label class="story-filter"><span>⌕</span><input type="search" placeholder="메일 검색" aria-label="메일 검색"></label><div class="story-mail-list"></div></section>');
+   const q=root.querySelector('input'),list=root.querySelector('.story-mail-list');
+   function paint(){
+    list.replaceChildren();
+    mailbox.filter(item=>(item.from+' '+item.subject+' '+item.preview).includes(q.value.trim())).forEach(item=>{
+     const btn=document.createElement('button');btn.type='button';btn.className='story-mail-row';
+     btn.innerHTML='<span class="story-mail-dot"></span><span class="story-mail-copy"><strong>'+E(item.from)+'</strong><b>'+E(item.subject)+'</b><small>'+E(item.preview)+'</small></span><time>'+E(item.date)+'</time>';
+     btn.onclick=()=>detail(item);list.append(btn);
+    });
+   }q.oninput=paint;paint();
+  }
+  function detail(item){
+   setView(root,'story-mail-app',header('받은 편지함','받은 편지함')+'<article class="story-panel story-mail-detail"><h1>'+E(item.subject)+'</h1><div class="story-mail-sender"><span class="story-mail-sender-icon">'+E(item.from[0])+'</span><span><strong>'+E(item.from)+'</strong><small>받은 날짜: '+E(item.date)+'</small></span></div><div class="story-mail-body">'+E(item.body)+'</div><button type="button" class="story-mail-return">받은 편지함으로</button></article>');
+   listenBack(root,inbox);
+   root.querySelector('.story-mail-return').onclick=inbox;
+  }inbox();
+ }
+
+ window.PhoneMemoryApps={renderContacts,renderNotes,renderFiles,renderFaceTime,renderWallet,renderHealth,renderMail};
 })();
 
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
@@ -924,6 +951,7 @@ else if(name==='연락처'){window.PhoneMemoryApps.renderContacts(c,{openApp,toa
 else if(name==='파일'){window.PhoneMemoryApps.renderFiles(c,{openApp})}
 else if(name==='FaceTime'){window.PhoneMemoryApps.renderFaceTime(c,{openContact:id=>{openApp('연락처');window.PhoneMemoryApps.renderContacts(c,{openApp,toast,selected:id})}})}
 else if(name==='지갑'){window.PhoneMemoryApps.renderWallet(c)}
+else if(name==='메일'){window.PhoneMemoryApps.renderMail(c)}
 else if(name==='건강'){window.PhoneMemoryApps.renderHealth(c)}
 else if(name==='Safari'){renderSafari(c)}
 else if(name==='전화'){$('#app').classList.add('phone-app');renderPhone(c)}
