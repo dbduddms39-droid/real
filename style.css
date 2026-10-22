@@ -670,3 +670,12 @@
 .story-mail-sender>span:nth-child(2){display:flex;flex-direction:column;gap:6px}.story-mail-sender strong{font-size:14px}.story-mail-sender small{font-size:11px;color:#898992}
 .story-mail-body{font-size:14px;line-height:1.9;white-space:pre-wrap;padding:23px 0 30px}
 .story-mail-return{color:#1478d9;background:#edf4fc;border-radius:11px;padding:12px;font-size:13px}
+
+
+/* Birthday note: text must never inherit the legacy 19px circular icon styling. */
+.story-notes-app .story-birthday-checklist{display:flex;flex-direction:column;gap:0;width:100%;margin:10px 0 24px}
+.story-notes-app .story-birthday-checklist label{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:10px 0;border-bottom:1px solid #f0f0f2;font-size:15px;line-height:1.5;cursor:pointer;box-sizing:border-box}
+.story-notes-app .story-birthday-checklist input[type="checkbox"]{appearance:auto;-webkit-appearance:checkbox;accent-color:#e0ad41;display:block;flex:0 0 20px;width:20px;height:20px;margin:0}
+.story-notes-app .story-birthday-checklist label>span{display:block;position:static;flex:1;min-width:0;width:auto;height:auto;border:0;border-radius:0;background:none;color:#29292f;font-size:15px;line-height:1.5;text-align:left;white-space:normal;overflow-wrap:anywhere;box-shadow:none;padding:0}
+.story-notes-app .story-birthday-checklist+ .story-note-after{margin:14px 0 0;font-size:15px;line-height:1.8;white-space:normal}
+.story-notes-app .story-note-detail{padding-bottom:calc(var(--system-navigation-height) + 28px);box-sizing:border-box}
