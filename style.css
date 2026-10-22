@@ -854,3 +854,15 @@
 .store-preview-back{color:#1574d3;background:#e5edf7;padding:12px 17px;border-radius:12px;margin-top:18px}
 .media-toast{position:sticky;bottom:12px;margin:0 15px;padding:12px 15px;background:#2b2d34e8;color:white;border-radius:12px;font-size:12px;z-index:2}
 @media(max-height:690px){.book-shelf-item .lib-cover{height:144px}.store-feature{min-height:160px}.books-spotlight>.lib-cover{height:114px}}
+
+
+/* Avoid duplicate navigation: Books / App Store own their top bars. */
+.story-books-app>nav,.story-store-app>nav{display:none}
+.story-books-app #app-content,.story-store-app #app-content{height:calc(100% - var(--system-navigation-height));padding:0;overflow-y:auto;overflow-x:hidden}
+.story-books-app .media-app-top,.story-store-app .media-app-top{position:sticky;top:0;z-index:3;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+/* Refine shared UI without changing photo, messages, or music layouts. */
+.story-contacts-app .story-panel,.story-files-app .story-panel,.story-mail-app .story-panel,.story-notes-app .story-panel,.story-health-app .story-panel,.story-facetime-app .story-panel{line-height:1.45}
+.story-person-row,.story-file-row,.story-note-row,.story-mail-row{transition:background-color .15s ease}
+.story-person-row:focus-visible,.story-file-row:focus-visible,.story-note-row:focus-visible,.book-shelf-item:focus-visible,.store-product-info:focus-visible{outline:2px solid #0a7cff;outline-offset:-2px}
+.story-mail-detail,.story-file-preview,.story-note-detail{line-height:1.75}
+@media(prefers-reduced-motion:reduce){.story-person-row,.story-file-row,.story-note-row,.story-mail-row{transition:none}}
