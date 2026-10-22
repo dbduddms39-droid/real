@@ -18,7 +18,7 @@ function showPage(index){pageIndex=index;$('#apps').replaceChildren(...pages[ind
 dock.forEach(name=>$('#dock').append(makeIcon(name)));
 function toast(text){$('#toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').textContent='',4500)}
 function cancelMusicIntro(){cancelAnimationFrame(introFrame);introFrame=null;introVisibleSince=null;$('#dock [data-app="음악"] .icon')?.classList.remove('intro-tap')}
-function home(restore=false,keepHistory=false){if(!keepHistory)appHistory=[];cancelMusicIntro();clearTimeout(holdTimer);$('#customize').hidden=true;clearInterval(interval);$('#app').hidden=true;$('#control').hidden=true;$('#lock').hidden=true;$('#home').hidden=false;['home','app','lock'].forEach(id=>$('#'+id).inert=false);if(restore&&lastAppButton?.isConnected)lastAppButton.focus()}
+function home(restore=false,keepHistory=false){phoneCallCleanup();phoneCallCleanup=()=>{};if(!keepHistory)appHistory=[];cancelMusicIntro();clearTimeout(holdTimer);$('#customize').hidden=true;clearInterval(interval);$('#app').hidden=true;$('#control').hidden=true;$('#lock').hidden=true;$('#home').hidden=false;['home','app','lock'].forEach(id=>$('#'+id).inert=false);if(restore&&lastAppButton?.isConnected)lastAppButton.focus()}
 function openControl(){cancelMusicIntro();$('#customize').hidden=true;['home','app','lock'].forEach(id=>$('#'+id).inert=true);$('#control').hidden=false;$('#close-control').focus()}
 function closeControl(){['home','app','lock'].forEach(id=>$('#'+id).inert=false);$('#control').hidden=true;$('#control-button').focus()}
 function goBack(){
@@ -27,7 +27,7 @@ function goBack(){
  if(!$('#control').hidden){closeControl();return}
  if(!$('#lock').hidden){return}
  if(!$('#app').hidden){
-  const nestedBack=$('#app-content .photos-back, #app-content .messages-back');
+  const nestedBack=$('#app-content .photos-back, #app-content .messages-back, #app-content .phone-call-end');
   if(nestedBack){nestedBack.click();return}
   if(appHistory.length){openApp(appHistory.pop(),true);return}
   home(true);return;
@@ -314,6 +314,98 @@ function renderReminders(container){
  playStory();
 }
 
+
+// Fictional speed dial: holding the 1 key opens an in-page call to Jiwoo.
+// No telephone number, permission request, or real-world phone call is used.
+let phoneCallCleanup=()=>{};
+function renderPhone(container){
+ const app=document.querySelector('#app');
+ const phoneSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7.3 2.4c-.6-.6-1.5-.6-2.1-.1L3.5 3.9c-1 1-1.2 2.4-.7 4 2 6 7.1 11.1 13.1 13.1 1.6.5 3 .3 4-.7l1.6-1.7c.5-.6.5-1.5-.1-2.1L18.5 14c-.6-.6-1.5-.7-2.2-.2l-1.6 1.2a17 17 0 0 1-5.7-5.7l1.2-1.6c.5-.7.4-1.6-.2-2.2L7.3 2.4Z"/></svg>';
+ const delay=650;
+ function showDial(){
+  phoneCallCleanup();phoneCallCleanup=()=>{};
+  app.classList.remove('call-active');
+  container.innerHTML='<div class="dial-display" aria-live="polite"></div><div class="dial" aria-label="전화 키패드"></div><p class="phone-speed-hint">1번을 길게 눌러 보세요 ♡</p><p class="muted" style="text-align:center">전화 화면 체험 · 실제 통화는 연결되지 않습니다.</p>';
+  const display=container.querySelector('.dial-display');
+  const grid=container.querySelector('.dial');
+  const keys=['1','2','3','4','5','6','7','8','9','*','0','#','⌫','통화'];
+  const letters=['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ','','+',''];
+  keys.forEach((key,i)=>{
+   const b=document.createElement('button');
+   b.type='button';
+   b.textContent=key;
+   b.setAttribute('aria-label',key==='1'?'1번, 지우 단축 다이얼. 길게 누르면 전화':key);
+   if(key==='1')b.classList.add('phone-speed-key');
+   if(key==='1'){
+    const tag=document.createElement('small');tag.textContent='지우';b.append(tag);
+   }else if(letters[i]){
+    const tag=document.createElement('small');tag.textContent=letters[i];b.append(tag);
+   }
+   if(key==='통화'){b.className='call';b.innerHTML=symbols.app('전화')}
+   if(key==='1'){
+    let hold=null,activated=false,origin=null;
+    const stop=()=>{clearTimeout(hold);hold=null;origin=null};
+    const begin=()=>{
+     stop();activated=false;
+     hold=setTimeout(()=>{hold=null;activated=true;showCall()},delay);
+    };
+    b.addEventListener('pointerdown',event=>{
+     if(event.pointerType==='mouse'&&event.button!==0)return;
+     origin={x:event.clientX,y:event.clientY};
+     begin();
+     origin={x:event.clientX,y:event.clientY};
+    });
+    b.addEventListener('pointermove',event=>{
+     if(origin&&Math.hypot(event.clientX-origin.x,event.clientY-origin.y)>18)stop();
+    });
+    ['pointerup','pointercancel','pointerleave','lostpointercapture'].forEach(name=>b.addEventListener(name,stop));
+    b.addEventListener('keydown',event=>{
+     if((event.key==='Enter'||event.key===' ')&&!event.repeat&&!hold)begin();
+    });
+    b.addEventListener('keyup',event=>{
+     if(event.key==='Enter'||event.key===' ')stop();
+    });
+    b.addEventListener('contextmenu',event=>event.preventDefault());
+    b.addEventListener('click',event=>{
+     if(activated){event.preventDefault();activated=false;return}
+     if(display.textContent.length<18)display.textContent+='1';
+    });
+    const previousCleanup=phoneCallCleanup;
+    phoneCallCleanup=()=>{stop();previousCleanup()};
+   }else{
+    b.onclick=()=>{
+     if(key==='⌫')display.textContent=display.textContent.slice(0,-1);
+     else if(key==='통화')toast('실제 통화가 아닌 전화 화면 체험이에요. 1번을 길게 눌러 보세요.');
+     else if(display.textContent.length<18)display.textContent+=key;
+    };
+   }
+   grid.append(b);
+  });
+ }
+ function showCall(){
+  phoneCallCleanup();phoneCallCleanup=()=>{};
+  app.classList.add('call-active');
+  container.innerHTML='<section class="phone-call-screen" aria-label="지우에게 전화"><div class="phone-call-top"><span class="phone-call-number">단축 다이얼 1</span><h1>지우</h1><p class="phone-call-status" role="status" aria-live="polite">전화 거는 중...</p></div><div class="phone-call-avatar" aria-hidden="true">지</div><div class="phone-call-bottom"><button class="phone-call-end" type="button" aria-label="통화 종료">'+phoneSvg+'</button><span>통화 종료</span><p>이 화면은 연출입니다. 실제로 전화가 걸리지는 않아요.</p></div></section>';
+  const screen=container.querySelector('.phone-call-screen');
+  const status=screen.querySelector('.phone-call-status');
+  const end=screen.querySelector('.phone-call-end');
+  let durationTimer=null,elapsed=0;
+  const connect=setTimeout(()=>{
+   if(!screen.isConnected||app.hidden)return;
+   status.textContent='통화 중 · 00:00';
+   durationTimer=setInterval(()=>{
+    if(!screen.isConnected||app.hidden)return;
+    elapsed++;
+    status.textContent='통화 중 · '+String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');
+   },1000);
+  },2200);
+  phoneCallCleanup=()=>{clearTimeout(connect);clearInterval(durationTimer)};
+  end.onclick=showDial;
+  end.focus({preventScroll:true});
+ }
+ showDial();
+}
+
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
 if(name==='메모'){$('#app').classList.add('notes-app');c.innerHTML='<p class="notes-date"></p><textarea aria-label="메모" placeholder="메모를 입력하세요"></textarea><p class="muted">이 브라우저에 자동 저장됩니다.</p>';c.querySelector('.notes-date').textContent=new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric'});const t=c.querySelector('textarea');t.value=note;t.oninput=()=>{note=t.value;try{localStorage.setItem('my-phone-note',note)}catch{toast('저장 공간을 사용할 수 없어 현재 화면에서만 유지됩니다.')}}}
 else if(name==='설정'){c.innerHTML=`<h1>설정</h1><div class="card profile"><span class="avatar">${story.initials}</span><div><strong>${story.owner}</strong><p class="muted">${story.owner}의 iPhone</p></div></div><div class="card"><div class="row"><span class="row-label"><span class="settings-icon" style="background:#ff9500" data-symbol="airplane"></span>비행기 모드</span><input id="settings-airplane" class="setting-switch" type="checkbox" aria-label="비행기 모드 시뮬레이션"></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="wifi"></span>Wi-Fi</span><span id="settings-wifi"></span></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="bluetooth"></span>Bluetooth</span><span id="settings-bluetooth"></span></div></div><div class="card"><label class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="moon"></span>다크 배경</span><input class="setting-switch" type="checkbox" id="dark"></label><div class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="sun"></span>홈 화면 사용자화</span><button id="settings-customize">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="mirror"></span>제어 센터</span><button id="settings-control">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="lock"></span>화면 잠금</span><button id="settings-lock">잠그기</button></div></div><p class="muted">이 화면의 설정은 웹 데모에만 적용됩니다.</p>`;paintSymbols(c);$('#dark').checked=document.body.classList.contains('dark');$('#dark').onchange=e=>document.body.classList.toggle('dark',e.target.checked);$('#settings-control').onclick=openControl;$('#settings-customize').onclick=openCustomize;$('#settings-lock').onclick=lock;syncSettings();$('#settings-airplane').onchange=()=>toggleControl($('.airplane'))}
@@ -321,7 +413,7 @@ else if(name==='시계'){c.innerHTML='<h1>세계 시계</h1><div class="card pad
 else if(name==='캘린더'){renderCalendar(c)}
 else if(name==='사진'){renderPhotos(c)}
 else if(name==='날씨'){c.innerHTML='<div style="text-align:center;padding-top:22px"><h1 style="font-size:30px;font-weight:400;margin-bottom:0">서울</h1><div style="font-size:88px;font-weight:200;letter-spacing:-6px">21°</div><p style="font-size:19px;margin:0">맑음</p><p>최고:24° · 최저:16°</p><div class="card padded muted" style="margin-top:35px">디자인을 위한 예시 날씨입니다.<br>실시간 기상 정보와 연결되지 않았습니다.</div></div>'}
-else if(name==='전화'){c.innerHTML='<div class="dial-display" aria-live="polite"></div><div class="dial"></div><p class="muted" style="text-align:center">번호 입력 데모 · 실제 통화는 연결되지 않습니다.</p>';const letters=['','ABC','DEF','GHI','JKL','MNO','PQRS','TUV','WXYZ','','+',''];['1','2','3','4','5','6','7','8','9','*','0','#','⌫','통화'].forEach((key,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',key);b.textContent=key;if(letters[i]){const s=document.createElement('small');s.textContent=letters[i];b.append(s)}if(key==='통화'){b.className='call';b.innerHTML=symbols.app('전화')}b.onclick=()=>{const d=c.querySelector('.dial-display');if(key==='⌫')d.textContent=d.textContent.slice(0,-1);else if(key==='통화')toast('전화 연결 없이 번호 입력만 지원하는 데모입니다.');else if(d.textContent.length<18)d.textContent+=key};c.querySelector('.dial').append(b)})}
+else if(name==='전화'){$('#app').classList.add('phone-app');renderPhone(c)}
 else if(name==='계산기'){calculator(c)}
 else if(name==='메시지'){renderMessages(c)}
 else if(name==='미리 알림'){renderReminders(c)}
