@@ -238,8 +238,8 @@ function scheduleMusicIntro(){
   else{
    if(introVisibleSince===null)introVisibleSince=now;
    const elapsed=now-introVisibleSince;
-   if(elapsed>=2820)icon.classList.add('intro-tap');
-   if(elapsed>=3000){openIntroMusic();return}
+   if(elapsed>=1820)icon.classList.add('intro-tap');
+   if(elapsed>=2000){openIntroMusic();return}
   }
   introFrame=requestAnimationFrame(frame);
  }
