@@ -1038,13 +1038,13 @@ function renderBookStore(container,kind){
   ]}
  ];
  const apps=[
-  {id:'everytime',name:'에브리타임',category:'교육',about:'강의 시간표와 학교생활을 확인하는 앱',glyph:'E',logo:'everytime',installed:true,screen:'schedule',highlights:['시간표','학교생활','강의 정보']},
-  {id:'notion',name:'Notion',category:'생산성',about:'과제와 수업 노트를 한곳에서 정리',glyph:'N',logo:'notion',installed:true,screen:'tasks',highlights:['과제 정리','수업 노트','계획']},
-  {id:'naver',name:'네이버 지도',category:'내비게이션',about:'학교 가는 길부터 약속 장소까지',glyph:'N',logo:'naver',installed:true,screen:'map',highlights:['길찾기','대중교통','저장한 장소']},
-  {id:'spotify',name:'Spotify',category:'음악',about:'등굣길에 듣는 음악과 플레이리스트',glyph:'♫',logo:'spotify',installed:true,screen:'music',highlights:['플레이리스트','음악','추천']},
-  {id:'millie',name:'밀리의 서재',category:'도서',about:'틈날 때 읽는 전자책',glyph:'밀',logo:'millie',installed:false,screen:'reading',highlights:['전자책','읽기','독서']},
-  {id:'between',name:'비트윈',category:'소셜 네트워킹',about:'둘만의 사진과 기념일을 모아두는 공간',glyph:'B',logo:'between',installed:true,screen:'between',highlights:['사진','기념일','둘만의 공간']},
-  {id:'forest',name:'Forest',category:'생산성',about:'집중할 시간을 정해두는 타이머',glyph:'♣',logo:'forest',installed:false,screen:'focus',highlights:['집중 시간','공부','타이머']}
+  {id:'everytime',appId:'642416310',name:'에브리타임',category:'교육',about:'강의 시간표와 학교생활을 확인하는 앱',glyph:'E',logo:'everytime',installed:true,screen:'schedule',highlights:['시간표','학교생활','강의 정보']},
+  {id:'notion',appId:'1232780281',name:'Notion',category:'생산성',about:'과제와 수업 노트를 한곳에서 정리',glyph:'N',logo:'notion',installed:true,screen:'tasks',highlights:['과제 정리','수업 노트','계획']},
+  {id:'naver',appId:'311867728',name:'네이버 지도',category:'내비게이션',about:'학교 가는 길부터 약속 장소까지',glyph:'N',logo:'naver',installed:true,screen:'map',highlights:['길찾기','대중교통','저장한 장소']},
+  {id:'spotify',appId:'324684580',name:'Spotify',category:'음악',about:'등굣길에 듣는 음악과 플레이리스트',glyph:'♫',logo:'spotify',installed:true,screen:'music',highlights:['플레이리스트','음악','추천']},
+  {id:'millie',appId:'1213788923',name:'밀리의 서재',category:'도서',about:'틈날 때 읽는 전자책',glyph:'밀',logo:'millie',installed:false,screen:'reading',highlights:['전자책','읽기','독서']},
+  {id:'between',appId:'458035189',name:'비트윈',category:'소셜 네트워킹',about:'둘만의 사진과 기념일을 모아두는 공간',glyph:'B',logo:'between',installed:true,screen:'between',highlights:['사진','기념일','둘만의 공간']},
+  {id:'forest',appId:'866450515',name:'Forest',category:'생산성',about:'집중할 시간을 정해두는 타이머',glyph:'♣',logo:'forest',installed:false,screen:'focus',highlights:['집중 시간','공부','타이머']}
  ];
  let bookProgress=safeRead('still-september-books-progress-v2',{lesson:1,practice:0,ordinary:1,november:0});
  let downloads=safeRead('still-september-store-installed-v2',{});
@@ -1053,9 +1053,18 @@ function renderBookStore(container,kind){
  const pageOf=book=>Math.max(0,Math.min(book.pages.length-1,Number(bookProgress[book.id]??0)||0));
  const percent=book=>Math.round((pageOf(book)+1)/book.pages.length*100);
  const bookCover=book=>'<span class="lib-cover '+book.color+'" role="img" aria-label="'+esc(book.title)+' 표지"><i class="lib-cover-spine"></i><span class="lib-cover-symbol">'+book.mark+'</span><strong>'+esc(book.title)+'</strong><small>'+esc(book.topic)+'</small></span>';
- const appIcon=item=>'<span class="store-real-icon '+item.logo+'" aria-hidden="true">'+(item.logo==='spotify'?'<svg viewBox="0 0 64 64"><path d="M13 24c13-4 27-4 39 2M17 34c10-4 23-3 32 2M20 44c9-3 17-2 26 2" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/></svg>':item.logo==='forest'?'<svg viewBox="0 0 64 64"><path d="M31 9 17 30h9l-13 17h36L37 30h9L31 9Z" fill="currentColor"/><path d="M31 42v12" stroke="#755441" stroke-width="5"/></svg>':'<strong>'+esc(item.glyph)+'</strong>')+'</span>';
+ const appIcon=item=>'<span class="store-real-icon '+item.logo+'" aria-label="'+esc(item.name)+' 아이콘"><img loading="lazy" alt="" src="https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/00/00/00/00000000-0000-0000-0000-000000000000/icon.png" data-app-art="'+item.appId+'"></span>';
+ function loadRealIcons(){
+  if(isBooks)return;
+  const ids=apps.map(x=>x.appId).join(',');
+  fetch('https://itunes.apple.com/lookup?id='+ids+'&country=kr').then(r=>r.json()).then(data=>{
+   const urls={};(data.results||[]).forEach(x=>{urls[x.trackId]=x.artworkUrl512||x.artworkUrl100});
+   container.querySelectorAll('[data-app-art]').forEach(img=>{if(urls[img.dataset.appArt])img.src=urls[img.dataset.appArt]});
+  }).catch(()=>{});
+ }
+
  const top=(label,back='')=>'<div class="media-app-top"><button type="button" class="mini-back" aria-label="'+(back?'이전 화면':'홈으로')+'">‹ '+(back||'홈')+'</button><span>'+esc(label)+'</span><span class="media-top-spacer"></span></div>';
- function paint(html){container.innerHTML=html;container.scrollTop=0}
+ function paint(html){container.innerHTML=html;container.scrollTop=0;loadRealIcons()}
  function backList(){selected=null;readerPage=null;storePreview=false;renderList()}
  function homeAction(){document.querySelector('#home-button')?.click()}
  function wireBack(fn){const b=container.querySelector('.mini-back');if(b)b.onclick=fn}
@@ -1094,6 +1103,7 @@ function renderBookStore(container,kind){
      row.querySelector('[data-action]').onclick=()=>action(item.id,()=>resultRows());
      list.append(row);
     }
+    loadRealIcons();
    }
    if(input)input.oninput=()=>{search=input.value;resultRows()};
    resultRows();
@@ -1138,7 +1148,7 @@ function renderBookStore(container,kind){
    map:'<div class="preview-title">학교 가는 길</div><div class="preview-map"><span>학교</span><i></i><span>버스 정류장</span></div><div class="preview-check">도보 · 대중교통</div>',
    music:'<div class="preview-title">최근에 들은 음악</div><div class="preview-album">♫</div><div class="preview-check">등굣길 플레이리스트</div>',
    reading:'<div class="preview-title">보관함</div><div class="preview-album">책</div><div class="preview-check">새로운 책 살펴보기</div>',
-   between:'<div class="preview-between"><div class="between-overline">BETWEEN</div><div class="between-people"><span>정원</span><span class="between-heart">♡</span><span>지우</span></div><div class="between-photo-shape"><strong>500일</strong><small>남산에서 남긴 기록</small></div><div class="between-stamp">마지막 기록 · 9월</div></div>',
+   between:'<div class="preview-between"><div class="between-overline">BETWEEN</div><div class="between-people"><span>정원</span><span class="between-heart">♡</span><span>지우</span></div><div class="between-photo-shape"><strong>500일</strong><small>남산에서 남긴 기록</small></div><div class="between-stamp">마지막 기록 · 9월</div><div class="between-gallery">'+[12,13,14].map(n=>'<img loading="lazy" src="assets/jiwoo-'+n+'.webp" alt="지우 사진">').join('')+'</div></div>',
    focus:'<div class="preview-title">오늘의 집중</div><div class="preview-focus">25:00</div><div class="preview-check">수업 자료 정리</div>'
   };
   return screens[item.screen]||'';
