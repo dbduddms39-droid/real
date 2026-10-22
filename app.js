@@ -706,10 +706,10 @@ function renderSafari(container){
   {id:'mom',name:'엄마',initial:'엄',group:'가족',favorite:true},
   {id:'dad',name:'아빠',initial:'아',group:'가족',favorite:true},
   {id:'jiwoo',name:'지우',initial:'지',group:'',favorite:true,birthday:'9월 7일'},
-  {id:'manager',name:'매니저님',initial:'매',group:'일',favorite:false},
-  {id:'sunghoon',name:'성훈',initial:'성',group:'친구',favorite:false},
-  {id:'heeseung',name:'희승이 형',initial:'희',group:'친구',favorite:false},
-  {id:'trainer',name:'태권도 사범님',initial:'태',group:'운동',favorite:false}
+  {id:'minseo',name:'민서',initial:'민',group:'체육교육과',favorite:false},
+  {id:'junseo',name:'준서',initial:'준',group:'조별과제',favorite:false},
+  {id:'subin',name:'수빈',initial:'수',group:'친구',favorite:false},
+  {id:'trainer',name:'태권도 관장님',initial:'태',group:'태권도',favorite:false}
  ];
  function avatar(c,large=false){
   const cls=large?'story-profile-avatar':'story-avatar',src=c.id==='jiwoo'?photo('photo-15'):'';
@@ -749,10 +749,10 @@ function renderSafari(container){
   if(opts.selected)showContact(opts.selected);else showList();
  }
  const memoRecords=[
-  {id:'groceries',title:'사야 할 것',date:'9월 26일',lines:['세제','충전 케이블','건전지']},
+  {id:'groceries',title:'사야 할 것',date:'10월 20일',lines:['세제','충전 케이블','건전지']},
+  {id:'course',title:'체육수업 지도안',date:'10월 18일',lines:['준비운동 5분','패스 연습','모둠 활동','마무리 스트레칭']},
+  {id:'pet',title:'마음이',date:'10월 8일',lines:['사료 주문','간식','장난감 새로 사기','병원 예약 확인']},
   {id:'trip',title:'강릉 가면',date:'9월 20일',lines:['바다 보기','사진 찍기','조개구이 먹기','카페 찾아보기']},
-  {id:'practice',title:'연습 메모',date:'9월 14일',lines:['첫 동선 확인','음악 다시 듣기','끝나고 스트레칭']},
-  {id:'pet',title:'마음이',date:'9월 9일',lines:['사료 주문','간식','장난감 새로 사기','병원 예약 확인']},
   {id:'birthday',title:'지우 생일',date:'9월 6일',lines:['예약 확인하기','선물 포장','꽃 찾으러 가기','케이크 픽업'],footer:'내년에는 어디 데려가지'},
   {id:'mine',title:'내 메모',date:'',lines:[]}
  ];
@@ -796,13 +796,13 @@ function renderSafari(container){
  }
  const gangneungImage='https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Gyeongpo_Beach_1.jpg/960px-Gyeongpo_Beach_1.jpg';
  const files=[
-  {id:'work',name:'정리',modified:'9월 26일',items:[
-   {name:'연습_체크리스트.txt',type:'text',contents:'연습 체크리스트\n\n동선\n음악\n시간 확인'},
-   {name:'사진_보관함',type:'link',contents:'사진 보관함 열기'}
+  {id:'course',name:'학교',modified:'10월 21일',items:[
+   {name:'체육수업_지도안.txt',type:'text',contents:'체육수업 지도안\n\n도입: 준비운동\n전개: 기본 동작 시범, 조별 활동\n정리: 스트레칭과 피드백'},
+   {name:'실기평가_준비.txt',type:'text',contents:'실기평가\n\n준비물 점검\n기록 확인\n연습 일정'},
+   {name:'중간고사_범위.txt',type:'text',contents:'체육교육론\n\n강의 1~6주차\n평가 방식 정리\n수업지도 원리 복습'}
   ]},
   {id:'500',name:'500일',modified:'지난 기록',items:[
    {name:'남산타워_메모.txt',type:'text',contents:'500일\n\n남산타워\n저녁에 야경 보기\n자물쇠 걸기'},
-   {name:'사진_후보',type:'link',contents:'사진 앱에서 보기'},
    {name:'예약확인.txt',type:'text',contents:'남산타워 입장권\n\n방문 전에 시간 확인\n저녁에 올라가기'}
   ]},
   {id:'trip',name:'10월 강릉 여행',modified:'9월 20일',items:[
@@ -827,7 +827,7 @@ function renderSafari(container){
    listenBack(root,list);
    group.items.forEach((item,i)=>{
     const b=document.createElement('button');b.type='button';b.className='story-file-row';
-    b.innerHTML='<span class="story-file-type">'+(item.type==='image'?'▧':item.type==='link'?'▣':'▤')+'</span><span><strong>'+E(item.name)+'</strong><small>'+E(item.type==='image'?'이미지':item.type==='text'?'텍스트 문서':'사진 앱')+'</small></span><span class="story-chevron">›</span>';
+    b.innerHTML='<span class="story-file-type">'+(item.type==='image'?'▧':'▤')+'</span><span><strong>'+E(item.name)+'</strong><small>'+E(item.type==='image'?'이미지':'텍스트 문서')+'</small></span><span class="story-chevron">›</span>';
     b.onclick=()=>preview(id,i);root.querySelector('.story-file-list').append(b);
    });
   }
@@ -835,23 +835,21 @@ function renderSafari(container){
    const g=files.find(x=>x.id===id),file=g?.items[i];if(!file)return;
    let inner='';
    if(file.type==='image')inner='<div class="story-image-preview">'+aimg(file.src,'story-file-image','강릉 경포해변')+'</div><span class="story-image-label">강릉 · 경포해변</span>';
-   else if(file.type==='link')inner='<div class="story-file-paper"><span>사진 앱</span><p>사진 보관함에서 보기</p></div><button type="button" class="story-open-photos">사진 앱 열기 ›</button>';
    else inner='<div class="story-file-paper">'+E(file.contents)+'</div>';
    setView(root,'story-files-app',header(file.name,g.name)+'<section class="story-panel story-file-preview">'+inner+'</section>');
    listenBack(root,()=>folder(id));
-   root.querySelector('.story-open-photos')?.addEventListener('click',()=>opts.openApp('사진'));
   }
   list();
  }
  const calls=[
+  {id:'mom',when:'10월 21일',time:'오후 9:12',kind:'FaceTime 영상 · 12분'},
+  {id:'junseo',when:'10월 19일',time:'오후 8:33',kind:'FaceTime 영상 · 18분'},
+  {id:'minseo',when:'10월 17일',time:'오후 4:25',kind:'FaceTime 영상 · 6분'},
+  {id:'dad',when:'10월 12일',time:'오후 7:45',kind:'FaceTime 영상 · 9분'},
+  {id:'subin',when:'10월 6일',time:'오후 11:02',kind:'FaceTime 영상 · 24분'},
   {id:'jiwoo',when:'9월 25일',time:'오후 8:42',kind:'부재중 FaceTime',missed:true},
-  {id:'manager',when:'9월 24일',time:'오후 6:18',kind:'FaceTime 영상 · 3분'},
   {id:'jiwoo',when:'9월 21일',time:'오후 10:06',kind:'FaceTime 영상 · 1시간 12분'},
-  {id:'mom',when:'9월 20일',time:'오후 4:35',kind:'FaceTime 영상 · 8분'},
-  {id:'sunghoon',when:'9월 19일',time:'오후 11:10',kind:'FaceTime 영상 · 14분'},
-  {id:'jiwoo',when:'9월 18일',time:'오후 9:17',kind:'FaceTime 영상 · 33분'},
-  {id:'dad',when:'9월 15일',time:'오후 7:21',kind:'FaceTime 영상 · 6분'},
-  {id:'heeseung',when:'9월 12일',time:'오후 6:03',kind:'FaceTime 영상 · 21분'}
+  {id:'jiwoo',when:'9월 18일',time:'오후 9:17',kind:'FaceTime 영상 · 33분'}
  ];
  function renderFaceTime(root,opts={}){
   let filter='all';
@@ -889,10 +887,10 @@ function renderSafari(container){
   }
   list();
  }
- const sleepWeek=[{day:'24',value:7.3},{day:'25',value:6.8},{day:'26',value:6.5},{day:'27',value:7.1},{day:'28',value:5.0},{day:'29',value:4.4},{day:'30',value:4.0}];
- const sleepMonth=[{day:'1주',value:7.2},{day:'2주',value:6.9},{day:'3주',value:7.1},{day:'4주',value:5.7}];
- const stepsWeek=[{day:'3',value:6300},{day:'4',value:8100},{day:'5',value:7200},{day:'6',value:9500},{day:'7',value:17892},{day:'8',value:8200},{day:'9',value:7100}];
- const stepsMonth=[{day:'1주',value:8700},{day:'2주',value:9500},{day:'3주',value:6400},{day:'4주',value:5800}];
+ const sleepWeek=[{day:'16',value:5.9},{day:'17',value:4.8},{day:'18',value:6.1},{day:'19',value:5.1},{day:'20',value:4.3},{day:'21',value:4.0},{day:'22',value:4.4}];
+ const sleepMonth=[{day:'1주',value:6.1},{day:'2주',value:5.7},{day:'3주',value:5.0},{day:'4주',value:4.2}];
+ const stepsWeek=[{day:'16',value:6230},{day:'17',value:4380},{day:'18',value:8920},{day:'19',value:5370},{day:'20',value:7510},{day:'21',value:4890},{day:'22',value:5820}];
+ const stepsMonth=[{day:'1주',value:8130},{day:'2주',value:7640},{day:'3주',value:6680},{day:'4주',value:5510}];
  function renderHealth(root){
   let category='sleep',range='week';
   setView(root,'story-health-app',header('건강')+'<section class="story-panel story-health"><h1>건강</h1><div class="story-health-cat"><button type="button" data-category="sleep">수면</button><button type="button" data-category="steps">걸음 수</button></div><div class="story-health-range"><button type="button" data-range="week">주</button><button type="button" data-range="month">월</button></div><div class="story-health-content"></div><p class="story-health-disclaimer">화면에 표시된 기록은 이야기 속 가상 데이터입니다.</p></section>');
@@ -902,11 +900,11 @@ function renderSafari(container){
    root.querySelectorAll('[data-range]').forEach(b=>{b.classList.toggle('active',b.dataset.range===range);b.setAttribute('aria-pressed',String(b.dataset.range===range))});
    const sleep=category==='sleep',data=sleep?(range==='week'?sleepWeek:sleepMonth):(range==='week'?stepsWeek:stepsMonth);
    const title=sleep?'수면 시간':'걸음 수';
-   const score=sleep?(range==='week'?'6시간 10분':'6시간 44분'):(range==='week'?'17,892':'8,100');
-   const unit=sleep?'평균 수면':'걸음';
-   const max=sleep?8:20000;
+   const avg=data.reduce((sum,x)=>sum+x.value,0)/data.length;const score=sleep?Math.floor(avg)+'시간 '+String(Math.round((avg%1)*60)).padStart(2,'0')+'분':Math.round(avg).toLocaleString('ko-KR');
+   const unit=sleep?'평균 수면':'평균 걸음';
+   const max=sleep?8:12000;
    const bars=data.map(x=>'<div class="story-health-point"><div class="story-health-column"><span style="height:'+Math.round(x.value/max*100)+'%" title="'+E(x.day)+(sleep?'일 ':'일 ')+E(x.value)+(sleep?'시간':'걸음')+'"></span></div><small>'+E(x.day)+'</small></div>').join('');
-   panel.innerHTML='<div class="story-health-stat"><span>'+title+' · '+(range==='week'?'최근 7일':'9월')+'</span><strong>'+score+'</strong><small>'+unit+'</small><div class="story-health-plots">'+bars+'</div><div class="story-health-axis"><span>0</span><span>'+E(sleep?'8시간':'20,000')+'</span></div></div>';
+   panel.innerHTML='<div class="story-health-stat"><span>'+title+' · '+(range==='week'?'10월 16~22일':'10월 1~22일')+'</span><strong>'+score+'</strong><small>'+unit+'</small><div class="story-health-plots">'+bars+'</div><div class="story-health-axis"><span>0</span><span>'+E(sleep?'8시간':'12,000')+'</span></div></div>';
   }
   root.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;paint()});
   root.querySelectorAll('[data-range]').forEach(b=>b.onclick=()=>{range=b.dataset.range;paint()});
