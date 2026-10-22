@@ -943,6 +943,44 @@ function renderSafari(container){
  window.PhoneMemoryApps={renderContacts,renderNotes,renderFiles,renderFaceTime,renderWallet,renderHealth,renderMail};
 })();
 
+
+function renderBookStore(container,kind){
+ const books=kind==='도서';
+ const data=books?[
+ {name:'체육수업의 이해',detail:'체육수업의 목표와 수업 설계',sub:'전공 참고자료',color:'#304d6a',pct:42},
+ {name:'움직임과 성장',detail:'몸을 움직이는 이유와 꾸준한 연습',sub:'읽고 있는 책',color:'#678976',pct:61},
+ {name:'보통의 하루',detail:'평범한 날을 돌아보는 에세이',sub:'에세이',color:'#c5ab8e',pct:23}
+ ]:[
+ {name:'에브리타임',detail:'학교 시간표와 강의 정보',sub:'교육',color:'#dc554b',owned:true,icon:'E'},
+ {name:'Notion',detail:'강의 노트와 과제 정리',sub:'생산성',color:'#31343b',owned:true,icon:'N'},
+ {name:'네이버 지도',detail:'길찾기와 대중교통',sub:'내비게이션',color:'#2baa71',owned:true,icon:'N'},
+ {name:'Spotify',detail:'음악 스트리밍',sub:'음악',color:'#2aaf70',owned:true,icon:'♫'},
+ {name:'밀리의 서재',detail:'전자책 읽기',sub:'도서',color:'#d4b43e',owned:false,icon:'밀'},
+ {name:'Forest',detail:'집중 시간 관리',sub:'생산성',color:'#72a46d',owned:false,icon:'♣'}
+ ];
+ const esc=v=>String(v).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+ let query='',mode='home',selected=null;
+ document.querySelector('#app').classList.add(books?'story-books-app':'story-store-app');
+ function icon(d){return '<span class="mini-cover" style="--cover:'+d.color+'">'+(books?'BOOKS':esc(d.icon))+'</span>'}
+ function render(){
+  const back=selected?'<button type="button" class="mini-back">‹ '+(books?'보관함':'App Store')+'</button>':'<span>'+(books?'보관함':'App Store')+'</span>';
+  container.innerHTML='<div class="mini-top">'+back+'<span>'+(selected?'상세 보기':books?'나의 도서':'앱')+'</span></div><section class="mini-body"></section>';
+  const body=container.querySelector('.mini-body');container.scrollTop=0;
+  if(selected){
+   body.innerHTML='<div class="mini-detail">'+icon(selected)+'<h1>'+esc(selected.name)+'</h1><p>'+esc(selected.sub)+'</p><div class="mini-detail-divider"></div><h2>'+esc(books?'읽고 있는 책':'앱 정보')+'</h2><p>'+esc(selected.detail)+'</p>'+(books?'<div class="mini-progress"><i style="width:'+selected.pct+'%"></i></div><small>'+selected.pct+'% 읽음</small><button type="button" class="mini-primary">읽기</button>':'<button type="button" class="mini-primary">'+(selected.owned?'열기':'받기')+'</button>')+'<p class="mini-feedback"></p></div>';
+   body.querySelector('.mini-primary').onclick=()=>body.querySelector('.mini-feedback').textContent=books?'책의 내용은 미리보기로 구성돼 있어요.':'실제 설치 및 앱 실행은 지원하지 않아요.';
+   container.querySelector('.mini-back').onclick=()=>{selected=null;render()};return;
+  }
+  body.innerHTML='<h1>'+(books?'도서':'투데이')+'</h1><label class="mini-search">⌕ <input aria-label="'+(books?'도서':'앱')+' 검색" placeholder="검색" value="'+esc(query)+'"></label>'+(books?'<div class="mini-feature"><span>지금 읽는 책</span><strong>체육수업의 이해</strong><small>42% 읽음</small></div>':'<div class="mini-feature"><span>이번 주 추천</span><strong>대학생의 일상에 필요한 앱</strong><small>시간표와 과제부터 길찾기까지</small></div>')+'<h2>'+(books?'나의 도서':'추천 앱')+'</h2><div class="mini-list"></div>';
+  const input=body.querySelector('input'),list=body.querySelector('.mini-list');
+  const update=()=>{query=input.value;list.replaceChildren();data.filter(d=>(d.name+' '+d.detail).toLowerCase().includes(query.toLowerCase())).forEach(d=>{
+   const btn=document.createElement('button');btn.type='button';btn.className='mini-list-row';btn.innerHTML=icon(d)+'<span><strong>'+esc(d.name)+'</strong><small>'+esc(d.sub)+'</small></span><span class="mini-chevron">'+(books?'›':d.owned?'열기':'받기')+'</span>';btn.onclick=()=>{selected=d;render()};list.append(btn);
+  })};
+  input.oninput=update;update();
+ }
+ render();
+}
+
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
 if(name==='메모'){window.PhoneMemoryApps.renderNotes(c,{getNote:()=>note,setNote:value=>{note=value;try{localStorage.setItem('my-phone-note',note)}catch{toast('저장할 수 없어요')}}})}
 else if(name==='설정'){c.innerHTML=`<h1>설정</h1><div class="card profile"><span class="avatar">${story.initials}</span><div><strong>${story.owner}</strong><p class="muted">${story.owner}의 iPhone</p></div></div><div class="card"><div class="row"><span class="row-label"><span class="settings-icon" style="background:#ff9500" data-symbol="airplane"></span>비행기 모드</span><input id="settings-airplane" class="setting-switch" type="checkbox" aria-label="비행기 모드 시뮬레이션"></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="wifi"></span>Wi-Fi</span><span id="settings-wifi"></span></div><div class="row"><span class="row-label"><span class="settings-icon" data-symbol="bluetooth"></span>Bluetooth</span><span id="settings-bluetooth"></span></div></div><div class="card"><label class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="moon"></span>다크 배경</span><input class="setting-switch" type="checkbox" id="dark"></label><div class="row"><span class="row-label"><span class="settings-icon" style="background:#5856d6" data-symbol="sun"></span>홈 화면 사용자화</span><button id="settings-customize">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="mirror"></span>제어 센터</span><button id="settings-control">열기</button></div><div class="row"><span class="row-label"><span class="settings-icon" style="background:#888" data-symbol="lock"></span>화면 잠금</span><button id="settings-lock">잠그기</button></div></div><p class="muted">이 화면의 설정은 웹 데모에만 적용됩니다.</p>`;paintSymbols(c);$('#dark').checked=document.body.classList.contains('dark');$('#dark').onchange=e=>document.body.classList.toggle('dark',e.target.checked);$('#settings-control').onclick=openControl;$('#settings-customize').onclick=openCustomize;$('#settings-lock').onclick=lock;syncSettings();$('#settings-airplane').onchange=()=>toggleControl($('.airplane'))}
@@ -955,6 +993,8 @@ else if(name==='파일'){window.PhoneMemoryApps.renderFiles(c,{openApp})}
 else if(name==='FaceTime'){window.PhoneMemoryApps.renderFaceTime(c,{openContact:id=>{openApp('연락처');window.PhoneMemoryApps.renderContacts(c,{openApp,toast,selected:id})}})}
 else if(name==='지갑'){window.PhoneMemoryApps.renderWallet(c)}
 else if(name==='메일'){window.PhoneMemoryApps.renderMail(c)}
+else if(name==='도서'){renderBookStore(c,'도서')}
+else if(name==='App Store'){renderBookStore(c,'App Store')}
 else if(name==='건강'){window.PhoneMemoryApps.renderHealth(c)}
 else if(name==='Safari'){renderSafari(c)}
 else if(name==='전화'){$('#app').classList.add('phone-app');renderPhone(c)}
