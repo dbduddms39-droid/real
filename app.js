@@ -602,7 +602,8 @@ function renderSafari(container){
  const places=[
   {id:'hans',title:'한정선 성수점',subtitle:'성수 · 디저트',image:'https://d12zq4w4guyljn.cloudfront.net/750_750_20260203144428_photo1_bec06ee6c4b3.webp',alt:'성수 한정선 가게 외관',note:'지우가 좋아하는 곳',details:'서울 성동구 연무장길 43-1',source:'https://www.diningcode.com/profile.php?rid=sF3RPtaiGrlQ',credit:'사진: 다이닝코드',license:''},
   {id:'forest',title:'서울숲',subtitle:'서울 · 산책',image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Seoul_Forest_%EC%84%9C%EC%9A%B8%EC%88%B2.jpg/960px-Seoul_Forest_%EC%84%9C%EC%9A%B8%EC%88%B2.jpg',alt:'서울숲에 설치된 서울숲 표지 조형물',note:'전시 보고 같이 걷기로 한 곳',details:'서울 성동구 뚝섬로 273',source:'https://commons.wikimedia.org/wiki/File:Seoul_Forest_%EC%84%9C%EC%9A%B8%EC%88%B2.jpg',credit:'사진: Christian Bolz · CC BY-SA 4.0',license:'https://creativecommons.org/licenses/by-sa/4.0/'},
-  {id:'gangneung',title:'강릉 경포해변',subtitle:'10월 여행 · 강릉',image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Gyeongpo_Beach_1.jpg/960px-Gyeongpo_Beach_1.jpg',alt:'강릉 경포해변의 모래사장과 파도',note:'10월에 가보려고 찾아본 바다',details:'강원특별자치도 강릉시 안현동',source:'https://commons.wikimedia.org/wiki/File:Gyeongpo_Beach_1.jpg',credit:'사진: Christophe95 · CC BY-SA 4.0',license:'https://creativecommons.org/licenses/by-sa/4.0/'}
+  {id:'gangneung',title:'강릉 경포해변',subtitle:'10월 여행 · 강릉',image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Gyeongpo_Beach_1.jpg/960px-Gyeongpo_Beach_1.jpg',alt:'강릉 경포해변의 모래사장과 파도',note:'10월에 가보려고 찾아본 바다',details:'강원특별자치도 강릉시 안현동',source:'https://commons.wikimedia.org/wiki/File:Gyeongpo_Beach_1.jpg',credit:'사진: Christophe95 · CC BY-SA 4.0',license:'https://creativecommons.org/licenses/by-sa/4.0/'},
+  {id:'autumn',title:'가을 데이트 코스',subtitle:'서촌 · 청운 · 부암동',image:'https://ak-d.tripcdn.com/images/1mi4g224x8vr40y0i5763_Q90.jpg?proc=source%2Ftrip',alt:'가을 단풍에 둘러싸인 청운문학도서관 한옥',note:'서촌 골목 → 청운문학도서관 → 부암동 카페',details:'서울 종로구 청운동·부암동',source:'https://us.trip.com/moments/detail/seoul-234-123301957/',credit:'사진: Trip.com 여행자 사진',steps:['서촌 골목에서 점심 먹기','청운문학도서관에서 단풍 구경하기','부암동 카페에서 쉬었다 오기']}
  ];
  let tabs=places.map(item=>item.id);
  let history=[{mode:'start'}],position=0;
@@ -666,6 +667,11 @@ function renderSafari(container){
    const p=place(state.id);
    if(!p){goto('start');return}
    main.innerHTML='<article class="safari-clean-page"><button type="button" class="safari-clean-return">‹ 뒤로</button>'+image(p,'safari-clean-hero')+'<div class="safari-clean-page-body"><span>'+esc(p.subtitle)+'</span><h1>'+esc(p.title)+'</h1><p class="safari-clean-location">'+esc(p.details)+'</p><div class="safari-clean-note">'+esc(p.note)+'</div><a class="safari-clean-credit" target="_blank" rel="noopener noreferrer" href="'+esc(p.source)+'">'+esc(p.credit)+' ↗</a></div></article>';
+   if(p.steps){
+    const itinerary=document.createElement('ol');itinerary.className='safari-itinerary';
+    p.steps.forEach(step=>{const li=document.createElement('li');li.textContent=step;itinerary.append(li)});
+    main.querySelector('.safari-clean-page-body').append(itinerary);
+   }
    main.querySelector('.safari-clean-return').onclick=()=>{if(position>0){position--;draw()}else goto('start')};
   }
   main.scrollTop=0;
