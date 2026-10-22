@@ -352,3 +352,83 @@
 
 .messages-photo-bubble{flex-direction:column;align-items:flex-start;gap:4px}
 .messages-photo-saved{font-size:10px;color:#8e8e93;padding-left:5px}
+
+/* Offline Safari — personal bookmarks and tabs. */
+.safari-app{background:#f4f4f7}
+.safari-app nav{display:none}
+.safari-app #app-content{height:calc(100% - var(--system-navigation-height));padding:0;overflow:hidden}
+.safari-root{height:100%;display:flex;flex-direction:column;background:#f5f5f7;color:#242429;min-height:0}
+.safari-main{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.safari-bottom{flex-shrink:0;background:#f7f7f9f5;border-top:1px solid #dedee4;padding:9px 14px 7px}
+.safari-address{height:39px;border-radius:12px;background:#e8e8ee;display:flex;align-items:center;gap:8px;padding:0 12px;color:#787981;font-size:12px}
+.safari-address-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.safari-address-lock{font-size:18px}.safari-address-menu{font-size:17px}
+.safari-actions{display:flex;align-items:center;justify-content:space-between;padding:8px 9px 0}
+.safari-actions button{background:none;color:#1474d4;font-size:29px;min-width:36px;height:32px;display:grid;place-items:center;padding:0}
+.safari-actions button:disabled{opacity:.3}
+.safari-tab-symbol{font-size:26px;line-height:1}
+.safari-tabs-action{position:relative}
+.safari-tab-count{position:absolute;font-size:10px;top:10px;left:12px;background:#f7f7f9;min-width:12px;text-align:center}
+.safari-start,.safari-folder{padding:27px 19px 35px}
+.safari-start-top{display:flex;justify-content:space-between;align-items:center;color:#777983;font-size:12px}
+.safari-start h1,.safari-folder h1{font-size:31px!important;letter-spacing:-1px!important;margin:20px 0 19px!important}
+.safari-search-form{display:flex;align-items:center;gap:7px;border-radius:12px;background:#e5e5ea;padding:7px 9px;color:#97979e}
+.safari-search-form span{font-size:20px}
+.safari-search-form input{border:0;background:transparent;flex:1;min-width:0;outline:0;color:#232328;font-size:13px}
+.safari-search-form button{background:#fff;color:#1474d4;border-radius:9px;padding:6px;font-size:12px}
+.safari-start h2,.safari-folder h2{font-size:18px!important;margin:28px 0 14px!important}
+.safari-favorite-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.safari-favorite-grid button{background:none;display:flex;flex-direction:column;align-items:center;gap:7px;padding:0;color:#2f3037;font-size:10px;text-align:center}
+.safari-favorite-icon{height:49px;width:49px;border-radius:13px;display:grid;place-items:center;background:#e7b7c8;color:#fff;font-size:26px}
+.safari-tabs-favorite{background:#879eb9}
+.safari-start-divider{height:1px;background:#dedee5;margin:28px 0 18px}
+.safari-start-list-heading{display:flex;align-items:center;justify-content:space-between}
+.safari-start-list-heading h2{margin:0 0 10px!important}
+.safari-start-list-heading>span{font-size:12px;color:#8c8d95}
+.safari-recent-row,.safari-folder-row{width:100%;background:transparent;display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #e0e0e5;text-align:left;color:#25262b}
+.safari-recent-icon,.safari-folder-mark{width:38px;height:38px;flex-shrink:0;border-radius:10px;display:grid;place-items:center;font-size:12px;font-weight:700}
+.safari-recent-row>span:nth-child(2),.safari-folder-row>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.safari-recent-row strong,.safari-folder-row strong{font-size:14px;font-weight:600}
+.safari-recent-row small,.safari-folder-row small{font-size:11px;color:#898991}
+.safari-row-arrow{font-size:22px;color:#b4b4ba}
+.safari-folder-header{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#898991}
+.safari-folder-back{background:none;color:#1777dd;font-size:13px}
+.safari-folder>p{font-size:12px;color:#8d8d95}
+.safari-folder-rows{margin-top:20px}
+.safari-cover-cream{background:linear-gradient(140deg,#f5e1cc,#e5c4a8);color:#584536}
+.safari-cover-sage{background:linear-gradient(140deg,#dce5d6,#acc5b6);color:#36534b}
+.safari-cover-blue{background:linear-gradient(150deg,#c6d6e6,#8caaca);color:#294c69}
+.safari-cover-rose{background:linear-gradient(150deg,#f2dfe0,#d7abb7);color:#6d4253}
+.safari-cover-blank{background:#fafafa;color:#bdbdc5}
+.safari-overview{padding:14px 12px 23px}
+.safari-overview-heading{display:flex;align-items:center;justify-content:space-between;gap:4px;margin:2px 3px 16px;font-size:13px;color:#7d7d85}
+.safari-overview-heading strong{font-size:15px;color:#24252b}
+.safari-overview-heading button,.safari-overview-bottom button{color:#1877d8;background:none;font-size:13px}
+.safari-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.safari-overview-tile{border-radius:13px;overflow:hidden;box-shadow:0 3px 13px #00000012;background:#fff;min-width:0}
+.safari-tile-header{display:flex;justify-content:space-between;align-items:center;padding:7px 9px;font-size:10px;gap:4px}
+.safari-tile-header>span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.safari-tile-header button{background:#e8e8ec;width:20px;height:20px;border-radius:50%;color:#85858b;flex-shrink:0}
+.safari-tile-open{width:100%;display:block;padding:0;background:none;text-align:left}
+.safari-tile-cover{height:153px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:11px;gap:7px}
+.safari-tile-cover strong{font-size:17px;letter-spacing:-.6px}
+.safari-tile-cover small,.safari-tile-kicker{font-size:10px;opacity:.8}
+.safari-overview-bottom{display:flex;align-items:center;justify-content:space-between;margin:17px 3px 0;color:#83838a;font-size:12px}
+.safari-overview-bottom .safari-new-tab{font-size:26px}
+.safari-page{background:#fff;min-height:100%}
+.safari-page-header{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;font-size:11px;color:#777982}
+.safari-page-header button{background:none;color:#1474d4;font-size:20px;min-width:25px}
+.safari-page-hero{height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;padding:20px}
+.safari-page-hero>span{font-size:12px}
+.safari-page-hero strong{font-size:29px;letter-spacing:-1.2px}
+.safari-page-hero small{font-size:13px}
+.safari-page-body{padding:23px 22px 40px}
+.safari-page-pill{font-size:10px;color:#59718d;background:#edf1f5;border-radius:20px;padding:6px 10px}
+.safari-page-body h2{font-size:22px;margin:20px 0 9px}
+.safari-page-body>p{font-size:13px;line-height:1.75;color:#63646a}
+.safari-page-details{margin-top:22px;border-top:1px solid #ececf0}
+.safari-page-detail{padding:15px 2px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #ececf0}
+.safari-page-detail span{font-size:11px;color:#9c9ca5}
+.safari-page-detail strong{font-size:13px;font-weight:500;color:#32323a}
+.safari-page-footnote{font-size:10px!important;margin-top:22px}
+@media(max-height:690px){.safari-start,.safari-folder{padding-top:17px}.safari-tile-cover{height:120px}.safari-page-hero{height:165px}}
