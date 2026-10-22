@@ -1006,41 +1006,157 @@ function renderSafari(container){
 })();
 
 
+
+// Books and App Store are separate functional collections, not placeholder cards.
+// All content is fictional/local. No outside login, purchase or installation occurs.
 function renderBookStore(container,kind){
- const books=kind==='도서';
- const data=books?[
- {name:'체육수업의 이해',detail:'체육수업의 목표와 수업 설계',sub:'전공 참고자료',color:'#304d6a',pct:42},
- {name:'움직임과 성장',detail:'몸을 움직이는 이유와 꾸준한 연습',sub:'읽고 있는 책',color:'#678976',pct:61},
- {name:'보통의 하루',detail:'평범한 날을 돌아보는 에세이',sub:'에세이',color:'#c5ab8e',pct:23}
- ]:[
- {name:'에브리타임',detail:'학교 시간표와 강의 정보',sub:'교육',color:'#dc554b',owned:true,icon:'E'},
- {name:'Notion',detail:'강의 노트와 과제 정리',sub:'생산성',color:'#31343b',owned:true,icon:'N'},
- {name:'네이버 지도',detail:'길찾기와 대중교통',sub:'내비게이션',color:'#2baa71',owned:true,icon:'N'},
- {name:'Spotify',detail:'음악 스트리밍',sub:'음악',color:'#2aaf70',owned:true,icon:'♫'},
- {name:'밀리의 서재',detail:'전자책 읽기',sub:'도서',color:'#d4b43e',owned:false,icon:'밀'},
- {name:'Forest',detail:'집중 시간 관리',sub:'생산성',color:'#72a46d',owned:false,icon:'♣'}
+ const isBooks=kind==='도서',app=document.querySelector('#app');
+ app.classList.add(isBooks?'story-books-app':'story-store-app');
+ const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const safeRead=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')||fallback}catch{return fallback}};
+ const safeWrite=(key,val)=>{try{localStorage.setItem(key,JSON.stringify(val))}catch{}};
+ const books=[
+  {id:'lesson',title:'체육 수업을 설계하는 법',writer:'체육교육론 · 수업 자료',topic:'전공',color:'midnight',mark:'PE',pages:[
+   {heading:'수업은 질문에서 시작된다',body:['같은 운동을 하더라도 학생마다 느끼는 어려움은 다르다. 어떤 학생은 규칙을 이해하는 데 시간이 필요하고, 어떤 학생은 몸을 움직이는 것부터 조심스러워한다.','수업을 준비할 때 먼저 생각할 것은 기술의 난도가 아니라 학생이 어디에서 시작하는가다. 모두가 움직일 수 있도록 활동의 첫 단계를 낮추는 것도 수업 설계의 일부다.']},
+   {heading:'설명보다 움직임',body:['교사가 설명하는 시간이 길어질수록 학생이 직접 해 볼 시간은 줄어든다. 짧은 시범 뒤에 연습 시간을 두고, 그 안에서 다시 설명할 지점을 찾아야 한다.','한 번에 완성된 동작을 요구하기보다 작은 성공을 경험하게 하는 일이 중요하다.']},
+   {heading:'팀을 나누는 방법',body:['항상 잘하는 학생끼리만 모이게 하면 활동이 매끄러울 수는 있다. 하지만 수업의 목표가 협력이라면 구성 방식을 다르게 생각해야 한다.','활동 중 역할을 순환시키고, 그날의 기록뿐 아니라 서로 도와주는 과정을 돌아보도록 한다.']},
+   {heading:'수업 후의 기록',body:['계획서에 적은 내용이 실제 수업에서 모두 맞아떨어지지는 않는다. 그래서 수업을 마치고 무엇을 바꿔야 할지 적는 시간도 필요하다.','학생들이 어디에서 머뭇거렸는지, 예상보다 잘 참여했던 순간은 언제였는지 기록해 둔다. 다음 수업을 위한 가장 좋은 자료가 된다.']}
+  ]},
+  {id:'practice',title:'몸으로 배우는 시간',writer:'교육 실습 노트',topic:'공부',color:'moss',mark:'MOVE',pages:[
+   {heading:'반복하는 감각',body:['동작을 익힐 때 처음부터 완벽한 자세가 나오는 일은 드물다. 몸이 균형을 찾아가는 동안 같은 동작을 여러 번 반복하게 된다.','반복은 어제와 오늘이 똑같다는 뜻이 아니다. 발을 디디는 위치, 호흡하는 타이밍처럼 작은 차이를 알아차리는 과정이다.']},
+   {heading:'보여 주는 것과 가르치는 것',body:['할 수 있는 동작을 남에게 설명하는 일은 생각보다 어렵다. 익숙해서 잊고 있던 기본을 다시 말로 풀어내야 하기 때문이다.','한 번 보여 주고 끝내지 말고, 상대가 이해한 방식으로 다시 설명할 수 있는지 확인한다.']},
+   {heading:'쉬는 시간도 훈련이다',body:['몸을 쓰는 사람에게 휴식은 계획의 바깥에 있는 시간이 아니다. 회복할 수 있어야 다음 활동도 이어 갈 수 있다.','운동을 마치고 무리 없이 정리하는 습관을 수업에도 포함한다.']}
+  ]},
+  {id:'ordinary',title:'아무렇지 않은 날들',writer:'짧은 에세이',topic:'에세이',color:'linen',mark:'DAY',pages:[
+   {heading:'평범한 아침',body:['일어나는 시간이 비슷하고, 같은 길로 학교에 간다. 버스를 기다리면서 날씨를 확인하고 가방 안의 이어폰을 찾는다.','대단한 일을 하지 않아도 하루에는 생각보다 많은 장면이 있다.']},
+   {heading:'계절이 바뀌는 동안',body:['가을이 왔다는 사실은 어느 날 갑자기 느껴진다. 아침 공기가 조금 차가워졌거나, 걸어가는 길에 나뭇잎이 쌓이기 시작했을 때다.','바뀌는 것은 날씨뿐이 아니지만 모든 변화를 바로 알아차릴 수 있는 것도 아니다.']},
+   {heading:'돌아오는 길',body:['하루가 끝나면 가끔은 일부러 조금 먼 길로 돌아간다. 편의점 앞을 지나고, 학교 담장 아래로 걷는다.','익숙한 길을 다시 걸으면서도 그날의 기분은 다를 수 있다.']}
+  ]},
+  {id:'november',title:'산책하는 마음',writer:'개인 독서 기록',topic:'에세이',color:'dusty',mark:'WALK',pages:[
+   {heading:'골목의 시간',body:['사람이 적은 골목에서 걸음을 늦추면 평소 지나치던 가게 간판이 눈에 들어온다. 저마다 하루를 보내는 방식이 있다.','서두르지 않는 산책은 어디에 도착할지 정하지 않아도 괜찮다.']},
+   {heading:'해가 짧아지는 계절',body:['수업이 끝난 뒤 밖으로 나오면 벌써 어두워진 날이 있다. 어제와 같은 시각인데도 거리가 다르게 보인다.','그날의 풍경을 남겨두고 싶어서 가끔 사진을 찍는다.']}
+  ]}
  ];
- const esc=v=>String(v).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
- let query='',mode='home',selected=null;
- document.querySelector('#app').classList.add(books?'story-books-app':'story-store-app');
- function icon(d){return '<span class="mini-cover" style="--cover:'+d.color+'">'+(books?'BOOKS':esc(d.icon))+'</span>'}
- function render(){
-  const back=selected?'<button type="button" class="mini-back">‹ '+(books?'보관함':'App Store')+'</button>':'<span>'+(books?'보관함':'App Store')+'</span>';
-  container.innerHTML='<div class="mini-top">'+back+'<span>'+(selected?'상세 보기':books?'나의 도서':'앱')+'</span></div><section class="mini-body"></section>';
-  const body=container.querySelector('.mini-body');container.scrollTop=0;
-  if(selected){
-   body.innerHTML='<div class="mini-detail">'+icon(selected)+'<h1>'+esc(selected.name)+'</h1><p>'+esc(selected.sub)+'</p><div class="mini-detail-divider"></div><h2>'+esc(books?'읽고 있는 책':'앱 정보')+'</h2><p>'+esc(selected.detail)+'</p>'+(books?'<div class="mini-progress"><i style="width:'+selected.pct+'%"></i></div><small>'+selected.pct+'% 읽음</small><button type="button" class="mini-primary">읽기</button>':'<button type="button" class="mini-primary">'+(selected.owned?'열기':'받기')+'</button>')+'<p class="mini-feedback"></p></div>';
-   body.querySelector('.mini-primary').onclick=()=>body.querySelector('.mini-feedback').textContent=books?'책의 내용은 미리보기로 구성돼 있어요.':'실제 설치 및 앱 실행은 지원하지 않아요.';
-   container.querySelector('.mini-back').onclick=()=>{selected=null;render()};return;
+ const apps=[
+  {id:'everytime',name:'에브리타임',category:'교육',about:'강의 시간표와 학교생활을 확인하는 앱',glyph:'E',logo:'everytime',installed:true,screen:'schedule',highlights:['시간표','학교생활','강의 정보']},
+  {id:'notion',name:'Notion',category:'생산성',about:'과제와 수업 노트를 한곳에서 정리',glyph:'N',logo:'notion',installed:true,screen:'tasks',highlights:['과제 정리','수업 노트','계획']},
+  {id:'naver',name:'네이버 지도',category:'내비게이션',about:'학교 가는 길부터 약속 장소까지',glyph:'N',logo:'naver',installed:true,screen:'map',highlights:['길찾기','대중교통','저장한 장소']},
+  {id:'spotify',name:'Spotify',category:'음악',about:'등굣길에 듣는 음악과 플레이리스트',glyph:'♫',logo:'spotify',installed:true,screen:'music',highlights:['플레이리스트','음악','추천']},
+  {id:'millie',name:'밀리의 서재',category:'도서',about:'틈날 때 읽는 전자책',glyph:'밀',logo:'millie',installed:false,screen:'reading',highlights:['전자책','읽기','독서']},
+  {id:'forest',name:'Forest',category:'생산성',about:'집중할 시간을 정해두는 타이머',glyph:'♣',logo:'forest',installed:false,screen:'focus',highlights:['집중 시간','공부','타이머']}
+ ];
+ let bookProgress=safeRead('still-september-books-progress-v2',{lesson:1,practice:0,ordinary:1,november:0});
+ let downloads=safeRead('still-september-store-installed-v2',{});
+ let section=isBooks?'reading':'today',search='',selected=null,readerPage=null,fontLarge=false,storePreview=false;
+ const data=isBooks?books:apps;
+ const pageOf=book=>Math.max(0,Math.min(book.pages.length-1,Number(bookProgress[book.id]??0)||0));
+ const percent=book=>Math.round((pageOf(book)+1)/book.pages.length*100);
+ const bookCover=book=>'<span class="lib-cover '+book.color+'" role="img" aria-label="'+esc(book.title)+' 표지"><i class="lib-cover-spine"></i><span class="lib-cover-symbol">'+book.mark+'</span><strong>'+esc(book.title)+'</strong><small>'+esc(book.topic)+'</small></span>';
+ const appIcon=item=>'<span class="store-real-icon '+item.logo+'" aria-hidden="true">'+(item.logo==='spotify'?'<svg viewBox="0 0 64 64"><path d="M13 24c13-4 27-4 39 2M17 34c10-4 23-3 32 2M20 44c9-3 17-2 26 2" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/></svg>':item.logo==='forest'?'<svg viewBox="0 0 64 64"><path d="M31 9 17 30h9l-13 17h36L37 30h9L31 9Z" fill="currentColor"/><path d="M31 42v12" stroke="#755441" stroke-width="5"/></svg>':'<strong>'+esc(item.glyph)+'</strong>')+'</span>';
+ const top=(label,back='')=>'<div class="media-app-top"><button type="button" class="mini-back" aria-label="'+(back?'이전 화면':'홈으로')+'">‹ '+(back||'홈')+'</button><span>'+esc(label)+'</span><span class="media-top-spacer"></span></div>';
+ function paint(html){container.innerHTML=html;container.scrollTop=0}
+ function backList(){selected=null;readerPage=null;storePreview=false;renderList()}
+ function homeAction(){document.querySelector('#home-button')?.click()}
+ function wireBack(fn){const b=container.querySelector('.mini-back');if(b)b.onclick=fn}
+ function renderList(){
+  const name=isBooks?'도서':'App Store';
+  let main=top(name)+'<div class="media-page"><div class="media-page-overline">'+(isBooks?'APPLE BOOKS':'APP STORE')+'</div><h1>'+esc(isBooks?(section==='finished'?'나의 보관함':'지금 읽는 책'):(section==='search'?'검색':section==='apps'?'앱':'투데이'))+'</h1>';
+  if(isBooks){
+   const pick=books[0];
+   main+='<div class="media-tabs inline"><button type="button" data-section="reading" class="'+(section==='reading'?'active':'')+'">읽고 있는 책</button><button type="button" data-section="finished" class="'+(section==='finished'?'active':'')+'">보관함</button></div>';
+   if(section==='reading')main+='<button type="button" class="books-spotlight" data-book="lesson">'+bookCover(pick)+'<span><small>이어 읽기</small><strong>'+esc(pick.title)+'</strong><span class="media-bar"><i style="width:'+percent(pick)+'%"></i></span><em>'+percent(pick)+'% 읽음</em></span><span class="books-play">›</span></button>';
+   main+='<h2 class="media-section-title">'+(section==='finished'?'모든 도서 · '+books.length+'권':'내 보관함')+'</h2><div class="book-shelf">';
+   for(const book of books)main+='<button type="button" class="book-shelf-item" data-book="'+book.id+'">'+bookCover(book)+'<strong>'+esc(book.title)+'</strong><small>'+esc(book.writer)+'</small><span class="media-bar"><i style="width:'+percent(book)+'%"></i></span></button>';
+   main+='</div><p class="media-caption">이야기 속 가상의 독서 기록입니다.</p>';
+  }else{
+   main+='<div class="media-tabs store-tabs-top" role="tablist" aria-label="App Store 메뉴"><button type="button" role="tab" data-section="today" aria-selected="'+(section==='today')+'" class="'+(section==='today'?'active':'')+'">투데이</button><button type="button" role="tab" data-section="apps" aria-selected="'+(section==='apps')+'" class="'+(section==='apps'?'active':'')+'">앱</button><button type="button" role="tab" data-section="search" aria-selected="'+(section==='search')+'" class="'+(section==='search'?'active':'')+'">검색</button></div>';
+   if(section==='search')main+='<label class="media-search"><span>⌕</span><input type="search" aria-label="App Store 검색" placeholder="앱 이름이나 카테고리" value="'+esc(search)+'"></label>';
+   if(section==='today')main+='<button type="button" class="store-feature" data-app="everytime"><span class="store-feature-kicker">오늘의 추천</span><strong>한 주의 시간표를<br>정리하는 방법</strong><span>수업부터 과제까지, 학교생활에 필요한 앱</span><span class="store-feature-deco"><span class="store-feature-square">MON</span><span class="store-feature-square">WED</span><span class="store-feature-square">FRI</span></span></button>';
+   main+='<h2 class="media-section-title">'+(section==='search'?'검색 결과':section==='apps'?'카테고리별로 살펴보기':'대학생이 자주 쓰는 앱')+'</h2><div class="store-app-stack"></div>';
+   if(section==='today')main+='<div class="store-feature-foot"><span>계정</span><strong>양정원의 iPhone</strong></div>';
   }
-  body.innerHTML='<h1>'+(books?'도서':'투데이')+'</h1><label class="mini-search">⌕ <input aria-label="'+(books?'도서':'앱')+' 검색" placeholder="검색" value="'+esc(query)+'"></label>'+(books?'<div class="mini-feature"><span>지금 읽는 책</span><strong>체육수업의 이해</strong><small>42% 읽음</small></div>':'<div class="mini-feature"><span>이번 주 추천</span><strong>대학생의 일상에 필요한 앱</strong><small>시간표와 과제부터 길찾기까지</small></div>')+'<h2>'+(books?'나의 도서':'추천 앱')+'</h2><div class="mini-list"></div>';
-  const input=body.querySelector('input'),list=body.querySelector('.mini-list');
-  const update=()=>{query=input.value;list.replaceChildren();data.filter(d=>(d.name+' '+d.detail).toLowerCase().includes(query.toLowerCase())).forEach(d=>{
-   const btn=document.createElement('button');btn.type='button';btn.className='mini-list-row';btn.innerHTML=icon(d)+'<span><strong>'+esc(d.name)+'</strong><small>'+esc(d.sub)+'</small></span><span class="mini-chevron">'+(books?'›':d.owned?'열기':'받기')+'</span>';btn.onclick=()=>{selected=d;render()};list.append(btn);
-  })};
-  input.oninput=update;update();
+  main+='</div>';
+  paint(main);wireBack(homeAction);
+  container.querySelectorAll('[data-section]').forEach(b=>b.onclick=()=>{section=b.dataset.section;renderList()});
+  if(isBooks){
+   container.querySelectorAll('[data-book]').forEach(b=>b.onclick=()=>showBook(b.dataset.book));
+  }else{
+   const input=container.querySelector('input[type=search]');
+   const list=container.querySelector('.store-app-stack');
+   function resultRows(){
+    const match=apps.filter(p=>section!=='search'||(p.name+' '+p.category+' '+p.about).toLowerCase().includes(search.trim().toLowerCase()));
+    list.innerHTML=match.length?'':'<p class="media-empty">검색 결과가 없습니다.</p>';
+    for(const item of match){
+     const row=document.createElement('div');row.className='store-product-row';
+     row.innerHTML='<button type="button" class="store-product-info" data-open="'+item.id+'">'+appIcon(item)+'<span><strong>'+esc(item.name)+'</strong><small>'+esc(item.about)+'</small><em>'+esc(item.category)+'</em></span></button><button class="store-action" type="button" data-action="'+item.id+'">'+(downloads[item.id]||item.installed?'열기':'받기')+'</button>';
+     row.querySelector('[data-open]').onclick=()=>showApp(item.id);
+     row.querySelector('[data-action]').onclick=()=>action(item.id,()=>resultRows());
+     list.append(row);
+    }
+   }
+   if(input)input.oninput=()=>{search=input.value;resultRows()};
+   resultRows();
+   container.querySelector('[data-app=everytime]')?.addEventListener('click',()=>showApp('everytime'));
+  }
  }
- render();
+ function showBook(id){
+  selected=books.find(b=>b.id===id);if(!selected)return renderList();
+  readerPage=null;
+  const b=selected;
+  paint(top('도서','보관함')+'<section class="media-page book-detail">'+bookCover(b)+'<h1>'+esc(b.title)+'</h1><p>'+esc(b.writer)+'</p><div class="book-detail-progress"><div class="media-bar"><i style="width:'+percent(b)+'%"></i></div><small>'+percent(b)+'% 읽음 · '+b.pages.length+'개 장</small></div><button class="book-read-btn" type="button">'+(pageOf(b)>0?'이어 읽기':'읽기 시작')+'</button><div class="book-detail-rule"></div><h2>책 소개</h2><p class="book-about">'+esc(b.pages[0].body[0])+'</p><h2>목차</h2><div class="book-chapters">'+b.pages.map((page,i)=>'<button data-page="'+i+'" type="button"><span>0'+(i+1)+'</span><strong>'+esc(page.heading)+'</strong><span>›</span></button>').join('')+'</div></section>');
+  wireBack(backList);
+  container.querySelector('.book-read-btn').onclick=()=>readBook(pageOf(b));
+  container.querySelectorAll('[data-page]').forEach(btn=>btn.onclick=()=>readBook(Number(btn.dataset.page)));
+ }
+ function readBook(index){
+  if(!selected)return backList();
+  readerPage=Math.min(Math.max(0,index),selected.pages.length-1);
+  bookProgress[selected.id]=readerPage;safeWrite('still-september-books-progress-v2',bookProgress);
+  const data=selected.pages[readerPage];
+  paint(top('읽는 중','도서 정보')+'<article class="book-reader'+(fontLarge?' enlarged':'')+'"><div class="book-reader-meta">'+esc(selected.title)+'<span>'+(readerPage+1)+' / '+selected.pages.length+'</span></div><h1>'+esc(data.heading)+'</h1><div class="book-reader-text">'+data.body.map(p=>'<p>'+esc(p)+'</p>').join('')+'</div><div class="book-reader-tools"><button type="button" data-size="small" aria-label="글자 크기 줄이기">가</button><button type="button" data-size="large" aria-label="글자 크기 키우기">가＋</button><span>글자 크기</span></div><div class="book-reader-bottom"><button type="button" data-turn="prev" '+(readerPage===0?'disabled':'')+'>‹ 이전</button><span class="media-bar"><i style="width:'+percent(selected)+'%"></i></span><button type="button" data-turn="next" '+(readerPage===selected.pages.length-1?'disabled':'')+'>다음 ›</button></div></article>');
+  wireBack(()=>showBook(selected.id));
+  container.querySelector('[data-turn=prev]').onclick=()=>readBook(readerPage-1);
+  container.querySelector('[data-turn=next]').onclick=()=>readBook(readerPage+1);
+  container.querySelector('[data-size=small]').onclick=()=>{fontLarge=false;readBook(readerPage)};
+  container.querySelector('[data-size=large]').onclick=()=>{fontLarge=true;readBook(readerPage)};
+ }
+ function action(id,refresh){
+  const p=apps.find(a=>a.id===id);if(!p)return;
+  if(!downloads[id]&&!p.installed){downloads[id]=true;safeWrite('still-september-store-installed-v2',downloads);refresh();notice(p.name+' · 설치 목록에 추가했어요');return}
+  showPreview(id);
+ }
+ function notice(message){
+  let el=container.querySelector('.media-toast');
+  if(!el){el=document.createElement('div');el.className='media-toast';el.setAttribute('role','status');container.append(el)}
+  el.textContent=message;
+ }
+ function previewContent(item){
+  const screens={
+   schedule:'<div class="preview-title">이번 주 시간표</div><div class="preview-days"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span></div><div class="preview-grid"><span>체육교육론</span><span>교육심리</span><span>실기 수업</span><span>교육봉사</span></div>',
+   tasks:'<div class="preview-title">이번 주 해야 할 일</div><div class="preview-check">✓ 체육수업 지도안</div><div class="preview-check">□ 중간고사 복습</div><div class="preview-check">□ 실기평가 준비</div>',
+   map:'<div class="preview-title">학교 가는 길</div><div class="preview-map"><span>학교</span><i></i><span>버스 정류장</span></div><div class="preview-check">도보 · 대중교통</div>',
+   music:'<div class="preview-title">최근에 들은 음악</div><div class="preview-album">♫</div><div class="preview-check">등굣길 플레이리스트</div>',
+   reading:'<div class="preview-title">보관함</div><div class="preview-album">책</div><div class="preview-check">새로운 책 살펴보기</div>',
+   focus:'<div class="preview-title">오늘의 집중</div><div class="preview-focus">25:00</div><div class="preview-check">수업 자료 정리</div>'
+  };
+  return screens[item.screen]||'';
+ }
+ function showApp(id){
+  selected=apps.find(a=>a.id===id);if(!selected)return renderList();
+  storePreview=false;
+  const p=selected;
+  paint(top('App Store',section==='search'?'검색':'앱')+'<section class="media-page store-detail"><div class="store-detail-lead">'+appIcon(p)+'<span><h1>'+esc(p.name)+'</h1><p>'+esc(p.about)+'</p><button type="button" class="store-action main">'+(downloads[p.id]||p.installed?'열기':'받기')+'</button></span></div><div class="store-stats"><div><strong>'+esc(p.category)+'</strong><small>카테고리</small></div><div><strong>iPhone</strong><small>기기</small></div><div><strong>앱</strong><small>유형</small></div></div><h2>미리보기</h2><button type="button" class="store-screenshot">'+previewContent(p)+'</button><h2>앱 소개</h2><p class="store-about">'+esc(p.about)+'</p><p class="media-caption">설치 및 앱 화면은 이야기 속에서만 작동하는 미리보기입니다.</p></section>');
+  wireBack(backList);
+  container.querySelector('.store-action.main').onclick=()=>action(p.id,()=>showApp(p.id));
+  container.querySelector('.store-screenshot').onclick=()=>showPreview(p.id);
+ }
+ function showPreview(id){
+  selected=apps.find(a=>a.id===id);if(!selected)return renderList();
+  storePreview=true;
+  paint(top(selected.name,'앱 정보')+'<section class="media-page store-live-preview"><div class="store-live-phone">'+appIcon(selected)+previewContent(selected)+'</div><p>앱 화면 미리보기</p><button class="store-preview-back" type="button">App Store로 돌아가기</button></section>');
+  wireBack(()=>showApp(id));container.querySelector('.store-preview-back').onclick=()=>showApp(id);
+ }
+ renderList();
 }
 
 function openApp(name,fromBack=false){const previous=!$('#app').hidden?$('#app-title').textContent:null;if(previous&&previous!==name&&!fromBack)appHistory.push(previous);home(false,true);$('#home').hidden=true;$('#app').hidden=false;$('#app').className='app';$('#app-title').textContent=name;const c=$('#app-content');c.replaceChildren();c.scrollTop=0;
