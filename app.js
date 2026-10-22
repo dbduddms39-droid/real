@@ -6,6 +6,7 @@ function paintSymbols(root=document){root.querySelectorAll('[data-symbol]').forE
 paintSymbols();
 const pages=[['FaceTime','캘린더','사진','카메라','메일','메모','미리 알림','시계','뉴스','TV','팟캐스트','App Store','지도','건강','지갑','설정'],['계산기','파일','단축어','연락처','음악','도서','날씨']];
 const dock=['전화','Safari','메시지','음악'];const allApps=[...new Set([...pages.flat(),...dock])];let pageIndex=0;let interval;let toastTimer;let holdTimer;let note='';let lastAppButton=null;
+let introTimer=null;
 let iconAppearance='light',iconSize='small';
 try{note=localStorage.getItem('my-phone-note')||'';const saved=JSON.parse(localStorage.getItem('my-phone-appearance')||'{}');if(['light','dark','clear'].includes(saved.appearance))iconAppearance=saved.appearance;if(['small','large'].includes(saved.size))iconSize=saved.size}catch{}
 function applyAppearance(){const phone=$('.phone');phone.classList.remove('theme-dark','theme-clear','icons-large');if(iconAppearance!=='light')phone.classList.add('theme-'+iconAppearance);if(iconSize==='large')phone.classList.add('icons-large');document.querySelectorAll('[data-appearance]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.appearance===iconAppearance)));document.querySelectorAll('[data-icon-size]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.iconSize===iconSize)))}
@@ -15,8 +16,9 @@ function makeIcon(name){const b=document.createElement('button');b.className='ap
 function showPage(index){pageIndex=index;$('#apps').replaceChildren(...pages[index].map(makeIcon));document.querySelectorAll('[data-page]').forEach(b=>{const selected=Number(b.dataset.page)===index;b.classList.toggle('selected',selected);b.setAttribute('aria-current',selected?'page':'false')});tick()}
 dock.forEach(name=>$('#dock').append(makeIcon(name)));
 function toast(text){$('#toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').textContent='',4500)}
-function home(restore=false){clearTimeout(holdTimer);$('#customize').hidden=true;clearInterval(interval);$('#app').hidden=true;$('#control').hidden=true;$('#lock').hidden=true;$('#home').hidden=false;['home','app','lock'].forEach(id=>$('#'+id).inert=false);if(restore&&lastAppButton?.isConnected)lastAppButton.focus()}
-function openControl(){$('#customize').hidden=true;['home','app','lock'].forEach(id=>$('#'+id).inert=true);$('#control').hidden=false;$('#close-control').focus()}
+function cancelMusicIntro(){clearTimeout(introTimer);introTimer=null;$('#dock [data-app="음악"] .icon')?.classList.remove('intro-tap')}
+function home(restore=false){cancelMusicIntro();clearTimeout(holdTimer);$('#customize').hidden=true;clearInterval(interval);$('#app').hidden=true;$('#control').hidden=true;$('#lock').hidden=true;$('#home').hidden=false;['home','app','lock'].forEach(id=>$('#'+id).inert=false);if(restore&&lastAppButton?.isConnected)lastAppButton.focus()}
+function openControl(){cancelMusicIntro();$('#customize').hidden=true;['home','app','lock'].forEach(id=>$('#'+id).inert=true);$('#control').hidden=false;$('#close-control').focus()}
 function closeControl(){['home','app','lock'].forEach(id=>$('#'+id).inert=false);$('#control').hidden=true;$('#control-button').focus()}
 function tick(){const now=new Date();const time=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;$('#status-time').textContent=time;$('#lock-time').textContent=time;$('#lock-date').textContent=now.toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'long'});$('#widget-date').textContent=now.getDate();$('#widget-day').textContent=now.toLocaleDateString('ko-KR',{weekday:'long'});const transforms={hour:(now.getHours()%12)*30+now.getMinutes()/2,minute:now.getMinutes()*6,second:now.getSeconds()*6};for(const [hand,angle]of Object.entries(transforms))document.querySelectorAll(`[data-clock-hand="${hand}"]`).forEach(el=>el.setAttribute('transform',`rotate(${angle} 50 50)`));document.querySelectorAll('[data-calendar-date]').forEach(el=>el.textContent=now.getDate());document.querySelectorAll('[data-calendar-weekday]').forEach(el=>el.textContent=now.toLocaleDateString('ko-KR',{weekday:'long'}))}
 
@@ -209,4 +211,23 @@ function startMusicOnInteraction(event){
  requestMusicPlayback();
 }
 for(const type of ['touchend','click','keydown'])document.addEventListener(type,startMusicOnInteraction,{capture:true,passive:true});
-showPage(0);setInterval(tick,1000);openApp('음악');paintMusicArtwork();syncMusic();restoreMusic();
+function scheduleMusicIntro(){
+ introTimer=setTimeout(()=>{
+  const icon=$('#dock [data-app="음악"] .icon');
+  icon.classList.add('intro-tap');
+  introTimer=setTimeout(()=>{
+   const source=icon.getBoundingClientRect();
+   openApp('음악');
+   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+   const app=$('#app'),bounds=app.getBoundingClientRect();
+   $('#home').hidden=false;$('#home').inert=true;
+   const animation=app.animate([
+    {transform:`translate(${source.x+source.width/2-bounds.x-bounds.width/2}px,${source.y+source.height/2-bounds.y-bounds.height/2}px) scale(${source.width/bounds.width},${source.height/bounds.height})`,opacity:.35,borderRadius:'50px'},
+    {transform:'translate(0,0) scale(1)',opacity:1,borderRadius:'0px'}
+   ],{duration:520,easing:'cubic-bezier(.22,.8,.24,1)'});
+   const finish=()=>{if(!app.hidden)$('#home').hidden=true;$('#home').inert=false};
+   animation.finished.then(finish,finish);
+  },180);
+ },1100);
+}
+showPage(0);setInterval(tick,1000);home();paintMusicArtwork();syncMusic();restoreMusic();scheduleMusicIntro();

@@ -50,3 +50,7 @@
 @media(max-height:620px){.track-art{width:170px;padding:15px 20px}.track-art>strong{font-size:28px}.track-art>small{font-size:7px}.music-track-title{margin-top:17px}.lock-music{padding:10px 14px}.lock-music-controls{margin-top:5px}.lock:has(.lock-music:not([hidden])) .lock-bottom{margin-top:14px}}
 .music-disconnect{display:block;background:none;color:#a18d88;font-size:10px;margin:12px auto 0;padding:5px 10px;text-decoration:underline;text-underline-offset:3px}.music-controls #music-play.needs-tap{background:#ead9d9;border-radius:50%;box-shadow:0 0 0 5px #a55e6312}.music-controls #music-play.needs-tap:focus-visible{outline:3px solid #a55e63}
 .track-art.has-cover{padding:0;background:#263224;box-shadow:0 9px 22px #26322430}.track-art.has-cover:after{display:none}.track-art.has-cover>img,.track-art-small.has-cover>img{width:100%;height:100%;display:block;object-fit:cover}.track-art-small.has-cover{padding:0!important;overflow:hidden;background:#263224}.music-actions[hidden]{display:none}
+
+/* Opening sequence: home, a press on Music, then expansion from its icon. */
+#dock .icon.intro-tap{transform:scale(.88);filter:brightness(.8)}
+@media(prefers-reduced-motion:reduce){#dock .icon.intro-tap{transform:none}}
