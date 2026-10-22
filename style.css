@@ -242,3 +242,12 @@
 .map-place-chevron{flex:none;font-size:25px;color:#babcc6;font-weight:300}
 .map-empty{padding:24px 10px;text-align:center;color:#777;font-size:13px}
 @media(max-width:350px){.map-app #app-content{padding-left:10px;padding-right:10px}.map-selected{padding:13px}.map-filter{padding:8px 11px}}
+
+/* Above-the-fold memory: Bongeunsa stays visible before scrolling the place list. */
+.map-memory{display:flex;flex-direction:column;align-items:flex-start;gap:5px;width:100%;padding:17px 18px;margin:0 0 14px;border-radius:18px;text-align:left;background:linear-gradient(118deg,#fff2f5,#ffe7ee 70%,#f5e5f0);color:#743b57;box-shadow:0 4px 14px #8e4c6220}
+.map-memory-kicker{font-size:11px;font-weight:650;color:#bd6589}
+.map-memory strong{font-size:21px;letter-spacing:-.5px;color:#593149}
+.map-memory-note{font-size:13px;font-weight:500;color:#743b57}
+.map-memory-action{margin-top:5px;font-size:11px;font-weight:600;color:#ad4f79}
+.map-memory:focus-visible{outline:3px solid #a94d75;outline-offset:2px}
+@media(max-width:350px){.map-memory{padding:14px 15px}}
