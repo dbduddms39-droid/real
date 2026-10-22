@@ -1192,6 +1192,8 @@ else if(name==='메시지'){renderMessages(c)}
 else if(name==='미리 알림'){renderReminders(c)}
 else if(name==='음악'){renderMusic(c);startInitialMusicIfOpen()}
 else if(name==='검색'){renderSearch(c)}
+else if(name==='뉴스'){window.StillSeptemberExtras.renderNews(c,{home,openApp,toast})}
+else if(name==='단축어'){window.StillSeptemberExtras.renderShortcuts(c,{home,openApp,toast})}
 else if(name==='지도'){renderMap(c)}
 else c.append(placeholder(name));
 $('#back').focus({preventScroll:true});
