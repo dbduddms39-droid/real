@@ -317,3 +317,14 @@
 .messages-compose-plus{display:grid;place-items:center;background:#aaaab0;color:white;width:25px;height:25px;border-radius:50%;font-size:19px}
 .messages-compose-placeholder{flex:1;border:1px solid #dbdbe1;border-radius:18px;padding:8px 11px;font-size:14px;color:#98989d}
 .messages-compose-send{border-radius:50%;background:#aaaab0;color:white;width:25px;height:25px;text-align:center;font-weight:700}
+
+/* A received selfie inside the preserved iMessage conversation. */
+.messages-photo-bubble{display:flex;max-width:78%;margin:3px 0}
+.messages-photo-bubble.is-received{align-self:flex-start}
+.messages-photo-bubble.is-sent{align-self:flex-end}
+.messages-photo-button{display:block;overflow:hidden;border-radius:16px;background:#eee;padding:0;border:0;cursor:zoom-in;max-width:200px;box-shadow:0 1px 3px #0002}
+.messages-photo-button img{display:block;width:100%;max-width:200px;max-height:245px;object-fit:cover}
+.messages-photo-fallback{color:#85858a;background:#e9e9eb;padding:15px;border-radius:15px;font-size:12px}
+.messages-photo-viewer{position:absolute;z-index:10;inset:0;background:#141416f5;display:flex;justify-content:center;align-items:center;padding:52px 14px 35px}
+.messages-photo-viewer img{width:100%;max-height:90%;object-fit:contain}
+.messages-photo-close{position:absolute;top:12px;left:15px;z-index:2;border:0;border-radius:12px;background:#ffffff26;color:#fff;font-size:14px;padding:8px 11px}
